@@ -63,3 +63,23 @@ All toolchains, random seeds, dataset snapshots, and exact package versions used
   - `POST /api/evidence`, `GET /api/evidence/[cid]`, `GET /api/health`, and `GET/POST /api/cron/indexer` (with daily Vercel cron schedule in `apps/web/vercel.json`).
 - **End-to-End Local Verification (`eval/e2e_local.sh`):**
   - Starts local PostgreSQL 16 (applying migrations + `seed.sql`) and `anvil`, executes `forge script script/IssueLocal.s.sol:IssueLocalScript --broadcast` with the real Halo2 proof, runs `syncOnce()`, and verifies rows in `projects`, `issuances`, `claims`, and `nullifiers`.
+
+## Phase 6 Frontend Web Application & Browser Verification (`apps/web`, `eval/results/screenshots`)
+
+- **Tech Stack:**
+  - Next.js 15.2.1 App Router with TypeScript strict mode
+  - Tailwind CSS 3.4.17 + shadcn/ui dark research-demo theme
+  - `wagmi@2.19.5` + `viem@2.38.0` configured for Base Sepolia (Chain ID 84532) and local Anvil (Chain ID 31337)
+  - `maplibre-gl@6.16.0` with free CARTO Dark Matter basemap tiles (`https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json`) and OpenStreetMap attribution
+  - `@supabase/supabase-js@2.49.1` client with real-time counters and indexer synchronization
+- **Pages Implemented:**
+  1. `/` (Landing): One-paragraph pitch, architecture diagram, live counters from Supabase (`projects`, `issuances`, `nullifiers`, `claims`), quick links, and benchmark summary.
+  2. `/projects` (Projects Explorer): Interactive MapLibre map with AOI project pins and a filterable table list.
+  3. `/projects/[id]` (Project Details): Evidence bundle viewer (fetching from IPFS via `/api/evidence/[cid]`), issuance timeline, proof status badge, and an interactive "Verify Proof on-chain" button executing EVM Halo2 verification via wagmi.
+  4. `/console` (Registry Console): Gated registry workflow for click-to-place map AOI geohash8 and client-side salt commitment generation, MRV quantify proof upload and credit issuance, and retirement claim nullifier generation.
+  5. `/nullifiers` (Nullifiers Explorer): Searchable global nullifier table with spent/unspent badges, kind filter (issuance vs. claim), and Basescan explorer links.
+- **Lighthouse Performance Score:** Audited via `lighthouse@13.6.0` on `http://127.0.0.1:3000/` landing page, achieving **95/100** (exceeding the >= 85 target).
+- **Automated Browser Journey (`eval/run_browser_e2e.ps1` & `eval/e2e_browser_journey.mjs`):**
+  - Automates local Anvil, local Supabase PGlite gateway, Next.js server, and headless Google Chrome.
+  - Completes project registration, credit issuance with Halo2 proof fixture, spatial map pin rendering, token retirement, and nullifier verification.
+  - Captures 5 high-resolution screenshots saved to `eval/results/screenshots/` and embedded in the walkthrough artifact.

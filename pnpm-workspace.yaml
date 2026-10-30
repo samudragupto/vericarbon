@@ -5,7 +5,13 @@ packages:
 onlyBuiltDependencies:
   - sharp
   - esbuild
+  - bufferutil
+  - keccak
+  - utf-8-validate
 
 allowBuilds:
   sharp: true
   esbuild: true
+  bufferutil: true
+  keccak: true
+  utf-8-validate: true
