@@ -20,7 +20,7 @@ contract DayInTheLifeScript is Script {
     bytes8 public constant SAMPLE_GEOHASH8 = bytes8("6z900000");
     bytes32 public constant SAMPLE_SALT = keccak256("tapajos-demo-salt-2024");
     uint16 public constant SHARED_VINTAGE = 2024;
-    uint8 public constant SHARED_CREDIT_TYPE = 1;
+    CarbonRegistry.CreditType public constant SHARED_CREDIT_TYPE = CarbonRegistry.CreditType.REMOVAL;
 
     uint256 internal constant ADMIN_KEY = 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80;
     uint256 internal constant REG_A_KEY = 0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d;
@@ -54,7 +54,7 @@ contract DayInTheLifeScript is Script {
         returns (bytes32 projectA, uint256 serialId, bytes32 expectedIssuanceNullifier)
     {
         address regA = vm.addr(REG_A_KEY);
-        expectedIssuanceNullifier = registry.computeIssuanceNullifier(geoCommitment, SHARED_VINTAGE, SHARED_CREDIT_TYPE);
+        expectedIssuanceNullifier = registry.computeIssuanceNullifier(SAMPLE_GEOHASH8, SHARED_VINTAGE, SHARED_CREDIT_TYPE);
 
         console2.log("\n=== [DEMO STEP 2] Registry A: Register Project & Issue Verified Credits ===");
         projectA = keccak256("verra-tapajos-parcel-101");
@@ -63,6 +63,8 @@ contract DayInTheLifeScript is Script {
         registry.registerProject(projectA, geoCommitment, "bafkreie2etapajosevidencebundle2024vericarbon");
         serialId = registry.issue(
             projectA,
+            SAMPLE_GEOHASH8,
+            SAMPLE_SALT,
             SHARED_VINTAGE,
             SHARED_CREDIT_TYPE,
             CLAIMED_AMOUNT,
@@ -96,6 +98,8 @@ contract DayInTheLifeScript is Script {
             abi.encodeWithSelector(
                 registry.issue.selector,
                 projectB,
+                SAMPLE_GEOHASH8,
+                SAMPLE_SALT,
                 SHARED_VINTAGE,
                 SHARED_CREDIT_TYPE,
                 CLAIMED_AMOUNT,

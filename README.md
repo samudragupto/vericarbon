@@ -69,7 +69,7 @@ For complete technical specifications, sequence flows, and trust models, see [do
 
 ### Option A: Local Evaluation (Recommended — 100% Offline & $0 Cost)
 
-Run the full end-to-end "Day in the Life" artifact evaluation journey in a single command. This boots a local Anvil EVM node, starts an embedded PostgreSQL 16 Supabase gateway (via PGlite), deploys the protocol contracts, registers a project, mints 544 ZK-verified credits, thwarts two fraud attacks (cross-registry double issuance and duplicate retirement), syncs the off-chain indexer, and outputs a narrated summary:
+Run the full end-to-end "Day in the Life" artifact evaluation journey in a single command. This boots a local Anvil EVM node, starts an embedded PostgreSQL 16 Supabase gateway (Postgres-compatible test double, offline only), deploys the protocol contracts, registers a project, mints 544 ZK-verified credits, thwarts two fraud attacks (cross-registry double issuance and duplicate retirement), syncs the off-chain indexer, and outputs a narrated summary:
 
 ```bash
 # On Linux / macOS:

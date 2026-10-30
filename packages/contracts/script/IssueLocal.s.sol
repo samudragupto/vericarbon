@@ -19,7 +19,7 @@ contract IssueLocalScript is Script {
     bytes32 public constant PLOT_SALT = keccak256("vericarbon-e2e-local-salt-2024");
     bytes32 public constant BENEFICIARY_COMMITMENT = keccak256("vericarbon-e2e-beneficiary-2024");
     uint16 public constant VINTAGE_YEAR = 2024;
-    uint8 public constant CREDIT_TYPE = 0;
+    CarbonRegistry.CreditType public constant CREDIT_TYPE = CarbonRegistry.CreditType.REMOVAL;
 
     function run() external returns (CarbonRegistry registry, bytes32 projectId, bytes32 issuanceNullifier) {
         uint256 deployerPrivateKey = vm.envOr(
@@ -35,7 +35,7 @@ contract IssueLocalScript is Script {
         registry = new CarbonRegistry(address(verifier), CIRCUIT_MODEL_HASH, deployer);
 
         bytes32 geoCommitment = registry.computeGeoCommitment(PLOT_GEOHASH8, PLOT_SALT);
-        issuanceNullifier = registry.computeIssuanceNullifier(geoCommitment, VINTAGE_YEAR, CREDIT_TYPE);
+        issuanceNullifier = registry.computeIssuanceNullifier(PLOT_GEOHASH8, VINTAGE_YEAR, CREDIT_TYPE);
 
         registry.registerProject(
             PROJECT_ID,
@@ -44,6 +44,8 @@ contract IssueLocalScript is Script {
         );
         uint256 serialId = registry.issue(
             PROJECT_ID,
+            PLOT_GEOHASH8,
+            PLOT_SALT,
             VINTAGE_YEAR,
             CREDIT_TYPE,
             CIRCUIT_CLAIMED_AMOUNT,

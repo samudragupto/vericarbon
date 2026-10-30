@@ -1,104 +1,61 @@
 {
   "manifest_version": "1.0.0",
-  "benchmark_suite": "VeriCarbon Evaluation Suite (Phase 7)",
-  "git_commit": "90e56ffe7c33f3fa3d6b01f1b526118a00c470a4",
-  "timestamp_start_utc": "2026-10-30T09:11:51.523474+00:00",
-  "timestamp_end_utc": "2026-10-30T09:12:27.015705+00:00",
-  "total_duration_seconds": 35.49,
-  "deterministic_seed": 42,
+  "benchmark_suite": "VeriCarbon Evaluation Suite (Stage A Automated Manifest)",
+  "git_commit": "245af6278a36b1c73686c2836089adeacb8a69e9",
   "tool_versions": {
     "python": "3.11.9",
     "platform": "Windows 10 (AMD64)",
     "ezkl": "23.0.5",
-    "forge": "forge Version: 1.5.1-stable",
+    "forge": "1.5.1-stable",
     "node": "v22.20.0",
-    "pnpm": "12.16.1"
+    "pnpm": "12.16.1",
+    "viem": "2.57.13",
+    "wagmi": "2.19.5"
   },
-  "machine_specs": {
-    "os": "Windows 10",
-    "architecture": "AMD64",
-    "processor": "AMD64 Family 25 Model 116 Stepping 1, AuthenticAMD",
-    "cpu_cores": 16,
-    "ram_gb": 15.2,
-    "python_version": "3.11.9"
+  "contract_sizes": {
+    "Halo2Verifier": {
+      "runtime": 17978,
+      "initcode": 18007
+    },
+    "CarbonRegistry": {
+      "runtime": 11323,
+      "initcode": 12283
+    },
+    "BaselineCentralRegistry": {
+      "runtime": 7981,
+      "initcode": 8833
+    },
+    "PreA0CarbonRegistry": {
+      "runtime": 8457,
+      "initcode": 9425
+    }
   },
-  "generated_tables": [
+  "canonical_numbers": {
+    "zk_proving_time_s": 0.5476,
+    "zk_setup_time_s": 0.7366,
+    "zk_verification_gas": 643269,
+    "zk_proof_size_bytes": 4032,
+    "model_r2": 0.9869,
+    "model_mae_mg_ha": 3.7514,
+    "model_rmse_mg_ha": 8.1675,
+    "issue_total_gas": 835391,
+    "attacks_evaluated": 9
+  },
+  "artifacts_verified": [
+    "docs/REPRODUCIBILITY.md",
     "paper/tables/model_metrics.md",
     "paper/tables/zk_benchmarks.md",
     "paper/tables/gas_costs.md",
     "paper/tables/fraud_results.md",
-    "paper/tables/latency.md"
-  ],
-  "generated_figures": [
+    "paper/tables/latency.md",
     "paper/figures/proving_time.png",
-    "paper/figures/gas_comparison.png"
-  ],
-  "verified_artifacts": [
-    {
-      "path": "paper/tables/model_metrics.md",
-      "size_bytes": 1854,
-      "verified": true
-    },
-    {
-      "path": "paper/tables/zk_benchmarks.md",
-      "size_bytes": 1359,
-      "verified": true
-    },
-    {
-      "path": "paper/tables/gas_costs.md",
-      "size_bytes": 2594,
-      "verified": true
-    },
-    {
-      "path": "paper/tables/fraud_results.md",
-      "size_bytes": 3168,
-      "verified": true
-    },
-    {
-      "path": "paper/tables/latency.md",
-      "size_bytes": 1025,
-      "verified": true
-    },
-    {
-      "path": "paper/figures/proving_time.png",
-      "size_bytes": 197277,
-      "verified": true
-    },
-    {
-      "path": "paper/figures/gas_comparison.png",
-      "size_bytes": 220665,
-      "verified": true
-    },
-    {
-      "path": "eval/results/model_metrics.json",
-      "size_bytes": 2237,
-      "verified": true
-    },
-    {
-      "path": "eval/results/zk_benchmarks.json",
-      "size_bytes": 3728,
-      "verified": true
-    },
-    {
-      "path": "eval/results/gas_costs.json",
-      "size_bytes": 2330,
-      "verified": true
-    },
-    {
-      "path": "eval/results/fraud_results.json",
-      "size_bytes": 3804,
-      "verified": true
-    },
-    {
-      "path": "eval/results/latency.json",
-      "size_bytes": 1093,
-      "verified": true
-    },
-    {
-      "path": "eval/results/baseline_double_issuance_receipt.json",
-      "size_bytes": 27147,
-      "verified": true
-    }
-  ],
-  "status": "SUCCESS"
+    "paper/figures/gas_comparison.png",
+    "eval/results/model_metrics.json",
+    "eval/results/zk_benchmarks.json",
+    "eval/results/gas_costs.json",
+    "eval/results/fraud_results.json",
+    "eval/results/latency.json",
+    "eval/results/baseline_double_issuance_receipt.json",
+    "eval/results/supabase_cloud_evidence.json"
+  ]
 }

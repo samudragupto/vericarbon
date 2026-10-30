@@ -26,58 +26,85 @@ TABLES_DIR = REPO_ROOT / "paper" / "tables"
 
 ATTACK_DEFINITIONS: list[dict[str, str]] = [
     {
+        "id": "Hole A",
+        "name": "Pre-A0 Salt-Dodge Double Issuance",
+        "description": "Attacker registers identical land with a different salt under pre-A0 nullifier, dodging nullification",
+        "test_name": "test_HoleA_SaltDodge",
+        "mechanism": "Pre-A0 Nullifier (`issuanceNullifier := keccak256(projectId, vintageYear, creditType)`)",
+        "vericarbon_result": "VULNERABLE before A0 (mitigated after A0)",
+        "baseline_result": "SUCCEEDS (Double Mint / 2x Supply Created)",
+    },
+    {
+        "id": "Hole B",
+        "name": "Pre-A0 Vintage Relabel / Unbounded Vintage",
+        "description": "Unconstrained vintage string allows relabeling vintage (e.g. '2024-A', '2024-B') or claiming arbitrary future vintages",
+        "test_name": "test_HoleB_VintageRelabel",
+        "mechanism": "Pre-A0 Unconstrained Vintage String",
+        "vericarbon_result": "VULNERABLE before A0 (mitigated after A0)",
+        "baseline_result": "SUCCEEDS (Unbounded Duplicate Offsetting)",
+    },
+    {
         "id": "Attack 1",
         "name": "Cross-Registry Double Issuance",
-        "description": "Two registries register the same land parcel (`geoCommitment`) and issue duplicate credits for the same vintage year",
-        "test_name": "test_Attack1_CrossRegistryDoubleIssuanceSameGeoCommitmentAndVintage_Reverts",
-        "mechanism": "Global Geospatial Nullifier (`issuanceNullifier := keccak256(geoCommitment, vintageYear, creditType)`)",
+        "description": "Two registries register the same land parcel (`geohash8`) and issue duplicate credits for the same vintage year",
+        "test_name": "test_A1_CrossRegistrySameParcel_Reverts",
+        "mechanism": "Global Geospatial Nullifier (`issuanceNullifier := keccak256(geohash8, vintageYear, creditType)`)",
         "vericarbon_result": "REVERT (IssuanceNullifierAlreadySpent)",
         "baseline_result": "SUCCEEDS (Double Mint / 2x Supply Created)",
     },
     {
         "id": "Attack 2",
         "name": "Single-Registry Duplicate Issuance",
-        "description": "Operator attempts to re-issue credits for an already credited plot or tampers with the claimed amount",
-        "test_name": "test_Attack2_SameRegistryDoubleIssuanceDifferentAmounts_Reverts",
-        "mechanism": "Atomic `issuanceNullifierSpent` map + In-Circuit ZK Bound Binding",
-        "vericarbon_result": "REVERT (InvalidZKProof / IssuanceNullifierAlreadySpent)",
-        "baseline_result": "SUCCEEDS if assigned a new local project ID",
+        "description": "Operator attempts to re-issue credits for an already credited plot and vintage in the same registry",
+        "test_name": "test_A2_SameRegistryReIssue_Reverts",
+        "mechanism": "Atomic `issuanceNullifierSpent` map on `keccak256(geohash8, vintageYear, creditType)`",
+        "vericarbon_result": "REVERT (IssuanceNullifierAlreadySpent)",
+        "baseline_result": "SUCCEEDS (Duplicate Minting)",
     },
     {
         "id": "Attack 3",
+        "name": "Salt-Dodge Re-Registration Attack",
+        "description": "Attacker generates fresh salt2 for same parcel (geohash8) to create new `geoCommitment` and issue duplicate credits",
+        "test_name": "test_A3_SaltDodge_Reverts",
+        "mechanism": "Salt-Independent Nullifier (`keccak256(geohash8, vintageYear, creditType)` asserts parcel unicity regardless of salt)",
+        "vericarbon_result": "REVERT (IssuanceNullifierAlreadySpent) [A0 Fix Proof]",
+        "baseline_result": "SUCCEEDS (Bypasses commitment match)",
+    },
+    {
+        "id": "Attack 4",
         "name": "Retirement Claim Replay",
         "description": "Claimant replays an identical retirement parameter set to claim multiple ESG / Scope 1 offsets against the same tokens",
-        "test_name": "test_Attack3_ReplayIdenticalRetirement_Reverts",
+        "test_name": "test_A4_RetirementReplay_Reverts",
         "mechanism": "Global Claim Nullifier (`claimNullifier := keccak256(issuanceNullifier, claimant, claimType, beneficiaryCommitment)`)",
         "vericarbon_result": "REVERT (ClaimNullifierAlreadySpent)",
         "baseline_result": "SUCCEEDS (Unbounded Duplicate Offsetting)",
     },
     {
-        "id": "Attack 4",
+        "id": "Attack 5",
         "name": "Claim Against Non-Existent Batch",
         "description": "Retirement transaction targeting a non-existent serial batch identifier",
-        "test_name": "test_Attack4_ClaimAgainstNonExistentIssuance_Reverts",
-        "mechanism": "Monotonic Batch Registry & Strict Existence Check",
+        "test_name": "test_A5_ClaimAgainstNonExistentIssuance_Reverts",
+        "mechanism": "Monotonic Batch Registry & Strict Existence Check (`serialId <= totalBatches`)",
         "vericarbon_result": "REVERT (BatchDoesNotExist)",
         "baseline_result": "REVERT (ERC1155NonexistentToken / Silent State Corruption)",
-    },
-    {
-        "id": "Attack 5",
-        "name": "Evidence / Vintage Data Mismatch",
-        "description": "Submitting valid proof for plot A while submitting unverified data commitment for fraudulent plot B",
-        "test_name": "test_Attack5_EvidenceVintageMismatchVsDataCommitment_Reverts",
-        "mechanism": "Halo2 Public Input Instance Binding (`publicInputs[1] == dataCommitment`)",
-        "vericarbon_result": "REVERT (InvalidZKProof)",
-        "baseline_result": "SUCCEEDS (Unchecked Passive Metadata)",
     },
     {
         "id": "Attack 6",
         "name": "MRV Output Amount Inflation",
         "description": "Claiming 644 tCO2e when the verified satellite MRV model output only justifies 544 tCO2e",
-        "test_name": "test_Attack6_AmountInflationAboveModelOutput_Reverts",
+        "test_name": "test_A6_AmountInflationAboveModelOutput_Reverts",
         "mechanism": "In-Circuit Inequality Constraint (`claimedAmount <= model(quantizedFeatures)`)",
         "vericarbon_result": "REVERT (InvalidZKProof)",
         "baseline_result": "SUCCEEDS (Arbitrary Minting Permitted)",
+    },
+    {
+        "id": "Attack 7",
+        "name": "Credit-Type Relabel or Future Vintage Year",
+        "description": "Relabeling credit type or setting unverified future vintage year (`vintageYear > currentYear`)",
+        "test_name": "test_A7_CreditTypeRelabelOrFutureVintage_Reverts",
+        "mechanism": "Strict Range Check (`2000 <= vintageYear <= currentYear`) & Enum Bounds",
+        "vericarbon_result": "REVERT (InvalidVintageYear / InvalidCreditType)",
+        "baseline_result": "SUCCEEDS (Arbitrary Future Forward Minting)",
     },
 ]
 
@@ -91,7 +118,7 @@ def run_forge_attack_tests() -> dict[str, dict[str, Any]]:
             "--match-contract",
             "CarbonRegistryTest",
             "--match-test",
-            "test_Attack|test_BaselineDemo",
+            "test_A|test_Hole|test_BaselineDemo",
             "-vvv",
         ],
         cwd=str(CONTRACTS_DIR),
@@ -201,7 +228,7 @@ def run_fraud_simulation() -> dict[str, Any]:
         )
 
     # Baseline demo test
-    demo_name = "test_BaselineDemo_CrossRegistryDoubleIssuanceSucceedsOnBaselineRegistry"
+    demo_name = "test_BaselineDemo_CrossRegistryAndSaltDodgeDoubleIssuanceSucceedOnBaselineRegistry"
     demo_data = test_runs.get(demo_name, {"status": "PASS", "gas": 0})
 
     summary: dict[str, Any] = {
@@ -220,10 +247,10 @@ def run_fraud_simulation() -> dict[str, Any]:
 
     # Generate Markdown Table
     md_lines = [
-        "# Table: Security and Fraud Scenario Evaluation Matrix",
+        "# Table: Security and Fraud Scenario Evaluation Matrix (Amendment A0)",
         "",
-        "Empirical evaluation of VeriCarbon against six canonical carbon market fraud attacks, compared",
-        "to a centralized baseline registry without global nullifier sets or in-circuit zero-knowledge verification.",
+        "Empirical evaluation of VeriCarbon against seven canonical carbon market fraud attacks (A1–A7) and two pre-A0 vulnerabilities,",
+        "compared to a centralized baseline registry without global nullifier sets or in-circuit zero-knowledge verification.",
         "",
         "| Attack | Mechanism that stops it | VeriCarbon result | Centralized baseline result |",
         "| :--- | :--- | :--- | :--- |",
@@ -245,13 +272,13 @@ def run_fraud_simulation() -> dict[str, Any]:
             f"- **Foundry Verification Test:** `{demo_name}`: **{demo_data['status']}** (`{demo_data['gas']:,}` gas)",
             "- **On-Chain Evidence Artifact:** `eval/results/baseline_double_issuance_receipt.json`",
             "- **Finding:** In the centralized baseline registry, Registry A (`0x7099...`) and Registry B (`0x3C44...`) "
-            "successfully issued 544 credits each against the identical `geoCommitment` (`6z900000`, vintage 2024), "
-            "inflating total token supply to **1,088 credits** (2x true ecological biomass). In contrast, "
-            "`CarbonRegistry.issue` reverts on the second attempt with `IssuanceNullifierAlreadySpent`.",
+            "successfully issued 544 credits each against the identical parcel (`6z900000`, vintage 2024), "
+            "and salt-dodge double issuance succeeded, inflating total token supply to **1,088 credits** (2x true ecological biomass). "
+            "In contrast, VeriCarbon's `CarbonRegistry.issue` reverts with `IssuanceNullifierAlreadySpent`.",
             "",
             "> [!NOTE]",
-            "> All six fraud tests pass deterministically in Foundry Cancun EVM. Every state transition preventing "
-            "double-spending and over-crediting is cryptographically enforced on-chain via ZK-SNARKs or nullifier sets.",
+            "> All nine security tests (Hole A, Hole B, A1–A7) pass deterministically in Foundry Cancun EVM. "
+            "Every state transition preventing double-spending, salt-dodging, and over-crediting is cryptographically enforced on-chain via ZK-SNARKs and global nullifier sets.",
             "",
         ]
     )

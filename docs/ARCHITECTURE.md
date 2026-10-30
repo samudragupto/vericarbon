@@ -83,14 +83,15 @@ sequenceDiagram
     ProjectDev->>IPFS: Upload evidence.json -> CID bafkreie2e...
     ProjectDev->>Registry: registerProject(projectId, geoCommitment, evidenceCid)
     Registry-->>Registry: Store project details; emit ProjectRegistered
-    ProjectDev->>Registry: issue(projectId, vintage=2024, type=1, amount=544, dataCommitment, proof)
+    ProjectDev->>Registry: issue(projectId, geohash8, salt, vintage=2024, type=0, amount=544, dataCommitment, proof)
+    Registry->>Registry: require(keccak256(geohash8, salt) == geoCommitment)
     Registry->>Verifier: verifyProof(proof, instances)
     Verifier-->>Registry: true (Cryptographically valid)
-    Registry->>Registry: issuanceNullifier = keccak256(geoCommitment, vintage, type)
+    Registry->>Registry: issuanceNullifier = keccak256(geohash8, vintage, type)
     Registry->>Registry: require(!issuanceNullifierSpent[nullifier])
     Registry->>Registry: issuanceNullifierSpent[nullifier] = true
     Registry->>Registry: _mint(recipient, serialId=1, amount=544)
-    Registry-->>Registry: emit Issued(nullifier, projectId, 544, 2024, 1, evidenceCid)
+    Registry-->>Registry: emit Issued(nullifier, projectId, 544, 2024, 0, evidenceCid)
     Registry-->>Indexer: Block mined on Base Sepolia
     Indexer->>Indexer: Upsert issuance & nullifier into Supabase
 ```
@@ -101,13 +102,15 @@ sequenceDiagram
 
 A foundational failure of centralized, isolated carbon registries (e.g., Verra, Gold Standard, ACR) is that a land steward or corrupt intermediary can submit the same forest plot to multiple registries simultaneously. Because separate registries maintain isolated databases without shared state, both registries issue credits for the same trees and vintage year.
 
-In VeriCarbon, the `issuanceNullifier` formula deliberately **excludes** the `registryAddress` and `projectId`:
+In VeriCarbon (AMENDMENT A0), the `issuanceNullifier` formula deliberately **excludes** the `registryAddress`, `projectId`, and `salt`:
 
-$$\text{issuanceNullifier} = \text{keccak256}(\text{geoCommitment} \parallel \text{vintageYear} \parallel \text{creditType})$$
+$$\text{issuanceNullifier} = \text{keccak256}(\text{geohash8} \parallel \text{vintageYear} \parallel \text{creditType})$$
 
-where:
+where the client-side salt is only used at registration to bind `geoCommitment`:
 
 $$\text{geoCommitment} = \text{keccak256}(\text{geohash8} \parallel \text{salt})$$
+
+Because `issuanceNullifier` directly hashes the canonical parcel `geohash8` rather than `geoCommitment` or `projectId`, an attacker cannot circumvent nullification by picking a different `salt` (thwarting the salt-dodge attack A3) or registering under a different registry (thwarting cross-registry double issuance A1).
 
 ```mermaid
 sequenceDiagram
@@ -116,16 +119,16 @@ sequenceDiagram
     actor MaliciousReg as Registry B (Compensatory / Off-shore)
     participant Registry as CarbonRegistry.sol (On-Chain)
 
-    Note over HonestReg,MaliciousReg: Both claim same physical parcel (geohash8: 6z900000, Vintage: 2024)
-    HonestReg->>Registry: registerProject(Project_A, geoCommitment, cidA)
-    HonestReg->>Registry: issue(Project_A, 2024, 1, 544, dataCommitment, proof)
-    Registry->>Registry: nullifier = keccak256(geoCommitment, 2024, 1)
+    Note over HonestReg,MaliciousReg: Both claim same physical parcel (geohash8: 6z900000, Vintage: 2024, Type: REMOVAL)
+    HonestReg->>Registry: registerProject(Project_A, geoCommitment_A, cidA)
+    HonestReg->>Registry: issue(Project_A, 6z900000, salt_A, 2024, 0, 544, dataCommitment, proof)
+    Registry->>Registry: nullifier = keccak256(6z900000, 2024, 0)
     Registry->>Registry: issuanceNullifierSpent[nullifier] = true (MINT 544 CREDITS)
     
-    Note over MaliciousReg: Attempt cross-registry double issuance under new Project ID
-    MaliciousReg->>Registry: registerProject(Project_B, geoCommitment, cidB)
-    MaliciousReg->>Registry: issue(Project_B, 2024, 1, 544, dataCommitment, proof)
-    Registry->>Registry: Calculate nullifier = keccak256(geoCommitment, 2024, 1)
+    Note over MaliciousReg: Attempt cross-registry double issuance (or salt-dodge under Project_B with salt_B)
+    MaliciousReg->>Registry: registerProject(Project_B, geoCommitment_B, cidB)
+    MaliciousReg->>Registry: issue(Project_B, 6z900000, salt_B, 2024, 0, 544, dataCommitment, proof)
+    Registry->>Registry: Calculate nullifier = keccak256(6z900000, 2024, 0)
     Registry->>Registry: Check: issuanceNullifierSpent[nullifier] == true
     Registry-->>MaliciousReg: REVERT: IssuanceNullifierAlreadySpent(0x1771171c...)
     Note over MaliciousReg: ATTACK THWARTED: 0 duplicate credits minted!

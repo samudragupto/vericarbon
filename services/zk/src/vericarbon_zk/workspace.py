@@ -79,7 +79,7 @@ def build_verifiable_mrv_onnx(
       * ``input[0, num_features]``: ``claimedAmount`` (in 10,000 tCO2e units).
     - Public Outputs ``output`` of shape ``[1, 3]`` (3 Halo2 public instances):
       * ``output[0, 0]`` = ``modelHash`` (fixed constant from Phase 2 ONNX hash)
-      * ``output[0, 1]`` = ``dataCommitment`` (universal linear hash of features)
+      * ``output[0, 1]`` = ``dataCommitment`` (arithmetic feature commitment bound via ezkl Poseidon hash, with SHA-256 as off-chain audit pointer)
       * ``output[0, 2]`` = ``Where(claim <= model(features), claim, -1)``
     """
     rng = np.random.default_rng(SEED + num_features * 100 + num_trees * 10 + tree_depth)

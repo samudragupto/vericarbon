@@ -2,24 +2,54 @@
   "benchmark": "fraud_simulation",
   "attacks": [
     {
+      "attack": "Pre-A0 Salt-Dodge Double Issuance",
+      "description": "Attacker registers identical land with a different salt under pre-A0 nullifier, dodging nullification",
+      "mechanism": "Pre-A0 Nullifier (`issuanceNullifier := keccak256(projectId, vintageYear, creditType)`)",
+      "vericarbon_result": "VULNERABLE before A0 (mitigated after A0)",
+      "baseline_result": "SUCCEEDS (Double Mint / 2x Supply Created)",
+      "foundry_test": "test_HoleA_SaltDodge",
+      "foundry_status": "PASS",
+      "measured_gas": 2155029
+    },
+    {
+      "attack": "Pre-A0 Vintage Relabel / Unbounded Vintage",
+      "description": "Unconstrained vintage string allows relabeling vintage (e.g. '2024-A', '2024-B') or claiming arbitrary future vintages",
+      "mechanism": "Pre-A0 Unconstrained Vintage String",
+      "vericarbon_result": "VULNERABLE before A0 (mitigated after A0)",
+      "baseline_result": "SUCCEEDS (Unbounded Duplicate Offsetting)",
+      "foundry_test": "test_HoleB_VintageRelabel",
+      "foundry_status": "PASS",
+      "measured_gas": 1987403
+    },
+    {
       "attack": "Cross-Registry Double Issuance",
-      "description": "Two registries register the same land parcel (`geoCommitment`) and issue duplicate credits for the same vintage year",
-      "mechanism": "Global Geospatial Nullifier (`issuanceNullifier := keccak256(geoCommitment, vintageYear, creditType)`)",
+      "description": "Two registries register the same land parcel (`geohash8`) and issue duplicate credits for the same vintage year",
+      "mechanism": "Global Geospatial Nullifier (`issuanceNullifier := keccak256(geohash8, vintageYear, creditType)`)",
       "vericarbon_result": "REVERT (IssuanceNullifierAlreadySpent)",
       "baseline_result": "SUCCEEDS (Double Mint / 2x Supply Created)",
-      "foundry_test": "test_Attack1_CrossRegistryDoubleIssuanceSameGeoCommitmentAndVintage_Reverts",
+      "foundry_test": "test_A1_CrossRegistrySameParcel_Reverts",
       "foundry_status": "PASS",
-      "measured_gas": 1991296
+      "measured_gas": 1995374
     },
     {
       "attack": "Single-Registry Duplicate Issuance",
-      "description": "Operator attempts to re-issue credits for an already credited plot or tampers with the claimed amount",
-      "mechanism": "Atomic `issuanceNullifierSpent` map + In-Circuit ZK Bound Binding",
-      "vericarbon_result": "REVERT (InvalidZKProof / IssuanceNullifierAlreadySpent)",
-      "baseline_result": "SUCCEEDS if assigned a new local project ID",
-      "foundry_test": "test_Attack2_SameRegistryDoubleIssuanceDifferentAmounts_Reverts",
+      "description": "Operator attempts to re-issue credits for an already credited plot and vintage in the same registry",
+      "mechanism": "Atomic `issuanceNullifierSpent` map on `keccak256(geohash8, vintageYear, creditType)`",
+      "vericarbon_result": "REVERT (IssuanceNullifierAlreadySpent)",
+      "baseline_result": "SUCCEEDS (Duplicate Minting)",
+      "foundry_test": "test_A2_SameRegistryReIssue_Reverts",
       "foundry_status": "PASS",
-      "measured_gas": 2410835
+      "measured_gas": 1828839
+    },
+    {
+      "attack": "Salt-Dodge Re-Registration Attack",
+      "description": "Attacker generates fresh salt2 for same parcel (geohash8) to create new `geoCommitment` and issue duplicate credits",
+      "mechanism": "Salt-Independent Nullifier (`keccak256(geohash8, vintageYear, creditType)` asserts parcel unicity regardless of salt)",
+      "vericarbon_result": "REVERT (IssuanceNullifierAlreadySpent) [A0 Fix Proof]",
+      "baseline_result": "SUCCEEDS (Bypasses commitment match)",
+      "foundry_test": "test_A3_SaltDodge_Reverts",
+      "foundry_status": "PASS",
+      "measured_gas": 1996439
     },
     {
       "attack": "Retirement Claim Replay",
@@ -27,29 +57,19 @@
       "mechanism": "Global Claim Nullifier (`claimNullifier := keccak256(issuanceNullifier, claimant, claimType, beneficiaryCommitment)`)",
       "vericarbon_result": "REVERT (ClaimNullifierAlreadySpent)",
       "baseline_result": "SUCCEEDS (Unbounded Duplicate Offsetting)",
-      "foundry_test": "test_Attack3_ReplayIdenticalRetirement_Reverts",
+      "foundry_test": "test_A4_RetirementReplay_Reverts",
       "foundry_status": "PASS",
-      "measured_gas": 1342182
+      "measured_gas": 1344353
     },
     {
       "attack": "Claim Against Non-Existent Batch",
       "description": "Retirement transaction targeting a non-existent serial batch identifier",
-      "mechanism": "Monotonic Batch Registry & Strict Existence Check",
+      "mechanism": "Monotonic Batch Registry & Strict Existence Check (`serialId <= totalBatches`)",
       "vericarbon_result": "REVERT (BatchDoesNotExist)",
       "baseline_result": "REVERT (ERC1155NonexistentToken / Silent State Corruption)",
-      "foundry_test": "test_Attack4_ClaimAgainstNonExistentIssuance_Reverts",
+      "foundry_test": "test_A5_ClaimAgainstNonExistentIssuance_Reverts",
       "foundry_status": "PASS",
-      "measured_gas": 14630
-    },
-    {
-      "attack": "Evidence / Vintage Data Mismatch",
-      "description": "Submitting valid proof for plot A while submitting unverified data commitment for fraudulent plot B",
-      "mechanism": "Halo2 Public Input Instance Binding (`publicInputs[1] == dataCommitment`)",
-      "vericarbon_result": "REVERT (InvalidZKProof)",
-      "baseline_result": "SUCCEEDS (Unchecked Passive Metadata)",
-      "foundry_test": "test_Attack5_EvidenceVintageMismatchVsDataCommitment_Reverts",
-      "foundry_status": "PASS",
-      "measured_gas": 1021195
+      "measured_gas": 14651
     },
     {
       "attack": "MRV Output Amount Inflation",
@@ -57,15 +77,25 @@
       "mechanism": "In-Circuit Inequality Constraint (`claimedAmount <= model(quantizedFeatures)`)",
       "vericarbon_result": "REVERT (InvalidZKProof)",
       "baseline_result": "SUCCEEDS (Arbitrary Minting Permitted)",
-      "foundry_test": "test_Attack6_AmountInflationAboveModelOutput_Reverts",
+      "foundry_test": "test_A6_AmountInflationAboveModelOutput_Reverts",
       "foundry_status": "PASS",
-      "measured_gas": 1021189
+      "measured_gas": 1023109
+    },
+    {
+      "attack": "Credit-Type Relabel or Future Vintage Year",
+      "description": "Relabeling credit type or setting unverified future vintage year (`vintageYear > currentYear`)",
+      "mechanism": "Strict Range Check (`2000 <= vintageYear <= currentYear`) & Enum Bounds",
+      "vericarbon_result": "REVERT (InvalidVintageYear / InvalidCreditType)",
+      "baseline_result": "SUCCEEDS (Arbitrary Future Forward Minting)",
+      "foundry_test": "test_A7_CreditTypeRelabelOrFutureVintage_Reverts",
+      "foundry_status": "PASS",
+      "measured_gas": 521468
     }
   ],
   "baseline_demonstration_test": {
-    "name": "test_BaselineDemo_CrossRegistryDoubleIssuanceSucceedsOnBaselineRegistry",
+    "name": "test_BaselineDemo_CrossRegistryAndSaltDodgeDoubleIssuanceSucceedOnBaselineRegistry",
     "status": "PASS",
-    "gas": 512317,
+    "gas": 513980,
     "receipts_file": "eval/results/baseline_double_issuance_receipt.json"
   }
 }

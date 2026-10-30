@@ -1,7 +1,7 @@
 # =============================================================================
 # VeriCarbon — Artifact Evaluation Demo: "Day in the Life" Full Journey (PowerShell)
 #
-# Boots local infrastructure (Anvil + PostgreSQL 16 PGlite Supabase Gateway),
+# Boots local infrastructure (Anvil + PostgreSQL 16 Postgres-compatible test double, offline only),
 # executes the full lifecycle:
 #   1. Protocol deployment (Halo2Verifier + CarbonRegistry)
 #   2. Project registration with geospatial commitment
@@ -191,3 +191,4 @@ console.log('===================================================================
     }
     Write-Host "==> Infrastructure stopped. Demo complete." -ForegroundColor Cyan
 }
+

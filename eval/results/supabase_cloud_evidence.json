@@ -1,0 +1,63 @@
+{
+  "target": "supabase_database_and_indexer",
+  "engine": "PostgreSQL 16",
+  "execution_mode": "Postgres-compatible test double (offline only)",
+  "test_double_package": "@electric-sql/pglite@0.2.17",
+  "cloud_credentials_configured": false,
+  "verification_status": "verified_via_local_test_double_and_migration_syntax",
+  "notes": "pg_cron and pg_net verified via migration syntax check and Supabase CLI schema verification; runtime cron execution relies on Supabase managed infrastructure.",
+  "schema": {
+    "extensions": [
+      {
+        "name": "pg_cron",
+        "purpose": "Hourly indexer execution schedule (0 * * * *)",
+        "runtime_environment": "Supabase Managed Cloud Infrastructure"
+      },
+      {
+        "name": "pg_net",
+        "purpose": "Async HTTP POST from database to Supabase Edge Function",
+        "runtime_environment": "Supabase Managed Cloud Infrastructure"
+      }
+    ],
+    "tables": [
+      {
+        "name": "profiles",
+        "rls_enabled": true,
+        "policy": "Public read; self-update only"
+      },
+      {
+        "name": "projects",
+        "rls_enabled": true,
+        "policy": "Public read; service_role write only"
+      },
+      {
+        "name": "issuances",
+        "rls_enabled": true,
+        "policy": "Public read; service_role write only"
+      },
+      {
+        "name": "claims",
+        "rls_enabled": true,
+        "policy": "Public read; service_role write only"
+      },
+      {
+        "name": "nullifiers",
+        "rls_enabled": true,
+        "policy": "Public read; service_role write only"
+      },
+      {
+        "name": "sync_log",
+        "rls_enabled": true,
+        "policy": "service_role only"
+      }
+    ],
+    "rpc_functions": [
+      {
+        "name": "ingest_indexer_batch",
+        "security": "SECURITY DEFINER",
+        "purpose": "Atomic idempotent database ingestion for indexed blocks"
+      }
+    ]
+  }
+}
+

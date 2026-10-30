@@ -5,11 +5,18 @@ import type { Address, Hex } from "viem";
  * Shared types and Zod schemas for VeriCarbon domain primitives, MRV evidence bundles,
  * API responses, and indexer synchronization.
  *
- * Domain semantics per AGENT.md:
+ * Domain semantics per AGENT.md (AMENDMENT A0):
  * - geoCommitment := keccak256(abi.encode(geohash8, salt))
- * - issuanceNullifier := keccak256(abi.encode(geoCommitment, vintageYear, creditType))
+ * - issuanceNullifier := keccak256(abi.encode(geohash8, vintageYear, creditType))
  * - claimNullifier := keccak256(abi.encode(issuanceNullifier, claimant, claimType, beneficiaryCommitment))
  */
+
+export enum CreditType {
+  REMOVAL = 0,
+  REDUCTION = 1,
+}
+
+export const CreditTypeSchema = z.nativeEnum(CreditType);
 
 export const Bytes32Schema = z
   .string()
@@ -44,7 +51,7 @@ export const EvidenceBundleSchema = z.object({
   ]),
   predictedCredits: z.number().nonnegative(),
   vintageYear: z.number().int().min(2000).max(2100),
-  creditType: z.number().int().nonnegative(),
+  creditType: z.union([CreditTypeSchema, z.number().int().min(0).max(1)]),
 });
 
 export type EvidenceBundle = z.infer<typeof EvidenceBundleSchema>;
@@ -54,7 +61,7 @@ export const IssuanceCommitmentSchema = z.object({
   salt: Bytes32Schema,
   geoCommitment: Bytes32Schema,
   vintageYear: z.number().int().min(2000).max(2100),
-  creditType: z.number().int().nonnegative(),
+  creditType: z.union([CreditTypeSchema, z.number().int().min(0).max(1)]),
   issuanceNullifier: Bytes32Schema,
 });
 

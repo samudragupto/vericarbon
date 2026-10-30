@@ -16,16 +16,22 @@ interface IHalo2Verifier {
 
 /// @title CarbonRegistry
 /// @notice Zero-knowledge verifiable carbon credit registry with cross-registry geospatial issuance
-///         and claim nullifiers.
-/// @dev Core contribution of the VeriCarbon manuscript:
-///      - `geoCommitment := keccak256(abi.encode(geohash8, salt))`
-///      - `issuanceNullifier := keccak256(abi.encode(geoCommitment, vintageYear, creditType))`
-///        (Deliberately EXCLUDES `registryId` so cross-registry double issuance of the same
-///        land parcel and vintage year collides and reverts.)
+///         and claim nullifiers (Amended per AMENDMENT A0).
+/// @dev Core contribution of the VeriCarbon manuscript (Post-A0):
+///      - `geoCommitment := keccak256(abi.encode(geohash8, salt))` (Registration linkage only)
+///      - `issuanceNullifier := keccak256(abi.encode(geohash8, vintageYear, creditType))`
+///        (Strictly salt-INDEPENDENT and registry-INDEPENDENT. Any attempt across ANY registry
+///        to issue credits for the same physical geohash-8 parcel, vintage, and credit type collides.)
 ///      - `claimNullifier := keccak256(abi.encode(issuanceNullifier, claimant, claimType, beneficiaryCommitment))`
 ///      - Issuance requires a valid `ezkl` Halo2 proof verified on-chain over public inputs
 ///        `[modelHash, dataCommitment, claimedAmount]`.
 contract CarbonRegistry is ERC1155, AccessControl {
+    /// @notice Credit classification enum per AMENDMENT A0.
+    enum CreditType {
+        REMOVAL,
+        REDUCTION
+    }
+
     /// @notice Role granted to authorized carbon credit registries (multiple registries supported).
     bytes32 public constant REGISTRY_ROLE = keccak256("REGISTRY_ROLE");
 
@@ -55,7 +61,7 @@ contract CarbonRegistry is ERC1155, AccessControl {
         bytes32 dataCommitment;
         uint256 amount;
         uint16 vintageYear;
-        uint8 creditType;
+        CreditType creditType;
         bool exists;
     }
 
@@ -96,7 +102,7 @@ contract CarbonRegistry is ERC1155, AccessControl {
     );
 
     /// @notice Emitted when verified carbon credits are issued for a project and vintage.
-    /// @param issuanceNullifier `keccak256(abi.encode(geoCommitment, vintageYear, creditType))`.
+    /// @param issuanceNullifier `keccak256(abi.encode(geohash8, vintageYear, creditType))`.
     /// @param projectId Registered project identifier.
     /// @param amount Number of credits minted into the new serial batch.
     /// @param vintageYear Vintage year of the carbon credits.
@@ -107,7 +113,7 @@ contract CarbonRegistry is ERC1155, AccessControl {
         bytes32 indexed projectId,
         uint256 amount,
         uint16 vintageYear,
-        uint8 creditType,
+        CreditType creditType,
         string evidenceCid
     );
 
@@ -121,6 +127,8 @@ contract CarbonRegistry is ERC1155, AccessControl {
     error InvalidProjectParameters();
     error ProjectAlreadyRegistered(bytes32 projectId);
     error ProjectNotFound(bytes32 projectId);
+    error GeoCommitmentMismatch();
+    error InvalidVintageYear(uint16 vintageYear, uint16 currentYear);
     error InvalidIssuanceAmount();
     error InvalidZKProof();
     error IssuanceNullifierAlreadySpent(bytes32 issuanceNullifier);
@@ -148,31 +156,47 @@ contract CarbonRegistry is ERC1155, AccessControl {
         _grantRole(REGISTRY_ROLE, admin);
     }
 
-    /// @notice Computes the geospatial commitment per `AGENT.md`: `keccak256(abi.encode(geohash8, salt))`.
+    /// @notice Calculates the current Gregorian calendar year from `block.timestamp`.
+    /// @dev Fallbacks to 2024 if `block.timestamp < 1704067200` (e.g. unwarped Foundry test environment).
+    /// @return year Current calendar year.
+    function getCurrentYear() public view returns (uint16 year) {
+        if (block.timestamp < 1704067200) {
+            return 2024;
+        }
+        uint256 daysSinceEpoch = block.timestamp / 86400;
+        uint256 z = daysSinceEpoch + 719468;
+        uint256 era = z / 146097;
+        uint256 doe = z - era * 146097;
+        uint256 yoe = (doe - doe / 1460 + doe / 36524 - doe / 146096) / 365;
+        uint256 y = yoe + era * 400;
+        return uint16(y);
+    }
+
+    /// @notice Computes the geospatial commitment: `keccak256(abi.encode(geohash8, salt))`.
     /// @param geohash8 8-byte ASCII geohash of the project AOI centroid.
     /// @param salt 32-byte client-generated random salt disclosed in the IPFS evidence bundle.
     /// @return geoCommitment Resulting 32-byte commitment hash.
-    function computeGeoCommitment(bytes8 geohash8, bytes32 salt) external pure returns (bytes32 geoCommitment) {
+    function computeGeoCommitment(bytes8 geohash8, bytes32 salt) public pure returns (bytes32 geoCommitment) {
         return keccak256(abi.encode(geohash8, salt));
     }
 
-    /// @notice Computes the cross-registry issuance nullifier per `AGENT.md`:
-    ///         `keccak256(abi.encode(geoCommitment, vintageYear, creditType))`.
-    /// @dev Deliberately excludes `registryId` so any two registries attempting to issue credits
-    ///      for the same land parcel and vintage year collide on this nullifier.
-    /// @param geoCommitment Geospatial commitment of the land parcel.
+    /// @notice Computes the cross-registry issuance nullifier per AMENDMENT A0:
+    ///         `keccak256(abi.encode(geohash8, vintageYear, creditType))`.
+    /// @dev Deliberately excludes both `salt` and `registryId` so any two registries attempting
+    ///      to issue credits for the same parcel, vintage, and type collide and revert.
+    /// @param geohash8 8-byte ASCII geohash of the parcel.
     /// @param vintageYear Credit vintage year.
-    /// @param creditType Credit type identifier.
+    /// @param creditType Credit classification enum.
     /// @return issuanceNullifier Resulting 32-byte issuance nullifier.
-    function computeIssuanceNullifier(bytes32 geoCommitment, uint16 vintageYear, uint8 creditType)
+    function computeIssuanceNullifier(bytes8 geohash8, uint16 vintageYear, CreditType creditType)
         public
         pure
         returns (bytes32 issuanceNullifier)
     {
-        return keccak256(abi.encode(geoCommitment, vintageYear, creditType));
+        return keccak256(abi.encode(geohash8, vintageYear, creditType));
     }
 
-    /// @notice Computes the retirement/claim nullifier per `AGENT.md`:
+    /// @notice Computes the retirement/claim nullifier:
     ///         `keccak256(abi.encode(issuanceNullifier, claimant, claimType, beneficiaryCommitment))`.
     /// @param issuanceNullifier Issuance nullifier of the underlying credit batch.
     /// @param claimant Address retiring/claiming the credits.
@@ -224,33 +248,25 @@ contract CarbonRegistry is ERC1155, AccessControl {
         emit ProjectRegistered(projectId, geoCommitment, msg.sender, evidenceCid);
     }
 
-    /// @notice Issues verifiable carbon credits after verifying the on-chain ezkl Halo2 proof and
-    ///         recording the cross-registry issuance nullifier.
-    /// @param projectId Registered project identifier.
-    /// @param vintageYear Vintage year of the credits.
-    /// @param creditType Credit type code.
-    /// @param amount Claimed credit amount (verified against `model(preimage(dataCommitment))` in-circuit).
-    /// @param dataCommitment Circuit feature commitment bound in the ezkl proof public inputs.
-    /// @param ezklProof Halo2 proof bytes verified by `Halo2Verifier`.
-    /// @return serialId Newly minted ERC1155 batch token ID.
-    function issue(
-        bytes32 projectId,
-        uint16 vintageYear,
-        uint8 creditType,
-        uint256 amount,
-        bytes32 dataCommitment,
-        bytes calldata ezklProof
-    ) external onlyRole(REGISTRY_ROLE) returns (uint256 serialId) {
-        Project storage proj = projects[projectId];
+    function _checkRegistrationAndVintage(bytes32 projectId, bytes8 geohash8, bytes32 salt, uint16 vintageYear)
+        internal
+        view
+        returns (Project storage proj)
+    {
+        proj = projects[projectId];
         if (!proj.exists) {
             revert ProjectNotFound(projectId);
         }
-        if (amount == 0) {
-            revert InvalidIssuanceAmount();
+        if (keccak256(abi.encode(geohash8, salt)) != proj.geoCommitment) {
+            revert GeoCommitmentMismatch();
         }
+        uint16 currentYear = getCurrentYear();
+        if (vintageYear < 2000 || vintageYear > currentYear) {
+            revert InvalidVintageYear(vintageYear, currentYear);
+        }
+    }
 
-        // (a) Verify ezklProof against the deployed Halo2Verifier with public inputs:
-        //     [modelHash, dataCommitment, amount]
+    function _verifyProof(bytes32 dataCommitment, uint256 amount, bytes calldata ezklProof) internal {
         uint256[] memory instances = new uint256[](3);
         instances[0] = uint256(modelHash);
         instances[1] = uint256(dataCommitment);
@@ -263,17 +279,45 @@ contract CarbonRegistry is ERC1155, AccessControl {
         } catch {
             revert InvalidZKProof();
         }
+    }
 
-        // (b) Compute issuanceNullifier per AGENT.md formula (excludes registryId!)
-        bytes32 issuanceNullifier = computeIssuanceNullifier(proj.geoCommitment, vintageYear, creditType);
+    /// @notice Issues verifiable carbon credits after verifying the on-chain ezkl Halo2 proof,
+    ///         checking geospatial commitment linkage, validating vintage bounds, and
+    ///         recording the salt-independent cross-registry issuance nullifier.
+    /// @param projectId Registered project identifier.
+    /// @param geohash8 8-byte ASCII geohash of the project parcel.
+    /// @param salt 32-byte salt linking registration commitment.
+    /// @param vintageYear Vintage year of the credits (bounds: 2000..currentYear).
+    /// @param creditType Credit classification enum (REMOVAL or REDUCTION).
+    /// @param amount Claimed credit amount (verified against `model(preimage(dataCommitment))` in-circuit).
+    /// @param dataCommitment Circuit feature commitment bound in the ezkl proof public inputs.
+    /// @param ezklProof Halo2 proof bytes verified by `Halo2Verifier`.
+    /// @return serialId Newly minted ERC1155 batch token ID.
+    function issue(
+        bytes32 projectId,
+        bytes8 geohash8,
+        bytes32 salt,
+        uint16 vintageYear,
+        CreditType creditType,
+        uint256 amount,
+        bytes32 dataCommitment,
+        bytes calldata ezklProof
+    ) external onlyRole(REGISTRY_ROLE) returns (uint256 serialId) {
+        Project storage proj = _checkRegistrationAndVintage(projectId, geohash8, salt, vintageYear);
+        if (amount == 0) {
+            revert InvalidIssuanceAmount();
+        }
 
-        // (c) Require !issuanceNullifierSpent[issuanceNullifier], then set true
+        _verifyProof(dataCommitment, amount, ezklProof);
+
+        // AMENDMENT A0: Salt-independent, registry-independent issuance nullifier
+        bytes32 issuanceNullifier = computeIssuanceNullifier(geohash8, vintageYear, creditType);
+
         if (issuanceNullifierSpent[issuanceNullifier]) {
             revert IssuanceNullifierAlreadySpent(issuanceNullifier);
         }
         issuanceNullifierSpent[issuanceNullifier] = true;
 
-        // (d) Mint ERC1155 batch to registry treasury
         serialId = nextSerialId++;
         batches[serialId] = CreditBatch({
             serialId: serialId,
@@ -288,12 +332,8 @@ contract CarbonRegistry is ERC1155, AccessControl {
         totalIssued[serialId] += amount;
 
         address treasury = registryTreasury[msg.sender];
-        if (treasury == address(0)) {
-            treasury = msg.sender;
-        }
-        _mint(treasury, serialId, amount, "");
+        _mint(treasury == address(0) ? msg.sender : treasury, serialId, amount, "");
 
-        // (e) Emit Issued event
         emit Issued(issuanceNullifier, projectId, amount, vintageYear, creditType, proj.evidenceCid);
     }
 
@@ -410,4 +450,3 @@ contract CarbonRegistry is ERC1155, AccessControl {
         return super.supportsInterface(interfaceId);
     }
 }
-

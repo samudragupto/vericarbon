@@ -3,6 +3,7 @@ pragma solidity ^0.8.24;
 
 import {ERC1155} from "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import {AccessControl} from "@openzeppelin/contracts/access/AccessControl.sol";
+import {CarbonRegistry} from "../CarbonRegistry.sol";
 
 /// @title BaselineCentralRegistry
 /// @notice Deliberately naive baseline carbon credit registry WITHOUT a global cross-registry
@@ -130,7 +131,7 @@ contract BaselineCentralRegistry is ERC1155, AccessControl {
     /// @param amount Number of credits to mint.
     /// @return serialId Newly minted ERC1155 token ID.
     function issue(bytes32 projectId, uint16 vintageYear, uint8 creditType, uint256 amount)
-        external
+        public
         onlyRole(REGISTRY_ROLE)
         returns (uint256 serialId)
     {
@@ -150,6 +151,22 @@ contract BaselineCentralRegistry is ERC1155, AccessControl {
         _mint(msg.sender, serialId, amount, "");
 
         emit BaselineIssued(projectId, serialId, amount, vintageYear, creditType, proj.evidenceCid);
+    }
+
+    /// @notice Overload matching CarbonRegistry.issue signature to demonstrate that the baseline
+    ///         centralized registry ignores geospatial coordinates and salt, allowing both
+    ///         cross-registry double issuance and salt-dodge double issuance to succeed.
+    function issue(
+        bytes32 projectId,
+        bytes8, /* geohash8 */
+        bytes32, /* salt */
+        uint16 vintageYear,
+        CarbonRegistry.CreditType creditType,
+        uint256 amount,
+        bytes32, /* dataCommitment */
+        bytes calldata /* ezklProof */
+    ) external onlyRole(REGISTRY_ROLE) returns (uint256 serialId) {
+        return issue(projectId, vintageYear, uint8(creditType), amount);
     }
 
     /// @notice Burns the caller's full balance of each specified serial batch ID (transfer-log traceability only).

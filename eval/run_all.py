@@ -389,6 +389,7 @@ def run_all(fast_mode: bool = False) -> dict[str, Any]:
         RESULTS_DIR / "fraud_results.json",
         RESULTS_DIR / "latency.json",
         RESULTS_DIR / "baseline_double_issuance_receipt.json",
+        RESULTS_DIR / "supabase_cloud_evidence.json",
     ]
 
     verified_artifacts: list[dict[str, Any]] = []
@@ -436,6 +437,13 @@ def run_all(fast_mode: bool = False) -> dict[str, Any]:
 
     manifest_path = RESULTS_DIR / "manifest.json"
     manifest_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+
+    # Generate docs/REPRODUCIBILITY.md automatically via write_manifest
+    try:
+        import write_manifest
+        write_manifest.main()
+    except Exception as e:
+        print(f"Warning: write_manifest failed: {e}")
 
     print("\n===============================================================================")
     print(f" Evaluation Suite Complete in {duration_s:.1f}s — All Artifacts Verified!")

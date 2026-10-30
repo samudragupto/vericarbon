@@ -2,7 +2,7 @@
 # =============================================================================
 # VeriCarbon — Artifact Evaluation Demo: "Day in the Life" Full Journey
 #
-# Boots local infrastructure (Anvil + PostgreSQL 16 PGlite Supabase Gateway),
+# Boots local infrastructure (Anvil + PostgreSQL 16 Postgres-compatible test double, offline only),
 # executes the full lifecycle:
 #   1. Protocol deployment (Halo2Verifier + CarbonRegistry)
 #   2. Project registration with geospatial commitment
@@ -175,3 +175,4 @@ console.log('===================================================================
 console.log(' ALL ARTIFACT EVALUATION CHECKS PASSED DETERMINISTICALLY!');
 console.log('================================================================================');
 "
+
