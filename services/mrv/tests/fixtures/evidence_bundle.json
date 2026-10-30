@@ -1,0 +1,111 @@
+{
+  "bundleVersion": "1.0.0",
+  "projectId": "vc-tapajos-001",
+  "aoiGeohash8": "6z900000",
+  "salt": "0x336a0957067d3dcc1bd8e7f99b8f335927e6568939d0055ea5c7ae8517ad30a0",
+  "sceneIds": [
+    "S2B_MSIL2A_20240614T135709_R067_T21MYS_20240614T203804",
+    "S2B_MSIL2A_20240624T135709_R067_T21MYS_20240624T200850",
+    "S2B_MSIL2A_20240714T135709_R067_T21MYS_20240714T173216",
+    "S2A_MSIL2A_20240719T135701_R067_T21MYS_20240719T210440",
+    "S2A_MSIL2A_20240729T140051_R067_T21MYS_20240729T232452",
+    "S2B_MSIL2A_20240803T135709_R067_T21MYS_20240803T161428",
+    "S2A_MSIL2A_20240808T140051_R067_T21MYS_20240808T205355",
+    "S2B_MSIL2A_20240813T135709_R067_T21MYS_20240813T174653",
+    "S2A_MSIL2A_20240818T135701_R067_T21MYS_20240818T191549",
+    "S2B_MSIL2A_20240902T135709_R067_T21MYS_20240902T180147"
+  ],
+  "featureStats": {
+    "ndvi_mean": {
+      "min": 0.568713,
+      "max": 0.849825,
+      "mean": 0.767981,
+      "std": 0.068426
+    },
+    "ndvi_3m_p10": {
+      "min": 0.545019,
+      "max": 0.838775,
+      "mean": 0.747406,
+      "std": 0.068648
+    },
+    "ndvi_3m_p50": {
+      "min": 0.562345,
+      "max": 0.856716,
+      "mean": 0.768384,
+      "std": 0.068634
+    },
+    "ndvi_3m_p90": {
+      "min": 0.580757,
+      "max": 0.869534,
+      "mean": 0.785511,
+      "std": 0.067386
+    },
+    "ndre_mean": {
+      "min": 0.426666,
+      "max": 0.64125,
+      "mean": 0.577393,
+      "std": 0.052898
+    },
+    "reci_mean": {
+      "min": 1.490386,
+      "max": 3.585628,
+      "mean": 2.808254,
+      "std": 0.561888
+    },
+    "ireci_mean": {
+      "min": 3.788427,
+      "max": 11.479487,
+      "mean": 8.536228,
+      "std": 2.10377
+    },
+    "wc_tree_cover": {
+      "min": 0.0,
+      "max": 1.0,
+      "mean": 0.785156,
+      "std": 0.410714
+    },
+    "wc_shrubland": {
+      "min": 0.0,
+      "max": 1.0,
+      "mean": 0.160156,
+      "std": 0.366751
+    },
+    "wc_grassland": {
+      "min": 0.0,
+      "max": 1.0,
+      "mean": 0.007812,
+      "std": 0.088042
+    },
+    "wc_cropland": {
+      "min": 0.0,
+      "max": 0.0,
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "wc_wetland": {
+      "min": 0.0,
+      "max": 1.0,
+      "mean": 0.046875,
+      "std": 0.211371
+    }
+  },
+  "dataCommitment": "0x6bdd65dfca347b1d82818f7a9eb5dbaf381ef851a783c7593f764981e1dc3216",
+  "modelHash": "0x919078abe872c3cc8b7c95c635a303f9b510b5dcef8dc9763a98446f36439a5b",
+  "quantizedFeatures": [
+    768,
+    747,
+    768,
+    786,
+    577,
+    2808,
+    8536,
+    1,
+    0,
+    0,
+    0,
+    0
+  ],
+  "predictedCredits": 49017.2231,
+  "vintageYear": 2024,
+  "creditType": 1
+}

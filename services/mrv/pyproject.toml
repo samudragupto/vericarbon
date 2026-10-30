@@ -9,7 +9,18 @@ description = "VeriCarbon MRV pipeline: satellite fetch, feature extraction, tra
 readme = "README.md"
 requires-python = ">=3.11,<3.12"
 dependencies = [
+    "numpy==2.4.6",
+    "onnx==1.23.2",
+    "onnxruntime==1.31.1",
+    "pandas==3.1.0",
+    "planetary-computer==1.0.0",
+    "pyarrow==26.0.0",
+    "pystac-client==0.9.1",
+    "rioxarray==0.19.0",
+    "scikit-learn==1.9.1",
+    "skl2onnx==1.20.0",
     "typer==0.15.2",
+    "xarray==2026.9.0",
 ]
 
 [project.scripts]
@@ -40,4 +51,3 @@ select = ["E", "F", "I", "UP", "B", "ANN"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["src"]
-

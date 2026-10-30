@@ -14,7 +14,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "lint": "tsc --noEmit",
-    "test": "node -e \"console.log('@vericarbon/sdk placeholder tests passed')\""
+    "test": "node --input-type=module -e \"import fs from 'node:fs'; import { EvidenceBundleSchema } from './dist/index.js'; const raw = JSON.parse(fs.readFileSync('../../services/mrv/tests/fixtures/evidence_bundle.json', 'utf8')); const parsed = EvidenceBundleSchema.parse(raw); if (!parsed.dataCommitment.startsWith('0x')) process.exit(1); console.log('@vericarbon/sdk validated services/mrv/tests/fixtures/evidence_bundle.json successfully');\""
   },
   "dependencies": {
     "viem": "2.23.5",
@@ -24,4 +24,3 @@
     "typescript": "5.8.2"
   }
 }
-

@@ -1,0 +1,88 @@
+{
+  "model_name": "VeriCarbonAGBHistGBR",
+  "model_version": "0.1.0",
+  "model_hash": "0x919078abe872c3cc8b7c95c635a303f9b510b5dcef8dc9763a98446f36439a5b",
+  "onnx_path": "C:\\Users\\user\\Desktop\\vericarbon\\services\\mrv\\tests\\fixtures\\model.onnx",
+  "metrics": {
+    "mae": 3.7514,
+    "rmse": 8.1675,
+    "r2": 0.9869,
+    "train_samples": 192,
+    "test_samples": 64,
+    "held_out_geohash5_blocks": [
+      "6z900"
+    ]
+  },
+  "feature_list": [
+    "ndvi_mean",
+    "ndvi_3m_p10",
+    "ndvi_3m_p50",
+    "ndvi_3m_p90",
+    "ndre_mean",
+    "reci_mean",
+    "ireci_mean",
+    "wc_tree_cover",
+    "wc_shrubland",
+    "wc_grassland",
+    "wc_cropland",
+    "wc_wetland"
+  ],
+  "scale_params": {
+    "ndvi_mean": {
+      "scale": 0.001,
+      "zero_point": 0
+    },
+    "ndvi_3m_p10": {
+      "scale": 0.001,
+      "zero_point": 0
+    },
+    "ndvi_3m_p50": {
+      "scale": 0.001,
+      "zero_point": 0
+    },
+    "ndvi_3m_p90": {
+      "scale": 0.001,
+      "zero_point": 0
+    },
+    "ndre_mean": {
+      "scale": 0.001,
+      "zero_point": 0
+    },
+    "reci_mean": {
+      "scale": 0.001,
+      "zero_point": 0
+    },
+    "ireci_mean": {
+      "scale": 0.001,
+      "zero_point": 0
+    },
+    "wc_tree_cover": {
+      "scale": 1.0,
+      "zero_point": 0
+    },
+    "wc_shrubland": {
+      "scale": 1.0,
+      "zero_point": 0
+    },
+    "wc_grassland": {
+      "scale": 1.0,
+      "zero_point": 0
+    },
+    "wc_cropland": {
+      "scale": 1.0,
+      "zero_point": 0
+    },
+    "wc_wetland": {
+      "scale": 1.0,
+      "zero_point": 0
+    }
+  },
+  "hyperparameters": {
+    "max_iter": 40,
+    "max_depth": 4,
+    "learning_rate": 0.1,
+    "min_samples_leaf": 8,
+    "random_state": 42
+  },
+  "seed": 42
+}

@@ -1,0 +1,111 @@
+{
+  "schema_version": "1.0.0",
+  "source_collection_ids": [
+    "sentinel-2-l2a",
+    "esa-worldcover-2021"
+  ],
+  "agb_label_source": "synthesized_allometric_fixture (AGENT.md fallback: GEDI L4A / ESA CCI Biomass not hosted on public Planetary Computer STAC without external auth)",
+  "scene_ids": [
+    "S2B_MSIL2A_20240614T135709_R067_T21MYS_20240614T203804",
+    "S2B_MSIL2A_20240624T135709_R067_T21MYS_20240624T200850",
+    "S2B_MSIL2A_20240714T135709_R067_T21MYS_20240714T173216",
+    "S2A_MSIL2A_20240719T135701_R067_T21MYS_20240719T210440",
+    "S2A_MSIL2A_20240729T140051_R067_T21MYS_20240729T232452",
+    "S2B_MSIL2A_20240803T135709_R067_T21MYS_20240803T161428",
+    "S2A_MSIL2A_20240808T140051_R067_T21MYS_20240808T205355",
+    "S2B_MSIL2A_20240813T135709_R067_T21MYS_20240813T174653",
+    "S2A_MSIL2A_20240818T135701_R067_T21MYS_20240818T191549",
+    "S2B_MSIL2A_20240902T135709_R067_T21MYS_20240902T180147"
+  ],
+  "date_list": [
+    "2024-06-14",
+    "2024-06-24",
+    "2024-07-14",
+    "2024-07-19",
+    "2024-07-29",
+    "2024-08-03",
+    "2024-08-08",
+    "2024-08-13",
+    "2024-08-18",
+    "2024-09-02"
+  ],
+  "feature_names": [
+    "ndvi_mean",
+    "ndvi_3m_p10",
+    "ndvi_3m_p50",
+    "ndvi_3m_p90",
+    "ndre_mean",
+    "reci_mean",
+    "ireci_mean",
+    "wc_tree_cover",
+    "wc_shrubland",
+    "wc_grassland",
+    "wc_cropland",
+    "wc_wetland"
+  ],
+  "quantization": {
+    "ndvi_mean": {
+      "scale": 0.001,
+      "zero_point": 0
+    },
+    "ndvi_3m_p10": {
+      "scale": 0.001,
+      "zero_point": 0
+    },
+    "ndvi_3m_p50": {
+      "scale": 0.001,
+      "zero_point": 0
+    },
+    "ndvi_3m_p90": {
+      "scale": 0.001,
+      "zero_point": 0
+    },
+    "ndre_mean": {
+      "scale": 0.001,
+      "zero_point": 0
+    },
+    "reci_mean": {
+      "scale": 0.001,
+      "zero_point": 0
+    },
+    "ireci_mean": {
+      "scale": 0.001,
+      "zero_point": 0
+    },
+    "wc_tree_cover": {
+      "scale": 1.0,
+      "zero_point": 0
+    },
+    "wc_shrubland": {
+      "scale": 1.0,
+      "zero_point": 0
+    },
+    "wc_grassland": {
+      "scale": 1.0,
+      "zero_point": 0
+    },
+    "wc_cropland": {
+      "scale": 1.0,
+      "zero_point": 0
+    },
+    "wc_wetland": {
+      "scale": 1.0,
+      "zero_point": 0
+    }
+  },
+  "split_strategy": "geohash5_spatial_block (prevents spatial leakage)",
+  "train_geohash5_blocks": [
+    "6z2zz",
+    "6z3pb",
+    "6z8bp"
+  ],
+  "test_geohash5_blocks": [
+    "6z900"
+  ],
+  "num_rows": 256,
+  "num_train_rows": 192,
+  "num_test_rows": 64,
+  "parquet_path": "C:\\Users\\user\\Desktop\\vericarbon\\services\\mrv\\tests\\fixtures\\dataset.parquet",
+  "git_commit": "f5acd13d3f70bd492af294bcbdc4c164e79ffd9f",
+  "utc_timestamp": "2026-10-30T05:35:05Z"
+}
