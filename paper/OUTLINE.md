@@ -329,3 +329,4 @@ Target Length: ~9,500–10,500 words.
   * One-command evaluation reproduction (`uv run eval/run_all.py`), lockfile hashes, hardware specifications, and manifest verification.
 * **Appendix B: Extended Formal Proofs & Security Attack Traces**
   * Mathematical proof of Lemma 1 (Unicity), detailed Foundry gas trace snapshots, and EVM transaction receipts from `BaselineDoubleIssuance.s.sol`.
+

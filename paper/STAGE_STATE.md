@@ -2,10 +2,9 @@
 
 ```json
 {
-  "completed_stages": ["STAGE 0", "STAGE A", "STAGE B", "STAGE C"],
-  "current": "GATE 2",
-  "gates_pending": ["GATE 2"],
-  "next_action": "Await human approval for GATE 2 (Outline & Section Skeletons)"
+  "completed_stages": ["STAGE 0", "STAGE A", "STAGE B", "STAGE C", "STAGE D"],
+  "current": "GATE 3",
+  "gates_pending": ["GATE 3"],
+  "next_action": "Await human DOI verification for GATE 3 before proceeding to STAGE E (Red-team)"
 }
 ```
-

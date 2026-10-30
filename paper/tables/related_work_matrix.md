@@ -19,3 +19,4 @@ Comparison of VeriCarbon against operational Web3 carbon protocols, decentralize
 
 > [!NOTE]
 > *Honesty Statement:* VeriCarbon's in-circuit machine learning model is restricted to a compact gradient-boosted decision tree ensemble ($F=12, T=4, D=2$) proved in Halo2/KZG rather than a deep convolutional neural network. In-circuit feature commitments leverage arithmetic `ezkl.poseidon_hash` binding while the full SHA-256 hash remains an off-chain IPFS audit pointer. Commercial landholder boundary privacy is enforced at `geohash8` granularity (~38.2m × ~19.1m) via salted Keccak-256 commitments.
+

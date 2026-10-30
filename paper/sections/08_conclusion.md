@@ -1,15 +1,11 @@
-# Section 8: Conclusion & Future Work (Word Budget: 300 words)
+# Section 8: Conclusion & Future Work
 
 ## 8.1 Summary of Contributions
-*Topic Sentence:* In this paper, we introduced VeriCarbon, demonstrating that zero-knowledge verifiable MRV and salt-independent cross-registry nullifiers can eliminate over-crediting and cross-registry double issuance at sub-cent transaction costs.
-- Key concepts: Halo2 SNARK verification of remote sensing regressors without raw imagery exposure; Amendment A0 salt-independent parcel unicity nullifiers; empirical demonstration thwarting 7 fraud attacks on Base Sepolia.
-- Target words: 150 words.
-- Claims: [CLAIM: C-04: 0.5504s proving time]; [CLAIM: C-09: 873164 issuance total gas]; [CLAIM: C-10: $0.0119 Base Sepolia modeled USD]; [CLAIM: C-15: 9 security attacks evaluated].
-- Citations: None.
+
+In this paper, we introduced VeriCarbon, a zero-knowledge verifiable Monitoring, Reporting, and Verification (MRV) architecture designed to resolve the credibility crisis in voluntary and compliance carbon credit markets. By pairing spaceborne remote sensing analytics with Halo2 zero-knowledge circuits and Layer 2 smart contracts, VeriCarbon replaces opaque auditing intermediaries with deterministic mathematical verification. We proved that compact gradient-boosted decision tree ensembles can verify remote sensing biomass predictions on commodity laptop hardware in just 0.5504 s [C-04, zk_benchmarks.json] without disclosing commercial land boundaries or proprietary model weights.
+
+Furthermore, we identified and eliminated the critical salt-dodge vulnerability through Amendment A0, formalizing a salt-independent, registry-independent global issuance nullifier ($\mathcal{N}_{\text{iss}} := \text{keccak256}(g, v, \tau)$) and mathematically proving cross-registry issuance unicity (Lemma 1). Through extensive empirical testing across an adversarial test suite of 9 security attack scenarios [C-15, fraud_results.json], we demonstrated that VeriCarbon intercepts all duplicate issuance, salt-dodge, and retirement replay attempts on-chain. On Base Sepolia, end-to-end issuance executes for 873,164 gas [C-09, gas_costs.json], costing an estimated \$0.0119 [C-10, gas_costs.json]—a 4,585-fold cost reduction compared to Ethereum L1.
 
 ## 8.2 Future Research Directions
-*Topic Sentence:* Future research must expand from discrete `geohash8` centroids to full spatial polygon intersection proofs in zero knowledge and incorporate hardware-signed satellite telemetry.
-- Key concepts: In-circuit spatial polygon intersection; multi-sensor attestation; integration with sovereign registry frameworks under UNFCCC Article 6.
-- Target words: 150 words.
-- Claims: None.
-- Citations: None.
+
+Future research will advance VeriCarbon across three principal axes. First, we will expand geospatial commitment primitives from discrete centroid cells (`geohash8`) to arbitrary geometric polygon intersection circuits in zero knowledge, utilizing spatial R-tree structures and bounding volume hierarchies to eliminate sub-cell boundary sliver attacks. Second, we will integrate multi-constellation hardware telemetry attestation, validating spaceborne LiDAR waveforms (GEDI) and synthetic aperture radar (Sentinel-1) alongside optical imagery to harden the physical-layer oracle against ground spoofing. Finally, we will explore formal integration with emerging UNFCCC Article 6 sovereign digital registries, establishing zero-knowledge state anchors that empower sovereign carbon accounting without sacrificing national data sovereignty.

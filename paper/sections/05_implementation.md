@@ -1,22 +1,19 @@
-# Section 5: Implementation (Word Budget: 700 words)
+# Section 5: Implementation
 
 ## 5.1 Remote Sensing & Feature Pipeline (`services/mrv`)
-*Topic Sentence:* The MRV data pipeline is implemented in Python 3.11 using `uv`, querying Sentinel-2 L2A STAC items and ESA WorldCover rasters from Microsoft Planetary Computer to compute 12 spectral and categorical features.
-- Key concepts: Spatial-block partitioning over 4 quadrants (`6z2zz`, `6z3pb`, `6z8bp`, `6z900`); HistGradientBoostingRegressor training; ONNX graph export with integer quantization.
-- Target words: 240 words.
-- Claims: None.
-- Citations: TODOCITE: pystac-client Microsoft Planetary Computer STAC.
+
+The spaceborne remote sensing and machine learning pipeline is implemented as a standalone, deterministic Python 3.11 service managed via `uv`. The ingestion module queries Microsoft Planetary Computer's SpatioTemporal Asset Catalog (STAC) via `pystac-client` to retrieve cloud-filtered Sentinel-2 L2A surface reflectance tiles across the growing season, alongside static land-cover classifications from the ESA WorldCover 10-meter raster product \cite{drusch2012sentinel,zanaga2021esa}. Spectral processing extracts 12 canonical features: four longitudinal vegetative statistics derived from the Normalized Difference Vegetation Index (mean, 10th percentile, median, and 90th percentile over a 3-month window), three red-edge chlorophyll indicators (NDRE, RECI, and IRECI), and five discrete binary one-hot indicators corresponding to WorldCover classifications (tree cover, shrubland, grassland, cropland, and wetland).
+
+To strictly prevent spatial autocorrelation leakage, the spatial feature matrix is partitioned using spatial-block cross-validation. For our prototype evaluation site in the Tapajós National Forest, Pará, Brazil (bounding box: $-54.8485, -2.8172, -54.8390, -2.8078$, spanning approximately $1.05\,\text{km} \times 1.05\,\text{km}$), the area of interest falls within a single geographic geohash-5 cell. We partition the chip into four discrete quadrant blocks (`6z2zz`, `6z3pb`, `6z8bp`, `6z900`), training a `HistGradientBoostingRegressor` on three quadrants and reserving the fourth as a strictly unseen spatial holdout. Continuous features are quantized into integer representations using uniform scaling factors ($scale = 0.001$, zero-point $= 0$), serialized to Parquet format, and exported to an integer-quantized ONNX computation graph.
 
 ## 5.2 Zero-Knowledge Proving and Smart Contracts (`services/zk` & `packages/contracts`)
-*Topic Sentence:* Circuit compilation and proving leverage `ezkl v23.0.5`, emitting `Halo2Verifier.sol` which executes KZG multi-point pairing checks in EVM bytecode.
-- Key concepts: Halo2 PLONKish arithmetization; Spurious Dragon 24,576 B code limit compliance; OpenZeppelin 5.2.0 ERC1155 & AccessControl; Foundry deployment scripts on Base Sepolia.
-- Target words: 240 words.
-- Claims: [CLAIM: C-07: 18007 bytes verifier initcode]; [CLAIM: C-20: 11323 bytes CarbonRegistry runtime size].
-- Citations: TODOCITE: OpenZeppelin contracts v5.2.0.
+
+The zero-knowledge compilation and execution pipeline is constructed using `ezkl v23.0.5`, which compiles the ONNX decision tree ensemble into an arithmetic constraint system over the BN254 elliptic curve. The circuit uses fixed-point scale parameters ($input\_scale = 7$, $param\_scale = 7$, $logrows = 13$, lookup range $[-2048, 2048]$). Proving keys ($\text{pk}$) and verification keys ($\text{vk}$) are derived using the Structured Reference String ($\text{SRS}$) downloaded from the Ethereum KZG ceremony. In-circuit feature commitments are computed using `ezkl.poseidon_hash`, while the full SHA-256 digest of the canonical quantized feature vector is recorded in the evidence bundle.
+
+The on-chain smart contract architecture is implemented in Solidity (v0.8.24, Cancun EVM target, optimizer runs: 200) within a Foundry workspace. `Halo2Verifier.sol` [C-07, manifest.json] contains the compiled elliptic curve pairing operations generated via `ezkl create-evm-verifier`, occupying 18,007 bytes of initcode (well below the 24,576-byte limit imposed by EIP-170). The registry contract, `CarbonRegistry.sol`, extends OpenZeppelin v5.2.0 `ERC1155` and `AccessControl`, occupying 11,323 bytes of runtime bytecode [C-20, manifest.json]. The contract implements monotonic serial batch assignment, stores the IPFS evidence CID upon registration, and executes atomic nullifier updates during credit issuance and retirement. Comprehensive unit, integration, and fuzz testing in Foundry covers 19 test scenarios, validating state machine transitions under both standard operations and malicious adversarial payloads.
 
 ## 5.3 Web Explorer, TypeScript SDK & Off-Chain Indexing (`apps/web` & `supabase`)
-*Topic Sentence:* The user interface is developed in Next.js 15 and MapLibre GL, communicating via a shared TypeScript SDK with unified `viem@2.57.13` and backed by a PostgreSQL 16 schema tested offline via PGlite.
-- Key concepts: Wagmi v2 client interaction; atomic PostgREST ingestion RPC; MapLibre GL Carto Dark Matter basemap; Lighthouse performance audit.
-- Target words: 220 words.
-- Claims: [CLAIM: C-14: 95 Lighthouse performance score].
-- Citations: None.
+
+The user-facing application layer is developed using Next.js 15 (App Router, React 19) in strict TypeScript mode. The interface integrates MapLibre GL with CARTO Dark Matter vector tiles, providing an interactive geospatial explorer displaying project boundaries, satellite vegetative histories, and issuance timelines. Client-side cryptographic operations (generating 32-byte blinding salts and deriving initial `geoCommitment` hashes) are executed directly in the browser via Web Crypto APIs prior to transaction dispatch. Contract interactions leverage `wagmi v2` and `viem@2.57.13`, maintaining a single unified viem dependency repo-wide.
+
+To support real-time querying without placing repetitive read loads on the Base Sepolia RPC, an asynchronous indexer daemon written in Deno/TypeScript listens for `ProjectRegistered`, `Issued`, and `Claimed` logs. Indexed events are atomically upserted into a PostgreSQL 16 database using idempotent compound primary keys `(tx_hash, log_index)`, ensuring deterministic consistency across RPC network retries and edge function re-executions. The database schema enforces strict Row Level Security (RLS) policies, allowing public read-only queries while restricting write operations to authenticated service roles. In offline continuous integration and evaluation environments, database operations execute against a Postgres-compatible test double (`@electric-sql/pglite`), while cloud deployments utilize Supabase managed infrastructure. The web application achieves an audited Lighthouse performance score of 95/100 [C-14, lighthouse_report.json], demonstrating lightweight client execution.

@@ -1,30 +1,27 @@
-# Section 7: Discussion & Limitations (Word Budget: 900 words)
+# Section 7: Discussion & Limitations
 
 ## 7.1 Cryptographic Nullifiers as Article 6 Analogues
-*Topic Sentence:* The unicity nullifiers introduced in VeriCarbon provide a decentralized, mathematical analogue to UNFCCC Article 6 corresponding adjustments.
-- Key concepts: Preventing double-claiming across national vs. private voluntary accounting; mathematical vs. treaty-based enforcement mechanisms; interoperability with national carbon registries.
-- Target words: 240 words.
-- Claims: None.
-- Citations: TODOCITE: UNFCCC Article 6 corresponding adjustments; TODOCITE: World Bank Climate Warehouse 2022.
+
+The cross-registry issuance and retirement nullifiers developed in VeriCarbon offer a decentralized, mathematical analogue to the corresponding adjustment mechanisms established under Article 6 of the Paris Agreement \cite{unfccc2021article6}. Under Article 6.2 and 6.4, sovereign nations transfer Internationally Transferred Mitigation Outcomes (ITMOs), requiring host and acquiring nations to execute corresponding adjustments in their national carbon accounting ledgers to prevent double-counting of emissions reductions. However, in contemporary international governance, operationalizing Article 6 relies on manual bilateral reporting and fragmented meta-registries—such as the World Bank Climate Warehouse \cite{worldbank2022warehouse}—which record cross-border transfers after the fact without programmatic prevention of duplicate minting.
+
+In contrast, VeriCarbon enforces deduplication at the state-transition level. By treating physical land tracts and vintage intervals as non-fungible nullifier preimages ($\mathcal{N}_{\text{iss}} = \text{keccak256}(g, v, \tau)$), our architecture demonstrates how disparate sovereign and voluntary registries can share a common computational settlement layer. Participating nations or accreditation standards retain autonomous governance over project approval and verification criteria, yet are mathematically constrained from issuing overlapping mitigation outcomes. We emphasize that cryptographic nullifiers represent a *technical enforcement primitive*, not a replacement for international climate treaties or domestic legal title verification; nonetheless, they provide the verifiable accounting infrastructure necessary to make Article 6 operational across heterogeneous jurisdictions.
 
 ## 7.2 Physical-Layer Oracle Challenges and Sensor Spoofing
-*Topic Sentence:* Zero-knowledge proofs verify computational integrity over ingested inputs but cannot detect spoofing at the spaceborne sensor or optical pipeline level.
-- Key concepts: "Garbage In, Garbage Out" in ZK systems; multi-constellation cross-validation (Sentinel-2, Landsat-9, PlanetScope); cryptographic hardware attestation in Earth observation satellites.
-- Target words: 220 words.
-- Claims: None.
-- Citations: None.
+
+A foundational tenet of zero-knowledge systems is that proof verification guarantees computational integrity over ingested inputs, but cannot attest to the physical reality of external sensory data ("Garbage In, Garbage Out"). If an adversary successfully tampers with optical sensor hardware aboard Earth observation satellites, executes man-in-the-middle attacks on ground station telemetry downlinks, or injects synthetic cloud masks into public STAC APIs, the Halo2 circuit will faithfully prove correct model inference over fraudulent data.
+
+Furthermore, discrete geospatial discretization creates boundary vulnerabilities: because our current implementation indexes parcels at fixed geohash-8 cell boundaries, landholders defining project boundaries that cross cell seams could theoretically attempt to register adjacent partial cells, introducing boundary sliver inflation unless constrained by global cadastral registry checks.
+
+Mitigating physical-layer oracle compromise requires layered cryptographic attestation across the Earth observation supply chain. Emerging satellite architectures are beginning to incorporate Hardware Security Modules (HSMs) directly into payload instrument computers, enabling spaceborne sensors to sign raw multispectral imagery with hardware-bound private keys prior to downlink transmission. Furthermore, decentralized MRV protocols can implement multi-constellation consensus: rather than relying exclusively on ESA Sentinel-2 optical bands, automated pipelines can cross-correlate optical reflectance with NASA Landsat-9 observations, PlanetScope high-resolution commercial constellations, and synthetic aperture radar (SAR) from Sentinel-1 or ALOS-2 PALSAR. Discrepancies exceeding physical vegetative phenology bounds would automatically flag evidence bundles for mandatory third-party audit prior to proof verification.
 
 ## 7.3 Synthesized Labels and Biome Generalization Boundaries
-*Topic Sentence:* A fundamental limitation of this prototype is that Aboveground Biomass labels were generated from synthesized allometric fixtures due to Planetary Computer STAC authentication boundaries.
-- Key concepts: Epistemic limits of decision trees trained on local tropical canopy; lack of frictionless public spaceborne LiDAR access; requirement for localized calibration plots in commercial deployment.
-- Target words: 220 words.
-- Claims: [CLAIM: C-01: 3.7514 MAE canonical holdout]; [CLAIM: C-03: 0.9869 R2 canonical holdout].
-- Citations: None.
-- Artifacts: Reference to `paper/tables/model_metrics.md` caption.
 
-## 7.4 Economic Sizing and L2 Finality Considerations
-*Topic Sentence:* While Base L2 delivers 4,500× cost reductions ($0.0119 per issuance), commercial deployments must weigh optimistic rollup challenge windows against credit settlement velocity.
-- Key concepts: Optimistic rollup 7-day fraud proof window vs. ZK rollup instant finality; trade-offs between sequencer censorship resistance and sub-cent transaction execution.
-- Target words: 220 words.
-- Claims: [CLAIM: C-10: $0.0119 Base Sepolia modeled USD]; [CLAIM: C-11: $54.57 Ethereum L1 modeled USD].
-- Citations: None.
+A primary limitation of this research prototype—mandated by our strict zero-budget evaluation constraint and the public availability of spaceborne LiDAR data—is that Aboveground Biomass labels were generated using synthesized allometric functions calibrated to tropical forest canopy structures, as logged in `docs/REPRODUCIBILITY.md`. Although our 4-fold spatial-block cross-validation demonstrated high internal self-consistency ($R^2 = 0.9869$ [C-03, model_metrics.json] and $\text{MAE} = 3.7514\,\text{Mg}/\text{ha}$ [C-01, model_metrics.json] on holdout block `6z900`), these metrics do not constitute a real-world field accuracy claim against ground-truth destructive harvest or in-situ National Forest Inventory (NFI) plots.
+
+Furthermore, machine learning models in remote sensing face severe epistemic boundaries under ecological distribution shift. The decision tree ensemble evaluated in this study was structured around canopy dynamics characteristic of the Tapajós National Forest in the Brazilian Amazon. Deploying this model over boreal peatlands, sub-Saharan savannas, or coastal mangrove ecosystems would introduce catastrophic estimation errors, as allometric relationships between optical vegetative indices (NDVI, NDRE) and biomass density vary drastically across global biomes. Transitioning VeriCarbon from an academic prototype to commercial deployment requires training biome-specific model families, where each ecological zone maintains an independent, peer-reviewed model hash ($\text{modelHash}$) registered in governance registries.
+
+## 7.4 Economic Sizing and Layer 2 Rollup Finality
+
+Our economic benchmarks in Section 6 established that executing credit issuance on Base L2 achieves a 4,585-fold cost reduction relative to Ethereum L1 (\$0.0119 [C-10, gas_costs.json] vs. \$54.57 [C-11, gas_costs.json]), bringing verifiable zero-knowledge issuance well below the unit margin of voluntary carbon credits. However, operational deployment on optimistic rollups introduces distinct trade-offs between settlement finality and transaction velocity.
+
+Optimistic rollups—including Base, Optimism, and Arbitrum—rely on a 7-day fault proof challenge window before state roots achieve final settlement on Ethereum L1. While soft finality is achieved within seconds via the sequencer, carbon credits issued on L2 cannot be bridged back to L1 without enduring this challenge delay or relying on liquidity provider bridges. Additionally, centralized sequencers currently present a potential single point of censorship or temporary transaction reordering, though users retain the cryptographic guarantee of L1 force-inclusion escape hatches. Conversely, migrating VeriCarbon's settlement layer to a zero-knowledge rollup (ZK-rollup, such as Starknet or Polygon zkEVM) would provide cryptographic state finality within minutes, albeit at slightly higher verification gas overhead. For enterprise voluntary markets, soft sequencer finality on Layer 2 rollups provides an optimal balance between sub-cent transaction costs and cryptographic double-issuance protection.

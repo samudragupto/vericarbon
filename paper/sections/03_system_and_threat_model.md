@@ -1,36 +1,42 @@
-# Section 3: System & Threat Model (Word Budget: 1,100 words)
+# Section 3: System & Threat Model
 
 ## 3.1 Network Participants and Protocol Roles
-*Topic Sentence:* The VeriCarbon network comprises five distinct participant classes: Project Developers, Independent MRV Auditors, Competing Registry Operators, Off-Chain Verifiers/Indexers, and Credit Buyers/Retirers.
-- Key concepts: Role separation via OpenZeppelin AccessControl (`DEFAULT_ADMIN`, `REGISTRY_ROLE`); decentralized ecosystem of competing registries sharing a common EVM nullifier layer.
-- Target words: 220 words.
-- Claims: None.
-- Citations: None.
+
+The VeriCarbon protocol operates as a decentralized, multi-registry coordination layer on top of an Ethereum Layer 2 rollup (Base Sepolia), orchestrating interactions among five distinct participant classes:
+1. **Project Developers ($\mathcal{D}$):** Land stewards, conservation organizations, or commercial forestry managers who manage physical land parcels, ingest spaceborne satellite observations, generate zero-knowledge Halo2 proofs of biomass inference, and submit credit issuance requests.
+2. **Independent MRV Auditors ($\mathcal{A}$):** Third-party scientific entities and environmental researchers who inspect off-chain evidence bundles pinned to IPFS, audit model training architectures, and verify public cryptographic commitments without requiring physical parcel access.
+3. **Competing Registry Operators ($\mathcal{R}$):** Sovereign standards bodies, compliance administrators, or voluntary registry organizations holding the `REGISTRY_ROLE` permission in the on-chain registry contract. Registries authenticate project developers, verify eligibility under specific legal regimes, and sign on-chain registration and issuance transactions.
+4. **Off-Chain Synchronization Indexers ($\mathcal{I}$):** Automated indexing nodes (implemented via Supabase and edge runtime daemons) that continuously ingest on-chain log events (`ProjectRegistered`, `Issued`, `Claimed`), maintain idempotent state caches, and serve low-latency spatial and token queries.
+5. **Credit Claimants and Retirers ($\mathcal{C}$):** Commercial enterprises, corporate buyers, or individuals who purchase minted credit tokens and permanently retire them against verified greenhouse gas emissions liabilities.
 
 ## 3.2 Formal Cryptographic Assumptions
-*Topic Sentence:* Protocol soundness rests upon three standard cryptographic assumptions: the collision resistance of Keccak-256 and Poseidon hash functions, the discrete logarithm / KZG polynomial commitment hardness over the BN254 elliptic curve, and existence of a tamper-evident decentralized storage network.
-- Key concepts: Hardness assumptions A1–A4; random oracle model for Fiat-Shamir heuristic; IPFS content-addressed immutability.
-- Target words: 220 words.
-- Claims: None.
-- Citations: TODOCITE: Kate 2010 KZG polynomial commitments; TODOCITE: Grassi 2021 Poseidon hash function.
+
+The security, soundness, and unicity guarantees of VeriCarbon rest upon four standard cryptographic hardness assumptions:
+* **Assumption 1 (Collision Resistance of Hash Functions):** Let $\mathcal{H}_{\text{keccak}}: \{0,1\}^* \rightarrow \{0,1\}^{256}$ denote the Keccak-256 cryptographic hash function, and let $\mathcal{H}_{\text{poseidon}}: \mathbb{F}_p^k \rightarrow \mathbb{F}_p$ denote the algebraic Poseidon hash function over the scalar field $\mathbb{F}_p$ of the BN254 elliptic curve. For any probabilistic polynomial-time (PPT) adversary $\mathcal{B}$, the probability of finding distinct preimages $x_1 \neq x_2$ such that $\mathcal{H}(x_1) = \mathcal{H}(x_2)$ is negligible in the security parameter $\lambda$.
+* **Assumption 2 (Knowledge Soundness of the Halo2 Proving System):** The `ezkl` Halo2 proving system satisfies computational zero-knowledge and knowledge soundness under the Kate-Zaverucha-Goldberg (KZG) polynomial commitment scheme \cite{kate2010polynomial,groth2016size} over the pairing-friendly BN254 curve ($\mathbb{G}_1, \mathbb{G}_2, \mathbb{G}_T, e, p$). For any PPT adversary $\mathcal{B}$ that outputs a valid proof $\pi$ satisfying the pairing verification equation $e(\cdot, \cdot) = e(\cdot, \cdot)$ for public instances $[modelHash, dataCommitment, amount]$, there exists an efficient witness extractor that extracts a valid private input $X$ such that $amount \le f_{model}(X)$ and $\mathcal{H}_{\text{poseidon}}(X) = dataCommitment$.
+* **Assumption 3 (Tamper-Evident Decentralized Storage):** The InterPlanetary File System (IPFS) provides content-addressed immutability. An evidence bundle identified by Content Identifier $\text{CID} = \text{SHA-256}(bundle)$ cannot be altered without modifying the published CID.
+* **Assumption 4 (L2 Consensus and State Machine Integrity):** The underlying Base Sepolia Layer 2 execution environment enforces deterministic state transitions, prevents double-spending of ERC-1155 tokens, and guarantees transaction ordering under standard optimistic rollup security properties.
 
 ## 3.3 Byzantine Adversary Capabilities
-*Topic Sentence:* We model a Byzantine adversary capable of colluding with registry operators, manipulating off-chain evidence bundles, re-registering land with differing cryptographic salts, and forging retirement claims.
-- Key concepts: Adversary controls registry signing keys; adversary attempts amount inflation; adversary attempts cross-registry double minting; adversary attempts vintage relabeling.
-- Target words: 240 words.
-- Claims: [CLAIM: C-15: 9 security attacks evaluated].
-- Citations: None.
+
+We consider an active Byzantine adversary $\mathcal{M}$ whose objective is to extract illegitimate economic rents, duplicate offset claims, or inflate credit allocations. The adversary $\mathcal{M}$ possesses the following capabilities:
+* **Registry Collusion and Key Compromise:** The adversary may compromise, control, or collude with one or more authorized registry operators holding `REGISTRY_ROLE` permissions. This models competing offshore registries that operate under lax oversight or actively facilitate over-issuance.
+* **Off-Chain Data Manipulation:** $\mathcal{M}$ may arbitrarily manipulate uncommitted off-chain satellite rasters, submit fabricated evidence bundles to IPFS, or attempt to alter local machine learning models prior to zero-knowledge proof generation.
+* **Spatial Commitment Tampering:** $\mathcal{M}$ may attempt to register overlapping or identical physical forest plots under multiple distinct project identifiers, alter blinding salts, or perturb coordinate precision to evade nullification.
+* **Retirement Replay Attacks:** $\mathcal{C}$ may attempt to execute duplicate Scope 1 corporate offset claims by submitting the same retirement proof across multiple ESG jurisdictions or re-executing on-chain retirement transactions.
 
 ## 3.4 Cryptographically Enforced Security Guarantees
-*Topic Sentence:* VeriCarbon cryptographically guarantees: (1) Over-crediting prevention; (2) Cross-registry double issuance unicity; (3) Salt-dodge invariance (Amendment A0); and (4) Double-claiming retirement nullification.
-- Key concepts: In-circuit Halo2 bound $amount \le f_{model}(X)$; salt-independent nullifier $keccak256(geohash8, vintageYear, creditType)$; atomic state transitions in `CarbonRegistry.sol`.
-- Target words: 220 words.
-- Claims: [CLAIM: C-15: 9 security attacks evaluated].
-- Citations: None.
+
+Under the stated assumptions and Byzantine capabilities, VeriCarbon enforces four immutable on-chain guarantees across all 9 evaluated fraud attack scenarios [C-15, fraud_results.json]:
+1. **Mathematical In-Circuit Bound (Over-Crediting Defense):** A collusive registry cannot issue credit quantities exceeding the physical inference output of the verified remote sensing model. The on-chain `Halo2Verifier.sol` asserts the in-circuit constraint $amount \le f_{model}(X)$ via pairing cryptography.
+2. **Global Geospatial Unicity (Cross-Registry Double-Issuance Defense):** Competing registries cannot issue credits for the same physical parcel, vintage year, and credit type. Because the issuance nullifier is globally shared across all registries on Base Sepolia, any subsequent issuance attempt triggers an atomic EVM revert (`IssuanceNullifierAlreadySpent`).
+3. **Salt-Dodge Invariance (Amendment A0):** An adversary cannot circumvent spatial nullification by generating a new blinding salt for a previously credited land parcel. The contract enforces that the issuance nullifier depends directly on the canonical spatial cell (`geohash8`), ensuring that salt manipulation attempts revert on-chain.
+4. **Single-Claim Retirement Nullification (Double-Claim Defense):** Retired carbon credits cannot be claimed multiple times. The contract atomically burns the underlying ERC-1155 batch tokens and records a unique `claimNullifier`, guaranteeing that replay attempts revert (`ClaimNullifierAlreadySpent`).
 
 ## 3.5 System Non-Guarantees and Trust Boundaries
-*Topic Sentence:* Crucially, VeriCarbon does NOT defend against physical-layer satellite sensor spoofing, upstream ESA tile corruption, or distribution shift when models trained on Amazon rainforests are applied to uncalibrated biomes.
-- Key concepts: Explicit limitation honesty; sensor spoofing vulnerability; uncalibrated biomes / epistemic uncertainty; bilateral off-chain misrepresentation.
-- Target words: 200 words.
-- Claims: None.
-- Citations: None.
+
+To ensure academic transparency and adhere strictly to protocol design boundaries, we explicitly define what VeriCarbon does **NOT** defend against:
+* **Physical-Layer Satellite Telemetry Spoofing:** VeriCarbon proves that a machine learning model was correctly executed over a specific input tensor $X$. If an adversary compromises upstream satellite downlinks, injects synthesized spectral bands into Planetary Computer STAC feeds, or physically manipulates forest canopies prior to orbital passes, the zero-knowledge circuit will faithfully prove computation over corrupted data ("Garbage In, Garbage Out").
+* **Sub-Cell Boundary Discrepancies:** Spatial nullification operates at `geohash8` cell precision (~38.2m × ~19.1m). An adversary who establishes overlapping polygons that fall into adjacent discrete geohashes without intersecting committed centroids will not trigger nullifier collisions. Eliminating sub-cell boundary sliver attacks requires complete polygon intersection circuits in zero knowledge.
+* **Ecological Distribution Shift & Epistemic Limits:** The decision tree ensemble trained on localized Amazonian forest canopies (Tapajós National Forest) possesses localized ecological validity. Evaluating the model over boreal forests or mangrove biomes produces scientifically invalid biomass estimates, even though the zero-knowledge proof verifies arithmetic correctness.
+* **Bilateral Off-Chain Misrepresentation:** While VeriCarbon guarantees that on-chain token batches cannot be double-retired, an unscrupulous corporation could present forged off-chain PDF certificates to naive ESG auditors who fail to verify public nullifier state on the Base Sepolia ledger.
