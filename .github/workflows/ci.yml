@@ -1,0 +1,130 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  secrets-grep:
+    name: Secrets & Credentials Scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Scan tracked files for leaked secrets
+        run: |
+          echo "Scanning tracked files for secrets..."
+          # Fail if any .env file other than .env.example is tracked
+          if git ls-files | grep -E '(^|/)\.env($|\..*)' | grep -v '\.env\.example'; then
+            echo "Error: Tracked .env files found!"
+            exit 1
+          fi
+          # Check for high-entropy tokens or private keys in tracked files
+          FOUND_SECRETS=$(git grep -EI 'sk_live_[0-9a-zA-Z]{24,}|ey[A-Za-z0-9_-]{30,}\.[A-Za-z0-9_-]{30,}\.[A-Za-z0-9_-]{30,}' || true)
+          if [ -n "$FOUND_SECRETS" ]; then
+            echo "Error: Detected high-entropy secret tokens in tracked files:"
+            echo "$FOUND_SECRETS"
+            exit 1
+          fi
+          echo "Secrets scan passed cleanly."
+
+  contracts:
+    name: Smart Contracts & Bytecode Sizes
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: packages/contracts
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: nightly
+
+      - name: Run Forge Tests (Anvil / Unit)
+        run: forge test -vvv
+
+      - name: Check Contract Bytecode Sizes
+        run: forge build --sizes
+
+  mrv:
+    name: MRV Pipeline & Fixtures
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv and Python
+        uses: astral-sh/setup-uv@v5
+        with:
+          python-version: "3.11"
+          enable-cache: true
+
+      - name: Sync Python Dependencies
+        run: uv sync --frozen
+
+      - name: Run MRV Pytest Suite
+        run: uv run pytest services/mrv
+
+  web:
+    name: Web Application Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build Web Application
+        run: pnpm turbo build --filter @vericarbon/web
+
+  paper-integrity:
+    name: Paper & Audit Integrity
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv and Python
+        uses: astral-sh/setup-uv@v5
+        with:
+          python-version: "3.11"
+          enable-cache: true
+
+      - name: Sync Dependencies
+        run: uv sync --frozen
+
+      - name: Run Final Self-Audit & Audits
+        run: |
+          uv run python paper/final_self_audit.py
+          uv run python eval/geohash_audit.py
+          uv run python eval/prose_number_audit.py
+
+  zk-bench:
+    name: ZK Benchmarks (Manual Dispatch)
+    # Workflow dispatch only: canonical numbers benchmarked on local LOQ 15APH8 reference workstation
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: ZK Benchmark Notice
+        run: echo "Note: Official canonical paper numbers are benchmarked on local reference workstation (Lenovo LOQ 15APH8, AMD Ryzen 7 7840HS, 16 GB RAM)."
