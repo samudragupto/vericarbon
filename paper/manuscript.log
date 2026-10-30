@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.10.28)  30 OCT 2026 22:52
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.10.28)  30 OCT 2026 23:50
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -463,11 +463,6 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 44.
 (C:\Users\user\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-Underfull \hbox (badness 3049) in paragraph at lines 44--44
-[][]\T1/cmr/m/n/10 Corresponding au-thor. Email: TODO-AUTHOR-EMAIL. OR-CID: TOD
-O-
- []
-
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `\<def>-command' on input line 44.
@@ -1224,9 +1219,9 @@ ta/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/use
 r/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Us
 ers/user/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm
 10.pfb>
-Output written on manuscript.pdf (39 pages, 595697 bytes).
+Output written on manuscript.pdf (39 pages, 597214 bytes).
 PDF statistics:
- 1601 PDF objects out of 1728 (max. 8388607)
+ 1605 PDF objects out of 1728 (max. 8388607)
  159 named destinations out of 1000 (max. 500000)
  419 words of extra memory for PDF output out of 10000 (max. 10000000)
 

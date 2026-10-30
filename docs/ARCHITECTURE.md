@@ -78,11 +78,11 @@ sequenceDiagram
     MRV->>MRV: Compute 12 quantized features (NDVI, Red-Edge, LandCover)
     MRV->>MRV: Model inference: y_pred = 544.75 tCO2e (claimed: 544)
     MRV->>ZK: zk prove --bundle evidence.json
-    ZK->>ZK: Halo2 proof generation over BN254 curve (11.5s Laptop CPU)
+    ZK->>ZK: Halo2 proof generation over BN254 curve (0.56s Laptop CPU)
     ZK-->>ProjectDev: proof.json (hex_proof, instances: [modelHash, dataCommitment, 544])
-    ProjectDev->>IPFS: Upload evidence.json -> CID bafkreie2e...
+    ProjectDev->>IPFS: Upload evidence.json (CID: bafkreie2e...)
     ProjectDev->>Registry: registerProject(projectId, geoCommitment, evidenceCid)
-    Registry-->>Registry: Store project details; emit ProjectRegistered
+    Registry-->>Registry: Store project details and emit ProjectRegistered
     ProjectDev->>Registry: issue(projectId, geohash8, salt, vintage=2024, type=0, amount=544, dataCommitment, proof)
     Registry->>Registry: require(keccak256(geohash8, salt) == geoCommitment)
     Registry->>Verifier: verifyProof(proof, instances)

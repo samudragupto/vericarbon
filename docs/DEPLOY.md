@@ -112,3 +112,4 @@ The on-chain verification benchmarks and evaluation suites reported in the paper
 
 - The default circuit configuration (`num_trees = 4`, `tree_depth = 2`, `logrows = 13`) guarantees sub-second proving on a standard laptop CPU (`0.56 s`) and deployed bytecode within EVM Spurious Dragon limits (`18,007` bytes).
 - A commercial production deployment would require an MPC trusted-setup ceremony for SRS generation, real-time STAC API ingestion with coordinate reference system (CRS) validation, and decentralized Oracle signing of raster data.
+

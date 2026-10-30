@@ -228,9 +228,9 @@ def build():
 
 \\title{{VeriCarbon: Zero-Knowledge Verifiable Monitoring, Reporting, and Verification for Decentralized Carbon Registries}}
 
-\\author[inst1]{{TODO-AUTHOR-NAME\\corref{{cor1}}}}
-\\cortext[cor1]{{Corresponding author. Email: TODO-AUTHOR-EMAIL. ORCID: TODO-AUTHOR-ORCID}}
-\\affiliation[inst1]{{organization={{TODO-AUTHOR-AFFILIATION}}}}
+\\author[inst1]{{Arrhat Nag\\corref{{cor1}}}}
+\\cortext[cor1]{{Corresponding author. Email: arrhat.dsai24-1011@drmgrdu.ac.in. ORCID: 0009-0004-4328-0943}}
+\\affiliation[inst1]{{organization={{Department of Data Science}}}}
 
 \\begin{{abstract}}
 {ab_tex}

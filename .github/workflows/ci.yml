@@ -59,6 +59,9 @@ jobs:
     name: MRV Pipeline & Fixtures
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: services/mrv
     steps:
       - uses: actions/checkout@v4
 
@@ -69,10 +72,10 @@ jobs:
           enable-cache: true
 
       - name: Sync Python Dependencies
-        run: uv sync --frozen --all-groups
+        run: uv sync --frozen
 
       - name: Run MRV Pytest Suite
-        run: uv run --all-groups pytest services/mrv
+        run: uv run pytest
 
   web:
     name: Web Application Build
