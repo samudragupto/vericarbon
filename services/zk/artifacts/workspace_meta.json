@@ -1,0 +1,48 @@
+{
+  "ezkl_version": "23.0.5",
+  "circuit_meta": {
+    "onnx_path": "C:\\Users\\user\\Desktop\\vericarbon\\services\\zk\\artifacts\\circuit.onnx",
+    "num_features": 12,
+    "num_trees": 4,
+    "tree_depth": 2,
+    "model_hash_hex": "0x919078abe872c3cc8b7c95c635a303f9b510b5dcef8dc9763a98446f36439a5b",
+    "model_hash_scalar": 241.3359375,
+    "commitment_weights": [
+      0.125,
+      0.125,
+      0.125,
+      0.1875,
+      0.125,
+      0.25,
+      0.4375,
+      0.0625,
+      0.25,
+      0.25,
+      0.0625,
+      0.3125
+    ],
+    "quantization_scales": [
+      0.001,
+      0.001,
+      0.001,
+      0.001,
+      0.001,
+      0.001,
+      0.001,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "input_scale": 7,
+  "param_scale": 7,
+  "logrows": 13,
+  "setup_time_seconds": 0.8616,
+  "scaled_claim": 4.25,
+  "poseidon_feature_commitment": [
+    "04b6dcc8c1ea0ecfa16813d5c03383c936cdfb26bc9f9e1e9f9571006a730726"
+  ],
+  "verifier_sol_path": "C:\\Users\\user\\Desktop\\vericarbon\\packages\\contracts\\src\\verifiers\\Halo2Verifier.sol"
+}
