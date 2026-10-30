@@ -31,7 +31,8 @@ async function handleTrigger(request: Request): Promise<NextResponse> {
         process.env.BASE_SEPOLIA_RPC_URL ??
         process.env.NEXT_PUBLIC_BASE_SEPOLIA_RPC_URL,
       registryAddress: (overrides.registryAddress ??
-        process.env.NEXT_PUBLIC_CARBON_REGISTRY_ADDRESS) as Address | undefined,
+        process.env.NEXT_PUBLIC_CARBON_REGISTRY_ADDRESS ??
+        process.env.NEXT_PUBLIC_VERICARBON_REGISTRY_ADDRESS) as Address | undefined,
     });
 
     return NextResponse.json(SyncOnceResultSchema.parse(result), { status: 200 });

@@ -20,3 +20,4 @@ forge test --match-contract CarbonRegistryTest --gas-report > "$RESULTS_DIR/gas_
 
 echo "==> Gas snapshot written to $RESULTS_DIR/gas_snapshot.txt"
 echo "==> Gas report written to $RESULTS_DIR/gas_report.txt"
+

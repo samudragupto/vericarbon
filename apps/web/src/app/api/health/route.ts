@@ -53,6 +53,20 @@ export async function GET(): Promise<NextResponse> {
   }
   const sbLatencyMs = Math.max(0, Date.now() - sbStart);
 
+  // 1b. Keep-alive ping to Supabase Edge Function indexer runtime
+  try {
+    fetch(`${supabaseUrl}/functions/v1/indexer`, {
+      method: "OPTIONS",
+      headers: {
+        Authorization: `Bearer ${supabaseKey}`,
+        apikey: supabaseKey,
+      },
+      signal: AbortSignal.timeout(3000),
+    }).catch(() => {});
+  } catch {
+    // Non-blocking keep-alive ping
+  }
+
   // 2. Check Base Sepolia / Anvil RPC reachability
   const rpcStart = Date.now();
   let rpcReachable = false;

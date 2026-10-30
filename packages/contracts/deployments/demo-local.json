@@ -1,0 +1,7 @@
+{
+  "CarbonRegistry": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+  "Halo2Verifier": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+  "projectId": "0x6e0eaf552eddfefa068e285b39e0c5f0f4f30fedaef7025ab8f14a5a0c246c38",
+  "issuanceNullifier": "0x1771171cb8a995a5bd29c29aec168cb45e9fe04bcc5f168c93ace03f58fbcf98",
+  "claimNullifier": "0xb260c8ee813c537f1547019db16247ada27bb0aa2578767cfb054f688c1e4c52"
+}
