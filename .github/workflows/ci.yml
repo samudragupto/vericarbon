@@ -69,10 +69,10 @@ jobs:
           enable-cache: true
 
       - name: Sync Python Dependencies
-        run: uv sync --frozen
+        run: uv sync --frozen --all-groups
 
       - name: Run MRV Pytest Suite
-        run: uv run pytest services/mrv
+        run: uv run --all-groups pytest services/mrv
 
   web:
     name: Web Application Build
