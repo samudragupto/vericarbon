@@ -1,0 +1,14 @@
+\begin{table}[t]
+\centering
+\small
+\caption{End-to-end system latency and indexer ingestion lag across $N=20$ trials on Base Sepolia.}
+\label{tab:latency}
+\begin{tabular}{lccccc}
+\hline
+\textbf{Subsystem / Endpoint} & \textbf{Mean (ms)} & \textbf{Std ($\pm$ ms)} & \textbf{Median (ms)} & \textbf{p95 (ms)} & \textbf{Max (ms)} \\
+\hline
+\textbf{Public Base Sepolia RPC} & 525.91 & $\pm$38.4 & 516.03 & 595.14 & 625.79 \\
+\textbf{Indexer Ingestion Lag} & 15.82 & $\pm$5.1 & 15.48 & 31.57 & 58.76 \\
+\hline
+\end{tabular}
+\end{table}

@@ -23,7 +23,8 @@ This orchestrates the five modular benchmark scripts with fixed deterministic se
 ## Appendix B: Extended Security Traces & Formal Lemma 1 Proof
 
 ### B.1 Complete Proof of Lemma 1 (Cross-Registry Unicity)
-Let $\mathcal{H}: \{0,1\}^* \rightarrow \{0,1\}^{256}$ denote Keccak-256, assumed $(t, \epsilon)$-collision resistant. Let $\mathbb{S}$ denote the persistent key-value state of `CarbonRegistry.sol`.
+
+*Proof.* Let $\mathcal{H}: \{0,1\}^* \rightarrow \{0,1\}^{256}$ denote Keccak-256, assumed $(t, \epsilon)$-collision resistant. Let $\mathbb{S}$ denote the persistent key-value state of `CarbonRegistry.sol`.
 Let $T_1 = \text{issue}(P_1, g_1, s_1, v_1, \tau_1, m_1, D_1, \pi_1)$ be a valid issuance transaction mined at block height $h_1$. 
 Execution sets:
 $$\mathbb{S}[\text{issuanceNullifierSpent}][\mathcal{H}(g_1, v_1, \tau_1)] \leftarrow \text{true}$$

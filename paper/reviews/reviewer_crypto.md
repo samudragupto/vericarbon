@@ -41,3 +41,4 @@ The security suite evaluates seven canonical fraud vectors (A1–A7) and demonst
 
 4. **Minor 4 (Formal Invariant Definition):**  
    In Section 6.3, explicitly cite the Foundry invariant test signatures (`invariant_NoClaimNullifierRecordedTwice` and `invariant_TotalRetiredNeverExceedsTotalIssued`) to tie the formal lemmas directly to the automated test harness.
+

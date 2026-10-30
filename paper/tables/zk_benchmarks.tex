@@ -1,0 +1,22 @@
+\begin{table*}[t]
+\centering
+\small
+\caption{Zero-Knowledge Verifiable MRV Circuit Benchmarks (\texttt{ezkl} Halo2 / KZG, $\text{logrows} = 13$, on commodity laptop CPU).}
+\label{tab:zk_benchmarks}
+\begin{tabular}{ccccccccc}
+\hline
+\textbf{Features ($F$)} & \textbf{Trees ($T$)} & \textbf{Depth ($D$)} & \textbf{$\text{logrows}$} & \textbf{Setup (s)} & \textbf{Proving (s)} & \textbf{Verify (ms)} & \textbf{Proof (B)} & \textbf{EVM Gas} \\
+\hline
+8 & 2 & 2 & 13 & 0.6858 & 0.6322 & 10.56 & 4,032 & 640,889 \\
+8 & 4 & 2 & 13 & 0.7519 & 0.7651 & 11.50 & 4,032 & 642,789 \\
+8 & 8 & 2 & 13 & 0.8254 & 0.7336 & 12.31 & 4,032 & 646,589 \\
+12 \textit{(canonical)} & 4 & 2 & 13 & 0.7250 & 0.5504 & 10.84 & 4,032 & 643,269 \\
+16 & 2 & 2 & 13 & 0.7767 & 0.5215 & 9.98 & 4,032 & 641,849 \\
+16 & 4 & 2 & 13 & 0.7109 & 0.6183 & 11.85 & 4,032 & 643,749 \\
+16 & 8 & 2 & 13 & 0.7738 & 0.6767 & 10.73 & 4,032 & 647,549 \\
+32 & 2 & 2 & 13 & 0.8488 & 0.7172 & 13.84 & 4,032 & 643,769 \\
+32 & 4 & 2 & 13 & 0.8970 & 0.6684 & 10.52 & 4,032 & 645,669 \\
+32 & 8 & 2 & 13 & 0.8123 & 0.7031 & 9.50 & 4,032 & 649,469 \\
+\hline
+\end{tabular}
+\end{table*}

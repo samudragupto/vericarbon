@@ -46,3 +46,4 @@ This document maps all 24 review comments from Reviewer 1 (Systems), Reviewer 2 
 | **R3-Min-2** | Minor | Optical cloud occlusion and SAR fusion (Sentinel-1). | **Implemented in §7.2:** Added discussion of C-band synthetic aperture radar (Sentinel-1) fusion to penetrate persistent tropical cloud cover. |
 | **R3-Min-3** | Minor | Unit nomenclature consistency. | **Implemented across §4.7, §5.1, §6.1:** Strictly differentiated biomass density ($\text{Mg}/\text{ha}$) from carbon credits ($1\,\text{credit} = 1\,\text{tCO}_2\text{e}$). |
 | **R3-Min-4** | Minor | Baseline comparison caption in Table 1. | **Implemented in `paper/tables/related_work_matrix.md`:** Clarified that prior decentralized registries operate exclusively as token bridges without computational verification. |
+

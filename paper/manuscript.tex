@@ -1,0 +1,475 @@
+\documentclass[preprint,12pt]{elsarticle}
+
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage{tabularx}
+\usepackage{enumitem}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue!70!black,
+    citecolor=blue!70!black,
+    urlcolor=blue!70!black
+}
+
+\journal{Future Generation Computer Systems}
+
+\newtheorem{definition}{Definition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{assumption}{Assumption}
+
+\begin{document}
+
+\begin{frontmatter}
+
+\title{VeriCarbon: Zero-Knowledge Verifiable Monitoring, Reporting, and Verification for Decentralized Carbon Registries}
+
+\author{Anonymous Authors}
+
+\begin{abstract}
+Voluntary carbon markets suffer from a profound credibility deficit caused by opaque baseline calculations and uncoordinated cross-registry double-issuance. Existing digital Monitoring, Reporting, and Verification (dMRV) systems rely on trusted cloud infrastructure, while blockchain registries simply tokenize unverified legacy paper certificates. We present VeriCarbon, a decentralized, zero-knowledge verifiable MRV architecture combining spaceborne remote sensing with on-chain global nullifier sets on Ethereum Layer 2 rollups. VeriCarbon compiles quantized gradient-boosted decision trees into Halo2/KZG SNARKs over the BN254 curve, proving that minted credits are bounded by satellite imagery without disclosing private land boundaries. Proving completes on a laptop CPU in 0.5504 s [C-04] with an invariant 4,032-byte proof [C-06]. On Base Sepolia, end-to-end issuance consumes 873,164 gas [C-09] (\$0.0119 at modeled rates [C-10]), dominated by in-circuit verification (643,269 gas [C-08]). Through formalization of Amendment A0, VeriCarbon derives salt-independent, registry-independent issuance nullifiers that provably guarantee parcel unicity. In adversarial testing across 9 security fraud scenarios [C-15], VeriCarbon intercepts all double-issuance and inflation attacks, whereas a conventional centralized baseline registry permits duplicate minting of 1,088 credits [C-16]. VeriCarbon demonstrates that cryptographically verifiable ecological accounting is practically achievable at negligible transaction cost.
+\end{abstract}
+
+\begin{keyword}
+Zero-Knowledge Proofs \sep Verifiable Machine Learning \sep Carbon Markets \sep Digital MRV \sep Blockchain Nullifiers \sep Layer 2 Rollups
+\end{keyword}
+
+\end{frontmatter}
+
+\section{Introduction}
+
+\subsection{The Voluntary Carbon Market Credibility Deficit}
+
+Voluntary and compliance carbon credit markets represent a cornerstone of global decarbonization policy, yet they currently face an existential credibility deficit driven by systematic over-crediting, counterfactual baseline manipulation, and opaque verification intermediaries. In forestry and land-use carbon markets—predominantly structured under Reduced Emissions from Deforestation and Forest Degradation (REDD+) frameworks—third-party auditors evaluate developer claims through manual, retrospective field surveys and unstandardized allometric models. Recent large-scale empirical investigations have exposed systemic inflation across major accreditation standards: peer-reviewed evaluations by West et al. \cite{west2020overstated,west2023action} and Guizar-Couti{\~n}o et al. \cite{guizar2022evaluation} demonstrated that over 90\% of examined tropical forest offset credits failed to correspond to genuine, additional biomass preservation. Investigative audits across prominent voluntary registries similarly revealed that project baselines routinely extrapolate aggressive counterfactual deforestation trajectories, allowing developers to generate and sell millions of offset certificates backed by phantom ecological preservation \cite{greenfield2023revealed}. In parallel, state-level offset frameworks have exhibited substantial leakage; Badgley et al. \cite{badgley2022systematic} established that ecological over-crediting in California's forest offsets program exceeded tens of millions of metric tons of carbon dioxide equivalent ($\text{tCO}_2\text{e}$), resulting in unmitigated corporate greenhouse gas emissions under the legal guise of environmental compliance.
+
+\subsection{The Cross-Registry Double-Counting Failure Mode}
+
+Beyond econometric baseline manipulation, the structural fragmentation of the carbon accounting ecosystem introduces a critical failure mode: cross-registry duplicate issuance and uncoordinated double-claiming. Modern carbon accounting relies on sovereign and private standards bodies—such as Verra, Gold Standard, the American Carbon Registry, and emerging national registries—operating isolated, proprietary databases without shared transaction ledgers or cryptographic state synchronization. Because registries do not maintain cross-border computational interoperability, a project developer or fraudulent intermediary can submit the same physical forest polygon to multiple registries simultaneously. In the absence of an open, global deduplication protocol, competing registries certify and mint distinct batches of credits for the exact same trees and vintage year. In our empirical baseline evaluation of this failure mode, two competing registries issued duplicate credits over the identical spatial parcel and vintage, generating 1,088 credits [C-16, baseline\_double\_issuance\_receipt.json] from an underlying biophysical plot supporting only 544 $\text{tCO}_2\text{e}$ of sequestered biomass. Similarly, on the demand side, corporate offset buyers routinely retire the same underlying offset certificates across multiple environmental, social, and governance (ESG) reporting jurisdictions or voluntary registries, executing untraceable retirement replays due to fragmented disclosure standards \cite{worldbank2022warehouse}.
+
+\subsection{Structural Limitations of Prior Digital MRV and Blockchain Proposals}
+
+To resolve manual auditing bottlenecks, digital Monitoring, Reporting, and Verification (dMRV) initiatives have sought to operationalize spaceborne remote sensing, incorporating multispectral imagery from satellite constellations such as Sentinel-2 and Landsat \cite{drusch2012sentinel}. However, existing dMRV platforms remain structurally bound to centralized trust assumptions: remote sensing analytics are computed inside closed cloud infrastructure by proprietary commercial entities, producing passive reports that are subsequently ingested by registries without independent computational verifiability. Concurrently, the Web3 ecosystem attempted to address registry opacity by introducing permissionless tokenization bridges, notably Toucan Protocol \cite{toucan2022protocol} and KlimaDAO \cite{klimadao2022algorithmic}. While these decentralized protocols demonstrated high secondary market liquidity, they introduced catastrophic market failures: rather than verifying ecological integrity on-chain, they simply wrapped dormant, low-quality legacy paper certificates into ERC-20 tokens, accelerating the monetization of unverified offsets \cite{franke2022operationalizing,mohan2023blockchain}. As summarized in our architectural comparison (Table 1), no operational system combines verifiable execution of remote sensing inference models with cross-registry spatial deduplication.
+
+\subsection{The VeriCarbon Paradigm: ZK-SNARKs and Global Nullifiers}
+
+To resolve these interconnected challenges, this paper presents VeriCarbon, a decentralized, zero-knowledge verifiable MRV architecture that cryptographically unifies remote sensing machine learning models with on-chain global nullifier sets on Ethereum Layer 2 rollups. VeriCarbon operates on a principled separation of concerns: spaceborne multispectral observations (Sentinel-2 L2A optical and red-edge bands) and land-cover rasters (ESA WorldCover) are processed off-chain through a deterministic feature pipeline, where a quantized gradient-boosted decision tree regressor computes Aboveground Biomass (AGB) density and converts biomass to $\text{tCO}_2\text{e}$ via standard IPCC stoichiometric ratios. Crucially, the mathematical execution of this inference pipeline is proven in zero knowledge using Halo2/KZG SNARKs via the \texttt{ezkl} proving system \cite{ezkl2023engine,bowe2020halo}. By verifying that claimed credits do not exceed model predictions ($amount \le f_{model}(X)$) inside a cryptographic circuit, VeriCarbon allows project developers to prove computational correctness on a commodity laptop CPU in 0.5504 s [C-04, zk\_benchmarks.json] with an EVM verification cost of 643,269 gas [C-08, zk\_benchmarks.json], entirely without publishing raw imagery, sensitive geographic boundaries, or proprietary allometric coefficients on-chain.
+
+\subsection{Core Contributions and Discovery of Amendment A0}
+
+The primary contributions of this paper are fourfold, mapping directly to research questions RQ1–RQ4:
+\begin{enumerate}
+\item \textbf{Verifiable Machine Learning MRV (RQ1):} We design, train, and prove a compact, quantized gradient-boosted decision tree ensemble compiled into an arithmetic Halo2 circuit over the BN254 elliptic curve, certifying that minted carbon credits are arithmetically bounded by spaceborne observations without disclosing private landholder boundaries, achieving a proving time of 0.5504 s on a commodity laptop CPU (evaluated in \texttt{eval/results/zk\_benchmarks.json} [C-04]).
+\item \textbf{Cryptographic Parcel Unicity and Byzantine Fraud Interception (RQ2):} We identify a critical security vulnerability in initial spatial commitment designs—termed the \textit{salt-dodge attack}—wherein an adversary registers the same land parcel with differing blinding salts to circumvent deduplication. We formulate and prove Amendment A0, establishing a salt-independent, registry-independent global issuance nullifier ($\text{issuanceNullifier} := \text{keccak256}(\text{geohash8} \parallel \text{vintageYear} \parallel \text{creditType})$) that provably prevents duplicate issuance across participating registries and intercepts all 9 evaluated adversarial attack vectors (evaluated in \texttt{eval/results/fraud\_results.json} [C-15]).
+\item \textbf{Layer 2 Scalability and Economic Viability (RQ3):} We implement an end-to-end Solidity registry and event indexing architecture on Ethereum Layer 2 rollups (Base Sepolia), where full credit issuance requires 873,164 gas [C-09] (\$0.0119 at modeled rates [C-10]), achieving a 4,585-fold cost reduction relative to Ethereum L1 with sub-second event synchronization latency (evaluated in \texttt{eval/results/gas\_costs.json} and \texttt{eval/results/latency.json}).
+\item \textbf{Verifiable Privacy-Auditability Trade-Off (RQ4):} We design a dual-commitment mechanism that unifies off-chain IPFS evidence bundles (storing full-resolution STAC scene digests and SHA-256 telemetry) with in-circuit Poseidon hash constraints, allowing landholders to preserve spatial and commercial privacy while guaranteeing strict public computational auditability (evaluated in \texttt{eval/results/manifest.json} and \texttt{eval/results/fraud\_results.json}).
+\end{enumerate}
+
+\subsection{Manuscript Organization}
+
+The remainder of this manuscript is organized as follows: Section 2 reviews related work in spaceborne remote sensing, voluntary carbon accounting, and zero-knowledge machine learning; Section 3 establishes the formal system architecture and Byzantine threat model; Section 4 details the mathematical design of VeriCarbon, formalizes Definitions 1–3, and proves Lemma 1 (Cross-Registry Unicity); Section 5 outlines monorepo implementation details; Section 6 presents empirical evaluation across four research questions (RQ1–RQ4); Section 7 discusses architectural limitations and trust boundaries; and Section 8 concludes with a roadmap for future decentralized ecological accounting.
+
+
+\section{Background \& Related Work}
+
+\subsection{Spaceborne Remote Sensing \& Machine Learning for Forest Biomass}
+
+Spaceborne Earth observation has emerged as an indispensable foundation for transparent, continuous ecological monitoring. Over the past decade, satellite constellations offering high-frequency multispectral observations—exemplified by the European Space Agency's (ESA) Sentinel-2 constellation \cite{drusch2012sentinel}, comprising twin satellites Sentinel-2A and Sentinel-2B delivering a 5-day equatorial revisit frequency—have transformed vegetative index tracking. By measuring reflectance across visible, near-infrared (NIR), and red-edge spectral bands at 10-meter and 20-meter spatial resolutions, optical remote sensing facilitates the computation of sophisticated vegetative indices, including the Normalized Difference Vegetation Index (NDVI), Normalized Difference Red Edge (NDRE), Red-Edge Chlorophyll Index (RECI), and Inverted Red-Edge Chlorophyll Index (IRECI). In parallel, global land-cover classification products, notably the ESA WorldCover 10-meter global map \cite{zanaga2021esa}, provide critical discrete stratification across tree cover, shrubland, grassland, cropland, and wetland biomes.
+
+To translate multispectral reflectance signatures into quantitative Aboveground Biomass (AGB) density (expressed in metric tons of dry matter per hectare, $\text{Mg}/\text{ha}$), contemporary remote sensing workflows pair optical time-series with spaceborne LiDAR calibration datasets. NASA's Global Ecosystem Dynamics Investigation (GEDI), mounted on the International Space Station, employs high-resolution waveform LiDAR to measure three-dimensional canopy height profiles across temperate and tropical biomes \cite{dubayah2020global,duncanson2022aboveground}. Integrating GEDI footprint canopy metrics with seasonal Sentinel-2 optical bands allows non-parametric machine learning regressors—such as Random Forests and Histogram-based Gradient Boosting Ensembles—to model non-linear vegetation phenology and canopy density across regional scales \cite{lang2023high,santoro2021global}. 
+
+Once aboveground biomass density is predicted across a target spatial plot, standard ecological accounting standards apply allometric expansion factors and stoichiometric constants—specifically the Intergovernmental Panel on Climate Change (IPCC) carbon fraction constant ($CF \approx 0.47$) and molecular mass conversion ratio ($44/12$)—to convert dry biomass into net metric tons of carbon dioxide equivalent ($\text{tCO}_2\text{e}$). However, in operational voluntary markets, these algorithmic pipelines are executed inside opaque corporate servers. Project developers submit static summary reports to certification auditors, creating a structural trust vacuum where training datasets, hyperparameter configurations, and feature weightings cannot be independently audited or computationally verified by market participants. Arbitrary tuning of allometric parameters or feature clipping can systematically inflate credit issuance without detection.
+
+\subsection{Blockchain Carbon Registries and Web3 Offsetting Failures}
+
+The integration of distributed ledger technology with voluntary carbon markets was initially proposed to dismantle liquidity silos and establish transparent, decentralized registries. Beginning in 2021, permissionless tokenization bridges, spearheaded by Toucan Protocol \cite{toucan2022protocol} and KlimaDAO \cite{klimadao2022algorithmic}, introduced infrastructure to tokenize legacy paper certificates into ERC-20 tokens on Ethereum-compatible blockchains. Toucan's Base Carbon Tonne (BCT) bridged tens of millions of offsets from centralized standard bodies into decentralized automated market makers (AMMs), creating instant liquidity and transparent secondary market pricing. 
+
+However, post-hoc empirical evaluations revealed that permissionless token bridges exacerbated existing market distortions \cite{franke2022operationalizing,mohan2023blockchain}. Because token bridges decoupled token minting from continuing ecological monitoring, rational market actors engaged in regulatory arbitrage: developers bridged dormant, decades-old, or ecologically questionable credits—often originating from non-additional renewable energy projects or abandoned forestry tracts—into active on-chain liquidity pools. Furthermore, while smart contracts enforced basic token balance conservation, they inherited the foundational failure of the underlying centralized registries: cross-registry isolation. Because traditional standards bodies (e.g., Verra, Gold Standard) do not share state with sovereign or decentralized ledgers, token bridges could not prevent off-chain double-pledging. 
+
+A natural question arises: \textit{Could an international registry consortium simply deploy a shared, centralized relational database enforcing unique spatial constraints, such as \texttt{UNIQUE(geohash8, vintage\_year, credit\_type)}?} In practice, this centralized architecture fails due to geopolitical sovereignty barriers and adversarial incentives. Sovereign nations and competing commercial standards bodies operate under mutually distrusting legal jurisdictions, refusing to grant a single external entity root administrative custody over global carbon titling. Centralized databases permit unilateral history mutation, retroactive administrative overrides, and private record censorship without cryptographic non-repudiation. In our baseline registry benchmarks, two independent registry operators successfully issued 1,088 duplicate credits [C-16, baseline\_double\_issuance\_receipt.json] over the exact same physical parcel and vintage year, highlighting that simple ERC-20 tokenization and isolated databases cannot establish cryptographic supply integrity without trustless state-transition proofs.
+
+\subsection{Zero-Knowledge Cryptography and Verifiable Machine Learning (ZKML)}
+
+Zero-knowledge succinct non-interactive arguments of knowledge (ZK-SNARKs) provide a mathematical framework allowing a prover to convince a verifier that a computational statement is true without disclosing auxiliary private inputs. Modern general-purpose proving systems, such as PLONK and Halo2 \cite{bowe2020halo}, represent computational graphs as arithmetic constraint systems over large prime-order scalar fields (e.g., the BN254 elliptic curve). Through Kate-Zaverucha-Goldberg (KZG) polynomial commitment schemes \cite{kate2010polynomial,groth2016size}, a prover demonstrates polynomial evaluation identities in succinct, constant-size proofs that can be verified on-chain at predictable EVM execution gas costs.
+
+Verifiable machine learning (ZKML) extends zero-knowledge proving systems to algorithmic inference \cite{kang2022scaling,zhang2020zero}. By arithmetizing floating-point neural networks or decision trees into quantized fixed-point integer representations, ZKML compilers—notably \texttt{ezkl} \cite{ezkl2023engine}—generate arithmetic circuits that prove inference execution ($y = f(x)$) without revealing private weights or input feature vectors. Specialized cryptographic primitives, such as the algebraic Poseidon hash function \cite{grassi2021poseidon}, enable highly efficient in-circuit commitments over field elements, avoiding the severe circuit-row overhead of bitwise primitives like SHA-256. Prior ZKML literature has demonstrated privacy-preserving medical classification and verifiable financial credit scoring \cite{liu2021zkcnn,weng2021mystique}; however, operationalizing ZKML within geospatial remote sensing and decentralized resource markets remains fundamentally unexplored.
+
+\subsection{Gap Analysis and Comparison Matrix}
+
+As shown in our comparative evaluation (Table 1), an acute architectural void persists between operational carbon platforms and verifiable computing frameworks. Existing decentralized carbon systems—including Toucan, KlimaDAO, Flowcarbon, Regen Network, and Open Forest Protocol—lack in-circuit machine learning capabilities, relying instead on passive paper certificates, custodial custodians, or centralized validator committees. Conversely, academic dMRV and ZK-credit proposals \cite{franke2022operationalizing,mohan2023blockchain} focus either on linear energy accounting or trusted hardware oracles (e.g., TLS-Notary), omitting spaceborne remote sensing integration and leaving the critical cross-registry double-issuance vulnerability unresolved. VeriCarbon closes this gap by combining Halo2-proven gradient-boosted regression trees with global, salt-independent nullifier sets, thwarting all 9 evaluated fraud attack vectors [C-15, fraud\_results.json] on-chain.
+
+\input{tables/related_work_matrix.tex}
+
+
+\section{System \& Threat Model}
+
+\subsection{Network Participants and Protocol Roles}
+
+The VeriCarbon protocol operates as a decentralized, multi-registry coordination layer on top of an Ethereum Layer 2 rollup (Base Sepolia), orchestrating interactions among five distinct participant classes:
+\begin{enumerate}
+\item \textbf{Project Developers ($\mathcal{D}$):} Land stewards, conservation organizations, or commercial forestry managers who manage physical land parcels, ingest spaceborne satellite observations, generate zero-knowledge Halo2 proofs of biomass inference, and submit credit issuance requests.
+\item \textbf{Independent MRV Auditors ($\mathcal{A}$):} Third-party scientific entities and environmental researchers who inspect off-chain evidence bundles pinned to IPFS, audit model training architectures, and verify public cryptographic commitments without requiring physical parcel access.
+\item \textbf{Competing Registry Operators ($\mathcal{R}$):} Sovereign standards bodies, compliance administrators, or voluntary registry organizations holding the \texttt{REGISTRY\_ROLE} permission in the on-chain registry contract. Registries authenticate project developers, verify eligibility under specific legal regimes, and sign on-chain registration and issuance transactions.
+\item \textbf{Protocol Governance ($\mathcal{G}$):} Multi-signature consortium governance holding \texttt{DEFAULT\_ADMIN\_ROLE}, responsible for granting registry permissions and establishing an immutable whitelist of approved machine learning model hashes (\texttt{modelHash}). This whitelisting prevents a rogue or collusive registry from submitting proofs evaluated over an adversarial, self-trained model with inflated weights.
+\item \textbf{Off-Chain Synchronization Indexers ($\mathcal{I}$):} Automated indexing nodes (implemented via Supabase and edge runtime daemons) that continuously ingest on-chain log events (\texttt{ProjectRegistered}, \texttt{Issued}, \texttt{Claimed}), maintain idempotent state caches, and serve low-latency spatial and token queries.
+\item \textbf{Credit Claimants and Retirers ($\mathcal{C}$):} Commercial enterprises, corporate buyers, or individuals who purchase minted credit tokens and permanently retire them against verified greenhouse gas emissions liabilities.
+\end{enumerate}
+
+\subsection{Formal Cryptographic Assumptions}
+
+The security, soundness, and unicity guarantees of VeriCarbon rest upon four standard cryptographic hardness assumptions:
+\begin{itemize}
+\item \textbf{Assumption 1 (Collision Resistance of Hash Functions):} Let $\mathcal{H}_{\text{keccak}}: \{0,1\}^* \rightarrow \{0,1\}^{256}$ denote the Keccak-256 cryptographic hash function, and let $\mathcal{H}_{\text{poseidon}}: \mathbb{F}_p^k \rightarrow \mathbb{F}_p$ denote the algebraic Poseidon hash function over the scalar field $\mathbb{F}_p$ of the BN254 elliptic curve. For any probabilistic polynomial-time (PPT) adversary $\mathcal{B}$, the probability of finding distinct preimages $x_1 \neq x_2$ such that $\mathcal{H}(x_1) = \mathcal{H}(x_2)$ is negligible in the security parameter $\lambda$.
+\item \textbf{Assumption 2 (Knowledge Soundness of the Halo2 Proving System):} The \texttt{ezkl} Halo2 proving system satisfies computational zero-knowledge and knowledge soundness under the Kate-Zaverucha-Goldberg (KZG) polynomial commitment scheme \cite{kate2010polynomial,groth2016size} over the pairing-friendly BN254 curve ($\mathbb{G}_1, \mathbb{G}_2, \mathbb{G}_T, e, p$). For any PPT adversary $\mathcal{B}$ that outputs a valid proof $\pi$ satisfying the pairing verification equation $e(\cdot, \cdot) = e(\cdot, \cdot)$ for public instances $[modelHash, dataCommitment, amount]$, there exists an efficient witness extractor that extracts a valid private input $X$ such that $amount \le f_{model}(X)$ and $\mathcal{H}_{\text{poseidon}}(X) = dataCommitment$.
+\item \textbf{Assumption 3 (Tamper-Evident Decentralized Storage):} The InterPlanetary File System (IPFS) provides content-addressed immutability. An evidence bundle identified by Content Identifier $\text{CID} = \text{SHA-256}(bundle)$ cannot be altered without modifying the published CID.
+\item \textbf{Assumption 4 (L2 Consensus and State Machine Integrity):} The underlying Base Sepolia Layer 2 execution environment enforces deterministic state transitions, prevents double-spending of ERC-1155 tokens, and guarantees transaction ordering under standard optimistic rollup security properties.
+\end{itemize}
+
+\subsection{Byzantine Adversary Capabilities}
+
+We consider an active Byzantine adversary $\mathcal{M}$ whose objective is to extract illegitimate economic rents, duplicate offset claims, or inflate credit allocations. The adversary $\mathcal{M}$ possesses the following capabilities:
+\begin{itemize}
+\item \textbf{Registry Collusion and Key Compromise:} The adversary may compromise, control, or collude with one or more authorized registry operators holding \texttt{REGISTRY\_ROLE} permissions. This models competing offshore registries that operate under lax oversight or actively facilitate over-issuance.
+\item \textbf{Off-Chain Data Manipulation:} $\mathcal{M}$ may arbitrarily manipulate uncommitted off-chain satellite rasters, submit fabricated evidence bundles to IPFS, or attempt to alter local machine learning models prior to zero-knowledge proof generation.
+\item \textbf{Spatial Commitment Tampering:} $\mathcal{M}$ may attempt to register overlapping or identical physical forest plots under multiple distinct project identifiers, alter blinding salts, or perturb coordinate precision to evade nullification.
+\item \textbf{Retirement Replay Attacks:} $\mathcal{C}$ may attempt to execute duplicate Scope 1 corporate offset claims by submitting the same retirement proof across multiple ESG jurisdictions or re-executing on-chain retirement transactions.
+\end{itemize}
+
+\subsection{Cryptographically Enforced Security Guarantees}
+
+Under the stated assumptions and Byzantine capabilities, VeriCarbon enforces four immutable on-chain guarantees across all 9 evaluated fraud attack scenarios [C-15, fraud\_results.json]:
+\begin{enumerate}
+\item \textbf{Mathematical In-Circuit Bound (Over-Crediting Defense):} A collusive registry cannot issue credit quantities exceeding the physical inference output of the verified remote sensing model. The on-chain \texttt{Halo2Verifier.sol} asserts the in-circuit constraint $amount \le f_{model}(X)$ via pairing cryptography.
+\item \textbf{Global Geospatial Unicity (Cross-Registry Double-Issuance Defense):} Competing registries cannot issue credits for the same physical parcel, vintage year, and credit type. Because the issuance nullifier is globally shared across all registries on Base Sepolia, any subsequent issuance attempt triggers an atomic EVM revert (\texttt{IssuanceNullifierAlreadySpent}).
+\item \textbf{Salt-Dodge Invariance (Amendment A0):} An adversary cannot circumvent spatial nullification by generating a new blinding salt for a previously credited land parcel. The contract enforces that the issuance nullifier depends directly on the canonical spatial cell (\texttt{geohash8}), ensuring that salt manipulation attempts revert on-chain.
+\item \textbf{Single-Claim Retirement Nullification (Double-Claim Defense):} Retired carbon credits cannot be claimed multiple times. The contract atomically burns the underlying ERC-1155 batch tokens and records a unique \texttt{claimNullifier}, guaranteeing that replay attempts revert (\texttt{ClaimNullifierAlreadySpent}).
+\end{enumerate}
+
+\subsection{System Non-Guarantees and Trust Boundaries}
+
+To ensure academic transparency and adhere strictly to protocol design boundaries, we explicitly define what VeriCarbon does \textbf{NOT} defend against:
+\begin{itemize}
+\item \textbf{Physical-Layer Satellite Telemetry Spoofing:} VeriCarbon proves that a machine learning model was correctly executed over a specific input tensor $X$. If an adversary compromises upstream satellite downlinks, injects synthesized spectral bands into Planetary Computer STAC feeds, or physically manipulates forest canopies prior to orbital passes, the zero-knowledge circuit will faithfully prove computation over corrupted data ("Garbage In, Garbage Out").
+\item \textbf{Sub-Cell Boundary Discrepancies:} Spatial nullification operates at \texttt{geohash8} cell precision (~38.2m × ~19.1m). An adversary who establishes overlapping polygons that fall into adjacent discrete geohashes without intersecting committed centroids will not trigger nullifier collisions. Eliminating sub-cell boundary sliver attacks requires complete polygon intersection circuits in zero knowledge.
+\item \textbf{Ecological Distribution Shift \& Epistemic Limits:} The decision tree ensemble trained on localized Amazonian forest canopies (Tapajós National Forest) possesses localized ecological validity. Evaluating the model over boreal forests or mangrove biomes produces scientifically invalid biomass estimates, even though the zero-knowledge proof verifies arithmetic correctness.
+\item \textbf{Bilateral Off-Chain Misrepresentation:} While VeriCarbon guarantees that on-chain token batches cannot be double-retired, an unscrupulous corporation could present forged off-chain PDF certificates to naive ESG auditors who fail to verify public nullifier state on the Base Sepolia ledger.
+\end{itemize}
+
+
+\section{VeriCarbon Design}
+
+\subsection{Layered Architectural Decomposition}
+
+VeriCarbon resolves the computational dichotomy between high-dimensional Earth observation analytics and decentralized consensus through a three-tier architecture:
+\begin{enumerate}
+\item \textbf{Tier 1 (Off-Chain Remote Sensing Ingestion):} Ingests spaceborne multispectral reflectance rasters (Sentinel-2 L2A optical and red-edge bands) and categorical land-cover tiles (ESA WorldCover), extracting quantized feature vectors across spatial blocks while preserving raw raster privacy.
+\item \textbf{Tier 2 (Client-Side Zero-Knowledge Proving Engine):} Compiles an integer-quantized decision tree regressor into an arithmetic Halo2 circuit via \texttt{ezkl}. A developer generates a succinct proof asserting that claimed credits are bounded by model inference ($amount \le f_{model}(X)$).
+\item \textbf{Tier 3 (On-Chain Settlement \& Nullifier Layer):} Deployed as modular smart contracts on Base Sepolia (\texttt{Halo2Verifier.sol}, \texttt{CarbonRegistry.sol}). The registry executes pairing checks, enforces salt-independent geospatial unicity nullifiers across competing registries, mints ERC-1155 tokens, and records non-fungible retirement claim nullifiers.
+\end{enumerate}
+
+\subsection{Definition 1: Geospatial Commitment \& Landholder Privacy}
+
+To protect commercial landholder confidentiality prior to formal credit issuance—preventing predatory land speculation or unauthorized timber reconnaissance—project developers register parcels using a cryptographic commitment:
+
+\begin{quote}
+\textbf{Definition 1 (Geospatial Commitment).} Let $g \in \Sigma^8$ denote a canonical 8-character base-32 geohash string ($\text{geohash8}$, corresponding to an approximately $38.2\,\text{m} \times 19.1\,\text{m}$ bounding box centroid), and let $s \in \{0,1\}^{256}$ denote a cryptographically secure, client-generated 32-byte blinding salt. The geospatial commitment $\mathcal{C}_{\text{geo}} \in \{0,1\}^{256}$ is defined as:
+$$\mathcal{C}_{\text{geo}} := \mathcal{H}_{\text{keccak}}(\text{abi.encode}(g, s))$$
+where $\text{abi.encode}$ denotes standard Solidity serialization with strict 32-byte word padding, preventing length-extension collisions inherent to non-padded concatenation (\texttt{abi.encodePacked}).
+\end{quote}
+
+During project onboarding, the registry operator invokes \texttt{registerProject(projectId, geoCommitment, evidenceCid)}, recording $\mathcal{C}_{\text{geo}}$ alongside an IPFS content identifier $\text{CID}$ containing the signed project documentation. Crucially, Definition 1 provides \textbf{pre-issuance speculative privacy}: the blinding salt $s$ hides the precise physical location and boundaries during early project development, preventing hostile land speculation or predatory logging. At formal credit issuance, the landholder selectively discloses $g$ and $s$ to the settlement layer to enforce public parcel unicity.
+
+\subsection{Definition 2: Salt-Independent Global Issuance Nullifier (Amendment A0)}
+
+When credits are formally issued, the protocol must guarantee that no duplicate credits can be minted against the same parcel, vintage, and credit type, regardless of which registry processes the transaction:
+
+\begin{quote}
+\textbf{Definition 2 (Global Issuance Nullifier).} Let $g \in \Sigma^8$ be the committed parcel geohash8, let $v \in [2000, Y_{\text{current}}]$ be a 16-bit integer denoting the Gregorian calendar vintage year, and let $\tau \in \{\text{REMOVAL}, \text{REDUCTION}\}$ be the credit type enumeration ($\text{REMOVAL} = 0, \text{REDUCTION} = 1$). The global issuance nullifier $\mathcal{N}_{\text{iss}} \in \{0,1\}^{256}$ is defined as:
+$$\mathcal{N}_{\text{iss}} := \mathcal{H}_{\text{keccak}}(\text{abi.encode}(g, v, \tau))$$
+\end{quote}
+
+Crucially, under Amendment A0, the issuance nullifier $\mathcal{N}_{\text{iss}}$ deliberately \textbf{omits} the blinding salt $s$, the local \texttt{projectId}, and the calling registry address \texttt{msg.sender}. The contract asserts that:
+$$\mathcal{H}_{\text{keccak}}(\text{abi.encode}(g, s)) = \text{projects}[projectId].geoCommitment$$
+and subsequently checks:
+$$\text{require}(!\text{issuanceNullifierSpent}[\mathcal{N}_{\text{iss}}], \text{IssuanceNullifierAlreadySpent})$$
+Once verified, $\text{issuanceNullifierSpent}[\mathcal{N}_{\text{iss}}]$ is set to \texttt{true}, permanently closing the spatial-temporal window for that parcel across all participating registries on the network. The privacy provided by $s$ at registration transitions into public spatial unicity at issuance.
+
+\subsection{The Salt-Dodge Vulnerability Narrative (Hole A \& Hole B Discovery)}
+
+The formulation of Definition 2 is a direct consequence of a security audit during prototyping. In pre-A0 protocol versions (retained for empirical testing in \texttt{PreA0CarbonRegistry.sol}), the issuance nullifier was derived as:
+$$\mathcal{N}_{\text{pre-A0}} := \mathcal{H}_{\text{keccak}}(\text{abi.encode}(projectId, vintageYear, creditType)) \quad \text{or} \quad \mathcal{H}_{\text{keccak}}(\text{abi.encode}(\mathcal{C}_{\text{geo}}, vintageYear, creditType))$$
+
+This legacy formulation introduced two systemic vulnerabilities:
+\begin{enumerate}
+\item \textbf{Hole A (The Salt-Dodge Attack):} Because $\mathcal{C}_{\text{geo}}$ depends on the blinding salt $s$, an adversary controlling parcel $g$ could pick distinct salts $s_1 \neq s_2$, yielding distinct commitments $\mathcal{C}_{\text{geo},1} \neq \mathcal{C}_{\text{geo},2}$. The attacker registers Project 1 with $(g, s_1)$ and Project 2 with $(g, s_2)$ under competing registries. When issuing credits, distinct nullifiers $\mathcal{N}_1 \neq \mathcal{N}_2$ were computed, allowing both issuances to succeed on the same parcel. We proved this attack in Foundry via \texttt{test\_HoleA\_SaltDodge()}, confirming 1,088 credits [C-16, baseline\_double\_issuance\_receipt.json] were minted against a single 544 $\text{tCO}_2\text{e}$ tract.
+\item \textbf{Hole B (Vintage String Relabeling):} In legacy registries, unconstrained vintage strings allowed an adversary to issue credits for \texttt{"2024-A"}, and re-issue for \texttt{"2024-B"} or future years (\texttt{"2035"}), circumventing duplicate checks (\texttt{test\_HoleB\_VintageRelabel()}).
+\end{enumerate}
+
+Amendment A0 mitigates both vulnerabilities. By requiring $g$ and $s$ as explicit calldata during \texttt{issue()}, asserting $\mathcal{H}(g, s) == \mathcal{C}_{\text{geo}}$, and hashing $g$ directly into $\mathcal{N}_{\text{iss}}$, the salt cannot dodge nullification. Subsequent issuances for parcel $g$ in vintage $v$ collide on $\mathcal{N}_{\text{iss}}$ and revert, regardless of salt. Furthermore, vintage years are constrained to $2000 \le v \le Y_{\text{current}}$ derived from \texttt{block.timestamp}.
+
+\subsection{Definition 3: Single-Claim Retirement Nullifier}
+
+When an enterprise purchaser retires carbon credits to compensate for corporate emissions, the protocol must guarantee that the retirement cannot be claimed multiple times:
+
+\begin{quote}
+\textbf{Definition 3 (Single-Claim Retirement Nullifier).} Let $\mathcal{N}_{\text{iss}}$ be the issuance nullifier of the target credit batch, let $a \in \mathbb{A}$ be the Ethereum address of the claimant, let $k \in \mathbb{N}$ denote the claim type (e.g., Scope 1, Scope 2, Scope 3 compliance), and let $b \in \{0,1\}^{256}$ denote a cryptographic commitment to the corporate beneficiary identity. The claim nullifier $\mathcal{N}_{\text{claim}} \in \{0,1\}^{256}$ is defined as:
+$$\mathcal{N}_{\text{claim}} := \mathcal{H}_{\text{keccak}}(\text{abi.encode}(\mathcal{N}_{\text{iss}}, a, k, b))$$
+\end{quote}
+
+Executing \texttt{retire(serialIds[], claimType, beneficiaryCommitment)} burns the corresponding ERC-1155 token quantity, asserts that $!\text{claimNullifierSpent}[\mathcal{N}_{\text{claim}}]$, sets the entry to \texttt{true}, and emits the \texttt{Claimed} event. Binding the claimant address $a$ and beneficiary commitment $b$ directly into $\mathcal{N}_{\text{claim}}$ ensures that third-party front-runners cannot intercept or claim another entity's retirement certificate, while permanently preventing duplicate corporate accounting replays across independent audit jurisdictions.
+
+\subsection{Lemma 1: Cross-Registry Issuance Unicity and Formal Proof}
+
+We formalize the unicity guarantee of Amendment A0 in Lemma 1:
+
+\begin{quote}
+\textbf{Lemma 1 (Cross-Registry Issuance Unicity).} Assume the collision resistance of $\mathcal{H}_{\text{keccak}}$ (Assumption 1) and the knowledge soundness of the Halo2 verifier (Assumption 2). Let $\mathcal{R}_A$ and $\mathcal{R}_B$ be two distinct registries participating on the same L2 ledger, where $\mathcal{R}_B$ may be fully Byzantine or colluding with an adversary. It is computationally infeasible for $\mathcal{R}_A$ and $\mathcal{R}_B$ to both execute successful issuance transactions for the same spatial parcel $g$, vintage year $v$, and credit type $\tau$.
+\end{quote}
+
+\begin{proof}[Proof by Contradiction] Suppose an adversary $\mathcal{M}$ successfully issues credits through registry $\mathcal{R}_A$ in transaction $T_A$ at block height $h_A$, and subsequently issues credits for the same parcel through registry $\mathcal{R}_B$ in transaction $T_B$ at block height $h_B \ge h_A$.
+
+By Definition 2, transaction $T_A$ provides valid calldata $(P_A, g, s_A, v, \tau, m_A, D_A, \pi_A)$. Execution of \texttt{issue()} verifies $\mathcal{H}_{\text{keccak}}(g, s_A) = \text{projects}[P_A].geoCommitment$, validates proof $\pi_A$ via \texttt{Halo2Verifier.sol}, computes $\mathcal{N}_{\text{iss}, A} = \mathcal{H}_{\text{keccak}}(\text{abi.encode}(g, v, \tau))$, confirms $\text{issuanceNullifierSpent}[\mathcal{N}_{\text{iss}, A}] == \text{false}$, and sets:
+$$\text{issuanceNullifierSpent}[\mathcal{N}_{\text{iss}, A}] \leftarrow \text{true}$$
+
+Now consider transaction $T_B$, which submits $(P_B, g', s_B, v', \tau', m_B, D_B, \pi_B)$. For $T_B$ to represent double-issuance on the same physical plot, vintage, and type, we must have $g' = g$, $v' = v$, and $\tau' = \tau$. 
+
+The contract computes the issuance nullifier for $T_B$:
+$$\mathcal{N}_{\text{iss}, B} = \mathcal{H}_{\text{keccak}}(\text{abi.encode}(g', v', \tau')) = \mathcal{H}_{\text{keccak}}(\text{abi.encode}(g, v, \tau))$$
+
+Because $\mathcal{H}_{\text{keccak}}$ is a deterministic function, the preimage inputs $(g, v, \tau)$ are identical to those in $T_A$, implying $\mathcal{N}_{\text{iss}, B} = \mathcal{N}_{\text{iss}, A}$.
+
+Before minting tokens, $T_B$ evaluates:
+$$\text{require}(!\text{issuanceNullifierSpent}[\mathcal{N}_{\text{iss}, B}], \text{IssuanceNullifierAlreadySpent})$$
+
+Since $\text{issuanceNullifierSpent}[\mathcal{N}_{\text{iss}, A}]$ was set to \texttt{true} in block $h_A \le h_B$, and because the EVM state transition function preserves storage between non-reverting transactions, the condition $!\text{issuanceNullifierSpent}[\mathcal{N}_{\text{iss}, B}]$ evaluates to \texttt{false}. 
+
+Therefore, for $T_B$ to succeed without reverting, $\mathcal{M}$ must either:
+\begin{enumerate}
+\item Find distinct preimages $(g', v', \tau') \neq (g, v, \tau)$ such that $\mathcal{H}_{\text{keccak}}(g', v', \tau') = \mathcal{H}_{\text{keccak}}(g, v, \tau)$, directly violating the collision resistance of $\mathcal{H}_{\text{keccak}}$ (Assumption 1); or
+\item Produce an invalid state write altering storage without executing the contract logic, violating L2 state machine integrity (Assumption 4).
+\end{enumerate}
+
+Because both cases occur with negligible probability, $T_B$ must revert. Thus, cross-registry duplicate issuance on the same parcel is impossible. \end{proof}
+
+\subsection{Zero-Knowledge MRV Circuit Construction}
+
+The verifiable MRV computational graph is compiled into an arithmetic Halo2 circuit using \texttt{ezkl v23.0.5}. Spaceborne observations (Sentinel-2 bands B02, B03, B04, B08, B11, B12, vegetation indices NDVI, NDRE, RECI, IRECI, and the discrete ESA WorldCover classification) represent continuous floating-point quantities. To execute these non-linear computations inside an algebraic finite field without floating-point emulation overhead, VeriCarbon applies uniform fixed-point integer quantization at scale factor $S = 2^7$ (scale multiplier 128), derived from empirical quantile calibration during model training. Continuous split boundaries within the gradient-boosted decision trees and leaf prediction weights are pre-compiled into integer inequality lookup tables, with division and scaling calibrated to prevent overflow in the BN254 scalar field ($\approx 254$ bits).
+
+Furthermore, the allometric biomass-to-credit conversion is encoded directly within the computation graph, adhering strictly to the \textit{IPCC 2006 Guidelines for National Greenhouse Gas Inventories (Volume 4: Agriculture, Forestry and Other Land Use)}. The circuit models Aboveground Biomass (AGB) density exclusively; Below-Ground Biomass (BGB), soil organic carbon, and litter are omitted as they cannot be directly observed from spaceborne optical rasters. The circuit multiplies the predicted Aboveground Biomass density ($\text{Mg}/\text{ha}$) by the physical area of the geohash8 centroid parcel ($A \approx 0.073\,\text{ha}$), the canonical IPCC carbon fraction constant ($CF = 0.47$), and the stoichiometric carbon-to-dioxide molecular weight ratio ($44/12 \approx 3.667$), scaling the result to discrete integer metric tons of sequestered carbon dioxide equivalent ($1\,\text{credit} = 1\,\text{tCO}_2\text{e}$).
+
+The private witness vector consists of the 12 quantized remote sensing features $X \in \mathbb{Z}^{12}$ and the claimed credit amount $m \in \mathbb{Z}$. The public instance array exposes three 256-bit scalar elements:
+\begin{enumerate}
+\item \textbf{\texttt{instances[0]} (\texttt{modelHash}):} A fixed constant representing the SHA-256 digest of the committed ONNX decision tree graph, permanently baked into the verification key $\text{vk}$ and verified against the on-chain registry whitelist.
+\item \textbf{\texttt{instances[1]} (\texttt{dataCommitment}):} An in-circuit arithmetic feature commitment bound via $\mathcal{H}_{\text{poseidon}}(X)$. Because Poseidon provides provable collision resistance over the prime-order scalar field $\mathbb{F}_p$ of BN254, an adversary cannot find alternate features yielding an identical commitment. By employing Poseidon hashing in-circuit, VeriCarbon avoids the prohibitive constraint overhead of bitwise SHA-256 (>50,000 lookup rows), while the full SHA-256 digest of the raw feature vector is pinned in the IPFS evidence bundle as an off-chain audit pointer.
+\item \textbf{\texttt{instances[2]} (\texttt{claimedAmount}):} The output of an in-circuit conditional node:
+\end{enumerate}
+$$\text{claimedAmount} = \text{Where}(m \le f_{\text{model}}(X), m, -1)$$
+In the scalar field $\mathbb{F}_p$ ($p \approx 2^{254}$), $-1$ is arithmetically represented as $p-1$. On-chain, \texttt{CarbonRegistry.issue()} enforces that the public instance \texttt{instances[2]} strictly equals the requested \texttt{amount} parameter from calldata (\texttt{require(claimedAmount == instances[2])}). If an adversary attempts amount inflation ($m > f_{\text{model}}(X)$), the circuit evaluates to $p-1$. Because the adversary requested $m \ll p-1$ (e.g., $m = 644$ credits), the contract comparison $644 == p-1$ evaluates to \texttt{false}, causing the transaction to revert atomically with \texttt{InvalidZKProof}. Field wrap-around cannot satisfy the equality check. The generated proof $\pi$ is exactly 4,032 bytes [C-06, zk\_benchmarks.json].
+
+\subsection{On-Chain Verification and Monotonic Batch Minting}
+
+Upon receiving an issuance transaction, \texttt{CarbonRegistry.sol} delegates proof validation to \texttt{Halo2Verifier.sol} [C-07, manifest.json], which occupies 18,007 bytes of initcode (runtime size: 11,323 bytes [C-20, manifest.json]). The verifier evaluates KZG multi-point pairing operations consuming 643,269 gas [C-08, zk\_benchmarks.json]. Upon successful verification, the registry increments an internal monotonic batch counter $\text{totalBatches} \leftarrow \text{totalBatches} + 1$, mints $m$ ERC-1155 tokens to the registry treasury under token ID $\text{serialId} = \text{totalBatches}$, and emits the \texttt{Issued} event containing the permanent $\mathcal{N}_{\text{iss}}$ identifier.
+
+
+\section{Implementation}
+
+\subsection{Remote Sensing \& Feature Pipeline (\texttt{services/mrv})}
+
+The spaceborne remote sensing and machine learning pipeline is implemented as a standalone, deterministic Python 3.11 service managed via \texttt{uv}. The ingestion module queries Microsoft Planetary Computer's SpatioTemporal Asset Catalog (STAC) via \texttt{pystac-client} to retrieve cloud-filtered Sentinel-2 L2A surface reflectance tiles across the growing season, alongside static land-cover classifications from the ESA WorldCover 10-meter raster product \cite{drusch2012sentinel,zanaga2021esa}. Spectral processing extracts 12 canonical features: four longitudinal vegetative statistics derived from the Normalized Difference Vegetation Index (mean, 10th percentile, median, and 90th percentile over a 3-month window), three red-edge chlorophyll indicators (NDRE, RECI, and IRECI), and five discrete binary one-hot indicators corresponding to WorldCover classifications (tree cover, shrubland, grassland, cropland, and wetland).
+
+To strictly prevent spatial autocorrelation leakage, the spatial feature matrix is partitioned using spatial-block cross-validation. For our prototype evaluation site in the Tapajós National Forest, Pará, Brazil (bounding box: $-54.8485, -2.8172, -54.8390, -2.8078$, spanning approximately $1.05\,\text{km} \times 1.05\,\text{km}$), the area of interest falls within a single geographic geohash-5 cell. We partition the chip into four discrete quadrant blocks (\texttt{6z2zz}, \texttt{6z3pb}, \texttt{6z8bp}, \texttt{6z900}), training a \texttt{HistGradientBoostingRegressor} on three quadrants and reserving the fourth as a strictly unseen spatial holdout. Continuous features are quantized into integer representations using uniform scaling factors ($scale = 0.001$, zero-point $= 0$), serialized to Parquet format, and exported to an integer-quantized ONNX computation graph.
+
+\subsection{Zero-Knowledge Proving and Smart Contracts (\texttt{services/zk} \& \texttt{packages/contracts})}
+
+The zero-knowledge compilation and execution pipeline is constructed using \texttt{ezkl v23.0.5}, which compiles the ONNX decision tree ensemble into an arithmetic constraint system over the BN254 elliptic curve. The circuit uses fixed-point scale parameters ($input\_scale = 7$, $param\_scale = 7$, $logrows = 13$, lookup range $[-2048, 2048]$). Proving keys ($\text{pk}$) and verification keys ($\text{vk}$) are derived using the Structured Reference String ($\text{SRS}$) downloaded from the perpetual Ethereum/Hermez KZG trusted setup ceremony up to degree $2^{13}$, ensuring zero toxic waste remnants. In-circuit feature commitments are computed using \texttt{ezkl.poseidon\_hash}, while the full SHA-256 digest of the canonical quantized feature vector is recorded in the evidence bundle.
+
+The on-chain smart contract architecture is implemented in Solidity (v0.8.24, Cancun EVM target, optimizer runs: 200) within a Foundry workspace. \texttt{Halo2Verifier.sol} [C-07, manifest.json] contains the compiled elliptic curve pairing operations generated via \texttt{ezkl create-evm-verifier}, occupying 18,007 bytes of initcode—leaving an exact safety margin of 6,569 bytes below the 24,576-byte ceiling imposed by EIP-170. The registry contract, \texttt{CarbonRegistry.sol}, extends OpenZeppelin v5.2.0 \texttt{ERC1155} and \texttt{AccessControl}, occupying 11,323 bytes of runtime bytecode [C-20, manifest.json]. The contract implements monotonic serial batch assignment, stores the IPFS evidence CID upon registration, and executes atomic nullifier updates during credit issuance and retirement. Comprehensive unit, integration, and fuzz testing in Foundry covers 19 test scenarios, validating state machine transitions under both standard operations and malicious adversarial payloads.
+
+\subsection{Web Explorer, TypeScript SDK \& Off-Chain Indexing (\texttt{apps/web} \& \texttt{supabase})}
+
+The user-facing application layer is developed using Next.js 15 (App Router, React 19) in strict TypeScript mode. The interface integrates MapLibre GL with CARTO Dark Matter vector tiles, providing an interactive geospatial explorer displaying project boundaries, satellite vegetative histories, and issuance timelines. Client-side cryptographic operations (generating 32-byte blinding salts and deriving initial \texttt{geoCommitment} hashes) are executed directly in the browser via Web Crypto APIs prior to transaction dispatch. Contract interactions leverage \texttt{wagmi v2} and \texttt{viem@2.57.13}, maintaining a single unified viem dependency repo-wide.
+
+To support real-time querying without placing repetitive read loads on the Base Sepolia RPC, an asynchronous indexer daemon written in Deno/TypeScript listens for \texttt{ProjectRegistered}, \texttt{Issued}, and \texttt{Claimed} logs. The indexer tracks a 2-block confirmation depth to guard against micro-reorganizations on Base Sepolia. Indexed events are atomically upserted into a PostgreSQL 16 database using idempotent compound primary keys \texttt{(tx\_hash, log\_index)}, ensuring deterministic consistency across RPC network retries and edge function re-executions. The database schema enforces strict Row Level Security (RLS) policies, allowing public read-only queries while restricting write operations to authenticated service roles. In offline continuous integration and evaluation environments, database operations execute against a Postgres-compatible test double (\texttt{@electric-sql/pglite}), while cloud deployments utilize Supabase managed infrastructure. The web application achieves an audited Lighthouse performance score of 95/100 [C-14, lighthouse\_report.json] under desktop production build simulation, demonstrating lightweight client execution.
+
+
+\section{Evaluation}
+
+\subsection{Experimental Setup \& Data Pipeline Validation}
+
+We evaluate VeriCarbon empirically across four foundational research questions: proving feasibility on commodity hardware (RQ1), security against collusive Byzantine registries (RQ2), economic gas overhead and off-chain latency (RQ3), and the privacy-auditability trade-off (RQ4). All benchmarks are executed deterministically under fixed random seed \texttt{SEED = 42} on a consumer laptop workstation equipped with an AMD64 16-core processor, 15.2 GB of RAM, running Windows 10 and Python 3.11.9. On-chain contracts are tested against a local Cancun EVM Anvil node and deployed to the public Base Sepolia testnet (Chain ID 84532).
+
+Before examining quantitative model performance, we must explicitly disclose the provenance and limitation of the ground-truth biomass labels. While Microsoft Planetary Computer hosts cloud-free Sentinel-2 L2A optical rasters and ESA WorldCover land-cover rasters without authentication barriers, spaceborne LiDAR biomass datasets (e.g., GEDI L4A, requiring NASA Earthdata authentication; ESA CCI Biomass, unindexed on public STAC) are not frictionlessly accessible. Consequently, in strict compliance with the reproducible protocol specification, pixel-level Aboveground Biomass labels ($\text{agb\_mg\_ha}$) were synthesized deterministically from allometric canopy height and density equations calibrated to tropical forest literature, as logged in \texttt{docs/REPRODUCIBILITY.md}. Therefore, all cross-validation metrics presented in this section evaluate \textbf{internal pipeline self-consistency on synthesized fixtures — NOT a field-accuracy claim}. In an operational production deployment, these training targets would be superseded by authenticated GEDI L4A footprint waveforms calibrated against in-situ National Forest Inventory (NFI) destructive harvest plots. Crucially, the zero-knowledge verification mechanisms proven herein remain strictly invariant to training label provenance.
+
+\input{tables/model_metrics.tex}
+
+We evaluate the \texttt{HistGradientBoostingRegressor} ($max\_iter = 40, max\_depth = 4, lr = 0.1, min\_samples\_leaf = 8$) across four spatial-block clusters partitioned by geohash-5 quadrants (\texttt{6z2zz}, \texttt{6z3pb}, \texttt{6z8bp}, \texttt{6z900}) over the 1.05 km $\times$ 1.05 km Tapajós test chip. Across the 4-fold spatial-block cross-validation sweep, the model achieved an aggregate Mean Absolute Error of 5.2901 $\text{Mg}/\text{ha}$ [C-17, model\_metrics.json] ($\pm 4.7925$), a Root Mean Squared Error of 11.6196 $\text{Mg}/\text{ha}$ [C-18, model\_metrics.json] ($\pm 12.8367$), and an average coefficient of determination ($R^2$) of 0.8812 [C-19, model\_metrics.json] ($\pm 0.1091$). For the canonical holdout deployment (Fold 4, evaluated on unseen block \texttt{6z900}), the model achieved an MAE of 3.7514 $\text{Mg}/\text{ha}$ [C-01, model\_metrics.json], an RMSE of 8.1675 $\text{Mg}/\text{ha}$ [C-02, model\_metrics.json], and an $R^2$ score of 0.9869 [C-03, model\_metrics.json]. These metrics confirm that the decision tree ensemble reliably captures non-linear vegetation indices without spatial autocorrelation leakage.
+
+\subsection{RQ1: ZK Proving Feasibility \& Verifier Overhead}
+
+To answer RQ1—whether zero-knowledge proofs over remote sensing models can be generated and verified at practical laptop and EVM costs—we conducted a comprehensive circuit complexity sweep across feature dimensions $F \in \{8, 12, 16, 32\}$ and ensemble tree counts $T \in \{2, 4, 8\}$ at constant tree depth $D = 2$ and $\text{logrows} = 13$.
+
+\input{tables/zk_benchmarks.tex}
+
+As presented in Table 3 and visualized in Figure 2, client-side proving latency remains remarkably compact across all evaluated configurations. For our canonical production circuit ($F = 12$ features, $T = 4$ decision trees, depth $D = 2$), the circuit setup and key generation phase completes in 0.7250 s [C-05, zk\_benchmarks.json], while witness assignment and Halo2 KZG proof generation on a commodity laptop CPU requires only 0.5504 s [C-04, zk\_benchmarks.json]. Even when expanding the input feature space to 32 spectral dimensions and 8 ensemble trees ($T = 8$), proving time scales sub-linearly to 0.6303 s, easily executing within consumer hardware envelopes. Because decision tree inequalities are compiled into arithmetic lookup gates, circuit depth and column assignment fit comfortably within an evaluation degree of $\text{logrows} = 13$ ($2^{13} = 8,192$ rows). Peak memory consumption during proving remains under 512 MB, proving that field practitioners in remote forestry offices can generate cryptographic proofs without requiring cloud GPU clusters.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.9\linewidth]{figures/proving\_time.pdf}
+\caption{Client-side Halo2 proving time on a laptop CPU across feature dimensions $F \in \{8, 12, 16, 32\}$ and ensemble trees $T \in \{2, 4, 8\}$. The canonical circuit configuration ($F=12, T=4$) achieves 0.55s proving latency.}
+\label{fig:proving_time}
+\end{figure}
+
+Crucially, because Halo2 uses Kate-Zaverucha-Goldberg (KZG) polynomial commitments over the BN254 curve, the generated proof size is strictly invariant to circuit complexity. Across all ten evaluated parameterizations in Table 3, the serialized proof payload $\pi$ remains exactly 4,032 bytes [C-06, zk\_benchmarks.json]. Furthermore, off-chain proof verification completes in under 12 ms across all configurations, confirming that decentralized peer nodes can rapidly validate incoming proofs during gossip validation.
+
+On-chain verifiability is constrained by EVM execution limits, specifically EIP-170, which caps contract bytecode size at 24,576 bytes. Compiling the generated Halo2 verifier via \texttt{forge build --sizes} reveals an initcode size of 18,007 bytes [C-07, manifest.json] (leaving an exact 6,569-byte safety margin below the EIP-170 limit) and a runtime bytecode footprint of 17,978 bytes (a 6,598-byte margin). When executing on-chain verification inside \texttt{CarbonRegistry.issue()}, \texttt{Halo2Verifier.verifyProof()} consumes 643,269 gas [C-08, zk\_benchmarks.json]. This demonstrates that ZK-SNARK verification of spaceborne ML models is fully feasible inside standard EVM gas limits.
+
+\subsection{RQ2: Security Evaluation \& Byzantine Fraud Mitigation}
+
+To evaluate RQ2—whether the global nullifier architecture eliminates duplicate issuance and fraudulent over-allocation under mutually distrusting registries—we implemented an adversarial test suite evaluating seven distinct attack vectors (A1–A7), alongside the two pre-A0 vulnerability demonstrations and a centralized baseline demonstration.
+
+\input{tables/fraud_results.tex}
+
+Table 5 summarizes the security evaluation matrix across all 9 evaluated fraud scenarios [C-15, fraud\_results.json]. In VeriCarbon, every single attack attempt is intercepted on-chain by deterministic cryptographic constraints:
+\begin{itemize}
+\item \textbf{A1 (Cross-Registry Same Parcel):} When Registry B attempts to issue credits for parcel \texttt{6z900000} (vintage 2024, type REMOVAL) after Registry A has already issued, the transaction atomically reverts with \texttt{IssuanceNullifierAlreadySpent} (measured gas: 1,995,374).
+\item \textbf{A2 (Same-Registry Duplicate Issuance):} An operator re-submitting an already credited parcel under the same registry is blocked by the atomic \texttt{issuanceNullifierSpent} storage check (gas: 1,828,839).
+\item \textbf{A3 (Salt-Dodge Attack):} An adversary re-registering parcel \texttt{6z900000} with a fresh salt $s_2$ under Project 2 attempts to issue credits. Because Amendment A0 derives $\mathcal{N}_{\text{iss}} := \text{keccak256}(g, v, \tau)$ directly from the spatial geohash8 rather than the salted commitment, the transaction collides on $\mathcal{N}_{\text{iss}}$ and reverts with \texttt{IssuanceNullifierAlreadySpent} (gas: 1,996,439). This provides concrete empirical proof of the Amendment A0 security guarantee.
+\item \textbf{A4 (Retirement Claim Replay):} A corporate claimant attempting to replay an identical retirement claim against spent batch tokens is blocked by \texttt{claimNullifierSpent} (gas: 1,344,353).
+\item \textbf{A5 (Claim Against Non-Existent Batch):} Retirement calls targeting invalid batch IDs revert with \texttt{BatchDoesNotExist} (gas: 14,651).
+\item \textbf{A6 (Amount Inflation Above ZK Model Output):} A corrupt registry submitting calldata claiming 644 credits when the private remote sensing witness only justifies 544 credits causes \texttt{Halo2Verifier.verifyProof()} to revert with \texttt{InvalidZKProof} (gas: 1,023,109).
+\item \textbf{A7 (Credit-Type Relabeling \& Future Vintages):} Submitting future vintage years ($v > Y_{\text{current}}$) or invalid enum values reverts with \texttt{InvalidVintageYear} (gas: 521,468).
+\end{itemize}
+
+In stark contrast, evaluating the same attack scenarios against \texttt{BaselineCentralRegistry.sol}—a conventional centralized transfer-log registry lacking global nullifiers—demonstrates catastrophic security failures. In our programmatic Foundry demonstration (\texttt{BaselineDoubleIssuance.s.sol}), Registry A and Registry B both successfully registered parcel \texttt{6z900000} and minted 544 credits each, inflating total supply to 1,088 credits [C-16, baseline\_double\_issuance\_receipt.json] (200\% of actual biomass). Invariant testing across 512 state transitions via Foundry handlers further confirmed that total retired credits never exceed total issued credits (\texttt{invariant\_TotalRetiredNeverExceedsTotalIssued}), and no claim nullifier is ever recorded twice (\texttt{invariant\_NoClaimNullifierRecordedTwice}).
+
+\subsection{RQ3: Economic Cost Modeling \& Latency Overhead}
+
+To assess RQ3—the economic feasibility of deploying zero-knowledge carbon registries on Layer 2 rollups versus Layer 1—we benchmarked execution gas consumption for all core registry operations using Foundry Cancun EVM execution.
+
+\input{tables/gas_costs.tex}
+
+As detailed in Table 4 and Figure 3, end-to-end credit issuance via \texttt{CarbonRegistry.issue()} consumes 873,164 gas [C-09, gas\_costs.json]. A component decomposition reveals that gas is dominated by in-circuit zero-knowledge pairing verification (643,269 gas, representing 73.7\% of total issuance cost [C-08, gas\_costs.json]), followed by ERC-1155 token minting and storage allocation (113,473 gas), protocol dispatch logic (92,922 gas), and nullifier mapping storage (23,500 gas).
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.9\linewidth]{figures/gas\_comparison.pdf}
+\caption{Economic comparison of VeriCarbon operations. (a) Issuance gas decomposition showing ZK verification dominance; (b) Modeled transaction costs comparing Base L2 vs. Ethereum L1.}
+\label{fig:gas_comparison}
+\end{figure}
+
+To model transaction costs in fiat currency, we translate gas consumption under clearly labeled economic assumptions: an assumed ETH valuation of \$2,500.00, an Ethereum L1 gas price of 25.0 gwei, and a Base L2 execution gas price of 0.005 gwei combined with an amortized EIP-4844 blob data fee estimate of \$0.001 per transaction, as configured in \texttt{eval/gas\_costs.py}. Under this model, executing an end-to-end issuance on Ethereum L1 costs \$54.57 [C-11, gas\_costs.json]. On Base L2, the identical transaction costs only \$0.0119 [C-10, gas\_costs.json]—achieving a 4,585-fold economic cost reduction. 
+
+Similarly, secondary lifecycle registry operations exhibit massive cost savings on Layer 2 rollups. As detailed in Table 4, onboarding a new project via \texttt{registerProject} consumes 117,820 gas, translating to \$0.0016 on Base L2 versus \$7.36 on Ethereum L1. Retiring credits to compensate corporate carbon footprints (\texttt{retire}) consumes 151,846 gas, incurring \$0.0019 on Base L2 versus \$4.63 on L1. Storing updated evidence pointers (\texttt{setEvidence}) consumes 50,078 gas, requiring \$0.0013 on Base L2 versus \$3.13 on L1. Because issuance and retirement transactions cost fractions of a cent on Base L2, cryptographic verification overhead is economically viable even for smallholder community agroforestry projects generating modest credit volumes.
+
+\input{tables/latency.tex}
+
+Off-chain network latency and indexing lag are summarized in Table 6 ($N=20$ trials, executed with exponential backoff to eliminate public RPC rate-limiting artifacts). Public Base Sepolia RPC roundtrip latency (\texttt{eth\_blockNumber}) exhibits a mean of 525.91 ms, a standard deviation of $\pm 38.4\,\text{ms}$, and a p95 of 595.14 ms [C-12, latency.json]. The asynchronous event indexer ingests on-chain logs, decodes calldata, and upserts relational state into PostgreSQL with a mean ingestion latency of 15.82 ms, a standard deviation of $\pm 5.1\,\text{ms}$, and a p95 lag of 31.57 ms [C-13, latency.json]. This sub-second synchronization latency demonstrates that decentralized nullifiers do not introduce unacceptable UX delays for carbon market participants. Furthermore, while individual parcel issuances require distinct Halo2 verification calls, multi-proof batching schemes (e.g., verifying an aggregated vector of proofs across $K$ contiguous parcels in a single multi-pairing check) can further amortize verification gas asymptotically toward $\mathcal{O}(1/K)$.
+
+\subsection{RQ4: Privacy vs. Auditability Trade-Off}
+
+Finally, addressing RQ4, VeriCarbon navigates the fundamental trade-off between commercial data confidentiality and public auditability through cryptographic commitments. 
+
+In voluntary carbon forestry, commercial developers frequently refuse to disclose raw satellite rasters or boundary shapefiles due to predatory timber poaching and land-grabbing risks. By proving inference in zero knowledge, VeriCarbon allows developers to keep multispectral rasters completely private. Commercial parcel boundaries are protected at registration via Definition 1 ($\mathcal{C}_{\text{geo}} = \mathcal{H}(g, s)$); third parties observing on-chain registration logs observe only pseudorandom 32-byte hashes.
+
+Simultaneously, public auditability is preserved through two complementary mechanisms. First, the private input feature vector is cryptographically bound inside the Halo2 circuit via \texttt{ezkl.poseidon\_hash}, guaranteeing that the prover cannot evaluate the circuit on arbitrary dummy data. Second, the full 32-byte SHA-256 digest of the canonical quantized feature vector is pinned to IPFS within the signed evidence bundle, alongside STAC scene metadata and summary statistics. When an auditor or regulatory observer conducts an audit, they retrieve the signed IPFS bundle via its immutable content identifier, extract the STAC scene timestamps, and re-query the public Microsoft Planetary Computer catalog. The auditor can re-extract spectral features, verify the off-chain SHA-256 digest, and recompute the Poseidon feature hash, confirming exact mathematical concordance with the on-chain \texttt{dataCommitment} instance without requiring expensive bitwise SHA-256 constraints to execute inside the ZK-SNARK circuit.
+
+
+\section{Discussion \& Limitations}
+
+\subsection{Cryptographic Nullifiers as Article 6 Analogues}
+
+The cross-registry issuance and retirement nullifiers developed in VeriCarbon offer a decentralized, mathematical analogue to the corresponding adjustment mechanisms established under Article 6 of the Paris Agreement \cite{unfccc2021article6}. Under Article 6.2 and 6.4, sovereign nations transfer Internationally Transferred Mitigation Outcomes (ITMOs), requiring host and acquiring nations to execute corresponding adjustments in their national carbon accounting ledgers to prevent double-counting of emissions reductions. However, in contemporary international governance, operationalizing Article 6 relies on manual bilateral reporting and fragmented meta-registries—such as the World Bank Climate Warehouse \cite{worldbank2022warehouse}—which record cross-border transfers after the fact without programmatic prevention of duplicate minting.
+
+In contrast, VeriCarbon enforces deduplication at the state-transition level. By treating physical land tracts and vintage intervals as non-fungible nullifier preimages ($\mathcal{N}_{\text{iss}} = \text{keccak256}(g, v, \tau)$), our architecture demonstrates how disparate sovereign and voluntary registries can share a common computational settlement layer. Participating nations or accreditation standards retain autonomous governance over project approval and verification criteria, yet are mathematically constrained from issuing overlapping mitigation outcomes. We emphasize that cryptographic nullifiers represent a \textit{technical enforcement primitive}, not a replacement for international climate treaties or domestic legal title verification; nonetheless, they provide the verifiable accounting infrastructure necessary to make Article 6 operational across heterogeneous jurisdictions.
+
+\subsection{Physical-Layer Oracle Challenges and Sensor Spoofing}
+
+A foundational tenet of zero-knowledge systems is that proof verification guarantees computational integrity over ingested inputs, but cannot attest to the physical reality of external sensory data ("Garbage In, Garbage Out"). If an adversary successfully tampers with optical sensor hardware aboard Earth observation satellites, executes man-in-the-middle attacks on ground station telemetry downlinks, or injects synthetic cloud masks into public STAC APIs, the Halo2 circuit will faithfully prove correct model inference over fraudulent data.
+
+Furthermore, discrete geospatial discretization creates boundary vulnerabilities: because our current implementation indexes parcels at fixed geohash-8 cell boundaries, landholders defining project boundaries that cross cell seams could theoretically attempt to register adjacent partial cells, introducing boundary sliver inflation unless constrained by global cadastral registry checks.
+
+Mitigating physical-layer oracle compromise requires layered cryptographic attestation across the Earth observation supply chain. Emerging satellite architectures are beginning to incorporate Hardware Security Modules (HSMs) directly into payload instrument computers, enabling spaceborne sensors to sign raw multispectral imagery with hardware-bound private keys prior to downlink transmission. Furthermore, decentralized MRV protocols can implement multi-constellation consensus: rather than relying exclusively on ESA Sentinel-2 optical bands—which suffer from frequent cloud occlusion during equatorial rainy seasons—automated pipelines can cross-correlate optical reflectance with NASA Landsat-9 observations, PlanetScope commercial constellations, and synthetic aperture radar (SAR) from Sentinel-1 (C-band) or ALOS-2 PALSAR (L-band), which penetrate cloud cover to capture forest structural geometry year-round. Discrepancies exceeding physical vegetative phenology bounds would automatically flag evidence bundles for mandatory third-party audit prior to proof verification.
+
+\subsection{Synthesized Labels and Biome Generalization Boundaries}
+
+A primary limitation of this research prototype—mandated by our strict zero-budget evaluation constraint and the public availability of spaceborne LiDAR data—is that Aboveground Biomass labels were generated using synthesized allometric functions calibrated to tropical forest canopy structures, as logged in \texttt{docs/REPRODUCIBILITY.md}. Although our 4-fold spatial-block cross-validation demonstrated high internal self-consistency ($R^2 = 0.9869$ [C-03, model\_metrics.json] and $\text{MAE} = 3.7514\,\text{Mg}/\text{ha}$ [C-01, model\_metrics.json] on holdout block \texttt{6z900}), these metrics do not constitute a real-world field accuracy claim against ground-truth destructive harvest or in-situ National Forest Inventory (NFI) plots. Furthermore, our ecological accounting scope is deliberately bounded to Aboveground Biomass (AGB); Below-Ground Biomass (BGB), dead organic matter, and Soil Organic Carbon (SOC) are strictly excluded because optical and red-edge spaceborne sensors cannot penetrate the sub-surface soil column.
+
+Furthermore, machine learning models in remote sensing face severe epistemic boundaries under ecological distribution shift. The decision tree ensemble evaluated in this study was structured around canopy dynamics characteristic of the Tapajós National Forest in the Brazilian Amazon. Deploying this model over boreal peatlands, sub-Saharan savannas, or coastal mangrove ecosystems would introduce catastrophic estimation errors, as allometric relationships between optical vegetative indices (NDVI, NDRE) and biomass density vary drastically across global biomes. Transitioning VeriCarbon from an academic prototype to commercial deployment requires training biome-specific model families, where each ecological zone maintains an independent, peer-reviewed model hash ($\text{modelHash}$) registered in governance registries.
+
+\subsection{Economic Sizing and Layer 2 Rollup Finality}
+
+Our economic benchmarks in Section 6 established that executing credit issuance on Base L2 achieves a 4,585-fold cost reduction relative to Ethereum L1 (\$0.0119 [C-10, gas\_costs.json] vs. \$54.57 [C-11, gas\_costs.json]), bringing verifiable zero-knowledge issuance well below the unit margin of voluntary carbon credits. However, operational deployment on optimistic rollups introduces distinct trade-offs between settlement finality and transaction velocity.
+
+Optimistic rollups—including Base, Optimism, and Arbitrum—rely on a 7-day fault proof challenge window before state roots achieve final settlement on Ethereum L1. While soft finality is achieved within seconds via the sequencer, carbon credits issued on L2 cannot be bridged back to L1 without enduring this challenge delay or relying on liquidity provider bridges. Additionally, centralized sequencers currently present a potential single point of censorship or temporary transaction reordering, though users retain the cryptographic guarantee of L1 force-inclusion escape hatches. Conversely, migrating VeriCarbon's settlement layer to a zero-knowledge rollup (ZK-rollup, such as Starknet or Polygon zkEVM) would provide cryptographic state finality within minutes, albeit at slightly higher verification gas overhead. For enterprise voluntary markets, soft sequencer finality on Layer 2 rollups provides an optimal balance between sub-cent transaction costs and cryptographic double-issuance protection.
+
+
+\section{Conclusion \& Future Work}
+
+\subsection{Summary of Contributions}
+
+In this paper, we introduced VeriCarbon, a zero-knowledge verifiable Monitoring, Reporting, and Verification (MRV) architecture designed to resolve the credibility crisis in voluntary and compliance carbon credit markets. By pairing spaceborne remote sensing analytics with Halo2 zero-knowledge circuits and Layer 2 smart contracts, VeriCarbon replaces opaque auditing intermediaries with deterministic mathematical verification. We proved that compact gradient-boosted decision tree ensembles can verify remote sensing biomass predictions on commodity laptop hardware in just 0.5504 s [C-04, zk\_benchmarks.json] without disclosing commercial land boundaries or proprietary model weights.
+
+Furthermore, we identified and eliminated the critical salt-dodge vulnerability through Amendment A0, formalizing a salt-independent, registry-independent global issuance nullifier ($\mathcal{N}_{\text{iss}} := \text{keccak256}(g, v, \tau)$) and mathematically proving cross-registry issuance unicity (Lemma 1). Through extensive empirical testing across an adversarial test suite of 9 security attack scenarios [C-15, fraud\_results.json], we demonstrated that VeriCarbon intercepts all duplicate issuance, salt-dodge, and retirement replay attempts on-chain. On Base Sepolia, end-to-end issuance executes for 873,164 gas [C-09, gas\_costs.json], costing an estimated \$0.0119 [C-10, gas\_costs.json]—a 4,585-fold cost reduction compared to Ethereum L1.
+
+\subsection{Future Research Directions}
+
+Future research will advance VeriCarbon across four principal axes. First, we will expand geospatial commitment primitives from discrete centroid cells (\texttt{geohash8}) to arbitrary geometric polygon intersection circuits in zero knowledge, utilizing spatial R-tree structures and bounding volume hierarchies to eliminate sub-cell boundary sliver attacks. Second, we will integrate multi-proof batching and recursive SNARK aggregation trees, proving $K$ contiguous parcel inferences within a single aggregated pairing check to amortize on-chain gas overhead. Third, we will integrate multi-constellation hardware telemetry attestation, validating spaceborne LiDAR waveforms (GEDI) and synthetic aperture radar (Sentinel-1) alongside optical imagery to harden the physical-layer oracle against ground spoofing. Finally, we will explore formal integration with emerging UNFCCC Article 6 sovereign digital registries, establishing zero-knowledge state anchors that empower sovereign carbon accounting without sacrificing national data sovereignty.
+
+
+\appendix
+
+\subsection{Appendix A: Artifact Reproducibility Guide}
+
+To adhere to the rigorous reproducibility requirements of FGCS and the ACM/IEEE Artifact Evaluation guidelines, the complete VeriCarbon evaluation suite is structured for single-command deterministic re-execution.
+
+\subsubsection{A.1 One-Command Full Evaluation Rerun}
+From a clean checkout with Foundry, Node.js 22+, and \texttt{uv} installed, execute:
+```bash
+uv run eval/run\_all.py
+```
+This orchestrates the five modular benchmark scripts with fixed deterministic seed \texttt{SEED = 42}:
+\begin{enumerate}
+\item \texttt{eval/model\_metrics.py}: Evaluates spatial-block cross-validation for \texttt{HistGradientBoostingRegressor} on Sentinel-2 + ESA WorldCover rasters -> \texttt{paper/tables/model\_metrics.md} and \texttt{eval/results/model\_metrics.json}.
+\item \texttt{eval/zk\_benchmarks.py}: Re-runs the Halo2/KZG circuit complexity sweep across $F \in \{8, 12, 16, 32\}$ and $T \in \{2, 4, 8\}$, recording host specs and proving latency -> \texttt{paper/tables/zk\_benchmarks.md} and \texttt{eval/results/zk\_benchmarks.json}.
+\item \texttt{eval/gas\_costs.py}: Executes \texttt{forge test --gas-report}, measures median gas across contract operations, and models USD costs for Base L2 vs. Ethereum L1 -> \texttt{paper/tables/gas\_costs.md} and \texttt{eval/results/gas\_costs.json}.
+\item \texttt{eval/fraud\_simulation.py}: Executes the 9 security scenarios in Foundry, launches an ephemeral Anvil node to execute \texttt{BaselineDoubleIssuance.s.sol}, and extracts transaction receipts -> \texttt{paper/tables/fraud\_results.md}, \texttt{eval/results/fraud\_results.json}, and \texttt{eval/results/baseline\_double\_issuance\_receipt.json}.
+\item \texttt{eval/latency.py}: Measures public Base Sepolia RPC latency ($N=20$) and indexer synchronization lag -> \texttt{paper/tables/latency.md} and \texttt{eval/results/latency.json}.
+\item Figures \& Manifest: Generates high-resolution publication figures (\texttt{paper/figures/proving\_time.pdf} and \texttt{paper/figures/gas\_comparison.pdf}) and writes \texttt{eval/results/manifest.json}.
+\end{enumerate}
+
+\subsubsection{A.2 Automated Manifest Verification}
+\texttt{eval/write\_manifest.py} extracts exact dependency versions directly from \texttt{pnpm-lock.yaml}, \texttt{uv.lock}, and \texttt{forge --version}, automatically refreshing \texttt{docs/REPRODUCIBILITY.md} and verifying that all 15 manuscript artifacts exist and are non-empty.
+
+\subsection{Appendix B: Extended Security Traces \& Formal Lemma 1 Proof}
+
+\subsubsection{B.1 Complete Proof of Lemma 1 (Cross-Registry Unicity)}
+
+\begin{proof} Let $\mathcal{H}: \{0,1\}^* \rightarrow \{0,1\}^{256}$ denote Keccak-256, assumed $(t, \epsilon)$-collision resistant. Let $\mathbb{S}$ denote the persistent key-value state of \texttt{CarbonRegistry.sol}.
+Let $T_1 = \text{issue}(P_1, g_1, s_1, v_1, \tau_1, m_1, D_1, \pi_1)$ be a valid issuance transaction mined at block height $h_1$. 
+Execution sets:
+$$\mathbb{S}[\text{issuanceNullifierSpent}][\mathcal{H}(g_1, v_1, \tau_1)] \leftarrow \text{true}$$
+
+Suppose a second transaction $T_2 = \text{issue}(P_2, g_2, s_2, v_2, \tau_2, m_2, D_2, \pi_2)$ is mined at block height $h_2 \ge h_1$, representing double-issuance on the same land, vintage, and credit type ($g_2 = g_1, v_2 = v_1, \tau_2 = \tau_1$).
+$T_2$ computes $\mathcal{N}_2 = \mathcal{H}(g_2, v_2, \tau_2) = \mathcal{H}(g_1, v_1, \tau_1) = \mathcal{N}_1$.
+$T_2$ evaluates the guard condition:
+$$\text{require}(!\mathbb{S}[\text{issuanceNullifierSpent}][\mathcal{N}_2], \text{IssuanceNullifierAlreadySpent})$$
+Since $\mathbb{S}[\text{issuanceNullifierSpent}][\mathcal{N}_1] == \text{true}$, this condition evaluates to \texttt{false}, causing $T_2$ to revert with \texttt{IssuanceNullifierAlreadySpent}. 
+
+To prevent reverting, an adversary must find $(g_2, v_2, \tau_2) \neq (g_1, v_1, \tau_1)$ such that $\mathcal{H}(g_2, v_2, \tau_2) = \mathcal{H}(g_1, v_1, \tau_1)$, which succeeds with probability at most $\epsilon \le \mathcal{O}(2^{-128})$. Thus, cross-registry duplicate issuance is cryptographically eliminated. \end{proof}
+
+\subsubsection{B.2 Baseline Registry Vulnerability Transaction Receipt Trace}
+From \texttt{eval/results/baseline\_double\_issuance\_receipt.json}, the two competing broadcast transactions on \texttt{BaselineCentralRegistry.sol} succeeded under identical parameters:
+\begin{itemize}
+\item \textbf{Registry A Transaction:} Broadcast by \texttt{0x70997970C51812dc3A010C7d01b50e0d17dc79C8}, Project ID \texttt{0xeecf...}, Minted Batch: \texttt{1} (544 credits).
+\item \textbf{Registry B Transaction:} Broadcast by \texttt{0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC}, Project ID \texttt{0x239a...}, Minted Batch: \texttt{2} (544 credits).
+\item \textbf{Total Minted Supply:} 1,088 credits [C-16, baseline\_double\_issuance\_receipt.json] against physical land supporting 544 $\text{tCO}_2\text{e}$. Under VeriCarbon, Registry B's transaction reverts with \texttt{IssuanceNullifierAlreadySpent(0x1771171c...)}.
+\end{itemize}
+
+
+\bibliographystyle{elsarticle-num}
+\bibliography{refs}
+
+\end{document}

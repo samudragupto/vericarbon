@@ -1,0 +1,20 @@
+\begin{table}[t]
+\centering
+\small
+\caption{Smart contract gas consumption and modeled economic cost comparison (Assumed: ETH = \$2,500, Base L2 = 0.005 gwei + \$0.001 blob fee, Ethereum L1 = 25.0 gwei).}
+\label{tab:gas_costs}
+\begin{tabular}{llccc}
+\hline
+\textbf{Contract} & \textbf{Function} & \textbf{Measured Gas} & \textbf{Base L2 (\$)} & \textbf{Ethereum L1 (\$)} \\
+\hline
+\texttt{CarbonRegistry} & \texttt{registerProject} & 118,333 & \$0.0025 & \$7.40 \\
+\texttt{CarbonRegistry} & \texttt{issue} & 873,164 & \textbf{\$0.0119} & \textbf{\$54.57} \\
+\texttt{CarbonRegistry} & \texttt{retire} & 74,121 & \$0.0019 & \$4.63 \\
+\texttt{CarbonRegistry} & \texttt{retireAmounts} & 111,476 & \$0.0024 & \$6.97 \\
+\texttt{Halo2Verifier} & \texttt{verifyProof} & 643,269 & \$0.0090 & \$40.20 \\
+\hline
+\texttt{BaselineRegistry} & \texttt{registerProject} & 185,960 & \$0.0033 & \$11.62 \\
+\texttt{BaselineRegistry} & \texttt{issue} (naive) & 115,632 & \$0.0024 & \$7.23 \\
+\hline
+\end{tabular}
+\end{table}

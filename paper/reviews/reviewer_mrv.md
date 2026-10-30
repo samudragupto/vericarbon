@@ -41,3 +41,4 @@ The manuscript is refreshingly transparent regarding the synthetic nature of the
 
 4. **Minor 4 (Baseline System Differentiation in Table 1):**  
    In the caption of Table 1 (`related_work_matrix.md`), explicitly highlight that prior blockchain registries operate strictly on token transfer logistics without algorithmic computational verification.
+

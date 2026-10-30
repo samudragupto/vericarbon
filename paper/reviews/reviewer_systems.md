@@ -41,3 +41,4 @@ However, several systems-level questions regarding baseline comparison fairness,
 
 4. **Minor 4 (Figure Labels):**  
    In Figure 3(a), ensure that the gas breakdown labels clearly distinguish protocol logic overhead from standard ERC-1155 storage writes.
+

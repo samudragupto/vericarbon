@@ -1,0 +1,25 @@
+\begin{table*}[t]
+\centering
+\small
+\caption{Architectural comparison of VeriCarbon against operational Web3 carbon protocols, decentralized MRV platforms, and academic cryptographic carbon accounting proposals.}
+\label{tab:related_work}
+\begin{tabular}{p{3.2cm}p{2.6cm}p{2.4cm}p{1.8cm}p{2.8cm}p{2.8cm}}
+\hline
+\textbf{System / Scheme} & \textbf{Domain} & \textbf{Data Verified?} & \textbf{In-Circuit ML?} & \textbf{Double-Issuance Defense} & \textbf{Double-Retirement Defense} \\
+\hline
+\textbf{Toucan Protocol} & Web3 Carbon Bridge & No (assumes paper) & No & None (isolated bridge) & ERC-20 burn (no nullifier) \\
+\textbf{KlimaDAO} & Carbon Currency & No (external pools) & No & None (inherits bridge flaws) & Token bonding / burn \\
+\textbf{Flowcarbon} & Tokenized Offsets & No (custodial trust) & No & None (custodial trust) & Token burn \\
+\textbf{Climate Warehouse} & World Bank Meta-Reg & No (external APIs) & No & Passive observer only & Bilateral messaging \\
+\textbf{Regen Network} & Ecological Ledger & Oracle-attested & No & None (Cosmos state silo) & On-chain retirement \\
+\textbf{Open Forest Protocol} & Decentralized MRV & Stake consensus & No & None (NEAR state silo) & State token burn \\
+\textbf{dMRV (Mohan et al.)} & IoT / Remote Sensing & TLS-Notary Oracle & No & None & Smart contract burn \\
+\textbf{dMRV (Franke et al.)} & Blockchain Carbon & External body API & No & None (national silo) & Token burn \\
+\textbf{dMRV (VanderBurg et al.)} & Satellite Verification & Centralized cloud & No & None & Registry state \\
+\textbf{ZK-Credit (Kang et al.)} & Energy Offsets & Merkle tree & Linear model & Intra-protocol only & Nullifier set \\
+\textbf{ZK-Credit (Zhang et al.)} & Carbon Footprint & Supply-chain input & Linear / MLP & Intra-protocol only & Nonce check \\
+\hline
+\textbf{VeriCarbon (This Work)} & \textbf{Verifiable Satellite MRV} & \textbf{Yes (Poseidon / SHA-256)} & \textbf{Yes (Decision Tree)} & \textbf{Cryptographic (A0 Nullifier)} & \textbf{Global Claim Nullifier} \\
+\hline
+\end{tabular}
+\end{table*}

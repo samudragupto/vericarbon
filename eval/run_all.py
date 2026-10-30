@@ -195,6 +195,7 @@ def generate_proving_time_figure(zk_data: dict[str, Any]) -> Path:
 
     fig.tight_layout(rect=[0, 0, 1, 0.90])
     fig.savefig(out_path, dpi=300)
+    fig.savefig(out_path.with_suffix(".pdf"), format="pdf")
     plt.close(fig)
     return out_path
 
@@ -325,6 +326,7 @@ def generate_gas_comparison_figure(gas_data: dict[str, Any]) -> Path:
 
     fig.tight_layout()
     fig.savefig(out_path, dpi=300)
+    fig.savefig(out_path.with_suffix(".pdf"), format="pdf")
     plt.close(fig)
     return out_path
 

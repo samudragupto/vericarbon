@@ -1,0 +1,22 @@
+\begin{table*}[t]
+\centering
+\small
+\caption{Security and fraud scenario evaluation matrix across seven canonical attacks (A1–A7) and two pre-A0 vulnerabilities comparing VeriCarbon against a centralized baseline registry.}
+\label{tab:fraud_results}
+\begin{tabular}{p{3.8cm}p{4.2cm}p{3.8cm}p{3.8cm}}
+\hline
+\textbf{Fraud Scenario} & \textbf{Defense Mechanism} & \textbf{VeriCarbon Outcome} & \textbf{Centralized Baseline Outcome} \\
+\hline
+\textbf{Pre-A0 Salt-Dodge} & Pre-A0 Nullifier ($\mathcal{N}_{\text{pre}}$) & Vulnerable pre-A0 (Fixed post-A0) & SUCCEEDS (Double Mint / 1,088 credits) \\
+\textbf{Pre-A0 Vintage Relabel} & Pre-A0 String Vintage & Vulnerable pre-A0 (Fixed post-A0) & SUCCEEDS (Unbounded Minting) \\
+\hline
+\textbf{A1: Cross-Registry Same Parcel} & Global Nullifier $\mathcal{N}_{\text{iss}} := \mathcal{H}(g, v, \tau)$ & \textbf{REVERT (\texttt{IssuanceNullifierAlreadySpent})} & SUCCEEDS (Duplicate Minting) \\
+\textbf{A2: Single-Registry Duplicate} & Atomic nullifier storage lookup & \textbf{REVERT (\texttt{IssuanceNullifierAlreadySpent})} & SUCCEEDS (Duplicate Minting) \\
+\textbf{A3: Salt-Dodge Re-Registration} & Salt-independent nullifier $\mathcal{N}_{\text{iss}}$ & \textbf{REVERT (\texttt{IssuanceNullifierAlreadySpent})} & SUCCEEDS (Bypasses commitment) \\
+\textbf{A4: Retirement Replay} & Single-claim nullifier $\mathcal{N}_{\text{claim}}$ & \textbf{REVERT (\texttt{ClaimNullifierAlreadySpent})} & SUCCEEDS (Unbounded Offsetting) \\
+\textbf{A5: Non-Existent Batch Claim} & Monotonic batch check & \textbf{REVERT (\texttt{BatchDoesNotExist})} & REVERT (Token non-existent) \\
+\textbf{A6: Amount Inflation Above ML} & In-circuit bound ($m \le f_{\text{model}}(X)$) & \textbf{REVERT (\texttt{InvalidZKProof})} & SUCCEEDS (Arbitrary Minting) \\
+\textbf{A7: Future Vintage / Relabel} & Strict bounds ($v \le Y_{\text{current}}$) & \textbf{REVERT (\texttt{InvalidVintageYear})} & SUCCEEDS (Future Minting) \\
+\hline
+\end{tabular}
+\end{table*}

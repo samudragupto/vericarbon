@@ -1,0 +1,19 @@
+\begin{table}[t]
+\centering
+\small
+\caption{Spatial-block cross-validation performance of HistGradientBoostingRegressor biomass estimation across 4 spatial-block clusters in the Tapaj\'{o}s National Forest chip (internal self-consistency on synthesized fixtures — not a field-accuracy claim).}
+\label{tab:model_metrics}
+\begin{tabular}{lcccc}
+\hline
+\textbf{Fold / Deployment} & \textbf{Test Block} & \textbf{MAE (Mg/ha)} & \textbf{RMSE (Mg/ha)} & \textbf{$R^2$ Score} \\
+\hline
+Fold 1 & \texttt{6z2zz} & 2.1744 & 2.7026 & 0.7699 \\
+Fold 2 & \texttt{6z3pb} & 1.7450 & 2.1326 & 0.9935 \\
+Fold 3 & \texttt{6z8bp} & 13.4895 & 33.4757 & 0.7744 \\
+Fold 4 (Canonical Deployment) & \texttt{6z900} & 3.7514 & 8.1675 & 0.9869 \\
+\hline
+\textbf{Cross-Validation Mean} & — & \textbf{5.2901} & \textbf{11.6196} & \textbf{0.8812} \\
+\textbf{Cross-Validation Std ($\pm$)} & — & $\pm$4.7925 & $\pm$12.8367 & $\pm$0.1091 \\
+\hline
+\end{tabular}
+\end{table}
