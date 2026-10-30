@@ -1,9 +1,9 @@
 {
   "manifest_version": "1.0.0",
   "benchmark_suite": "VeriCarbon Evaluation Suite (Stage A Automated Manifest)",
-  "git_commit": "047a5586af98b63ca371deefcffeaeb90d3be3ae",
+  "git_commit": "44084a20150b45b02aa799bcbf6b85fed50f82ef",
   "tool_versions": {
-    "python": "3.11.9",
+    "python": "3.13.11",
     "platform": "Microsoft Windows 11 Home Single Language (LOQ 15APH8)",
     "ezkl": "23.0.5",
     "forge": "1.5.1-stable",
@@ -38,7 +38,7 @@
     "model_r2": 0.9869,
     "model_mae_mg_ha": 3.7514,
     "model_rmse_mg_ha": 8.1675,
-    "issue_total_gas": 835391,
+    "issue_total_gas": 873164,
     "attacks_evaluated": 9
   },
   "artifacts_verified": [

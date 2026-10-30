@@ -192,8 +192,9 @@ All toolchains, random seeds, dataset snapshots, and exact package versions used
 
 - **Deterministic Seed:** `SEED = 42` across all NumPy RNGs, feature quantization, salt derivation, and `HistGradientBoostingRegressor(random_state=42)`.
 - **AOI & Spatial-Block Split:** Default AOI `-54.8485,-2.8172,-54.8390,-2.8078` (~1.05 km × 1.05 km chip in Tapajós National Forest, Pará, Brazil).
-  - Chip falls within a single geographic geohash-5 cell. Spatial-block cross-validation uses 4 quadrant partition blocks (`6z2zz`, `6z3pb`, `6z8bp`, `6z900`) representing 2x2 spatial quadrants (precision 5) to evaluate spatial generalization and prevent spatial autocorrelation leakage.
+  - The 1.05 km × 1.05 km chip is positioned across the 4-way corner junction of four intersecting geohash-5 cells. Spatial-block cross-validation uses 4 quadrant partition blocks (`6z2zz`, `6z3pb`, `6z8bp`, `6z900`) representing 2x2 spatial quadrants to evaluate spatial generalization and prevent spatial autocorrelation leakage.
   - Parcel-level commitment and nullifier unicity use `geohash8` (~38.2m × ~19.1m).
+- **Known Limitations:** The AOI bounding box was constructed for the synthetic fixture (center placed on a geohash cell corner by design); it was not field-surveyed.
 - **Biomass (AGB) Labels Limitation Log (per `AGENT.md` lines 29–32):**
   - Probing Microsoft Planetary Computer's public STAC API for `gedi-l4a` and `esa-cci-biomass` confirmed that neither GEDI L4A (requires NASA Earthdata Login) nor ESA CCI Biomass is available without external authentication on Planetary Computer's public STAC catalog.
   - Per the fallback rule in `AGENT.md`, pixel-level AGB labels (`agb_mg_ha`) are synthesized deterministically (`SEED = 42`) from ESA WorldCover canopy classes and seasonal Sentinel-2 NDVI/NDRE trajectories, and cached in `services/mrv/tests/fixtures/sentinel2_window_cube.npz`.
@@ -302,10 +303,11 @@ def main() -> None:
 
     gas_path = RESULTS_DIR / "gas_costs.json"
     gas_data = json.loads(gas_path.read_text(encoding="utf-8")) if gas_path.exists() else {}
+    issue_op = next((op for op in gas_data.get("operations", []) if op.get("function") == "issue"), {})
     gas_canon = {
-        "issue_total_gas": gas_data.get("issue_breakdown", {}).get("total_measured_issue_gas", 835391),
-        "base_sepolia_usd": gas_data.get("cost_modeling", {}).get("base_sepolia_usd", 0.0114),
-        "ethereum_l1_usd": gas_data.get("cost_modeling", {}).get("ethereum_l1_usd", 52.21),
+        "issue_total_gas": issue_op.get("gas", 873164),
+        "base_sepolia_usd": issue_op.get("cost_base_usd", 0.0119),
+        "ethereum_l1_usd": issue_op.get("cost_l1_usd", 54.57),
     }
 
     fraud_path = RESULTS_DIR / "fraud_results.json"

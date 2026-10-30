@@ -443,7 +443,7 @@ This orchestrates the five modular benchmark scripts with fixed deterministic se
 \item \texttt{eval/gas\_costs.py}: Executes \texttt{forge test --gas-report}, measures median gas across contract operations, and models USD costs for Base L2 vs. Ethereum L1 -> \texttt{paper/tables/gas\_costs.md} and \texttt{eval/results/gas\_costs.json}.
 \item \texttt{eval/fraud\_simulation.py}: Executes the 9 security scenarios in Foundry, launches an ephemeral Anvil node to execute \texttt{BaselineDoubleIssuance.s.sol}, and extracts transaction receipts -> \texttt{paper/tables/fraud\_results.md}, \texttt{eval/results/fraud\_results.json}, and \texttt{eval/results/baseline\_double\_issuance\_receipt.json}.
 \item \texttt{eval/latency.py}: Measures public Base Sepolia RPC latency ($N=20$) and indexer synchronization lag -> \texttt{paper/tables/latency.md} and \texttt{eval/results/latency.json}.
-\item Figures \& Manifest: Generates high-resolution publication figures (\texttt{paper/figures/proving\_time.pdf} and \texttt{paper/figures/gas\_comparison.pdf}) and writes \texttt{eval/results/manifest.json}.
+\item Figures \& Manifest: Generates high-resolution publication figures (\texttt{proving\_time.png} and \texttt{gas\_comparison.png}) and writes \texttt{manifest.json}.
 \end{enumerate}
 
 \subsubsection{A.2 Automated Manifest Verification}
@@ -469,9 +469,9 @@ To prevent reverting, an adversary must find $(g_2, v_2, \tau_2) \neq (g_1, v_1,
 \subsubsection{B.2 Baseline Registry Vulnerability Transaction Receipt Trace}
 From \texttt{eval/results/baseline\_double\_issuance\_receipt.json}, the two competing broadcast transactions on \texttt{BaselineCentralRegistry.sol} succeeded under identical parameters:
 \begin{itemize}
-\item \textbf{Registry A Transaction:} Broadcast by \texttt{0x70997970C51812dc3A010C7d01b50e0d17dc79C8}, Project ID \texttt{0xeecf...}, Minted Batch: \texttt{1} (544 credits).
-\item \textbf{Registry B Transaction:} Broadcast by \texttt{0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC}, Project ID \texttt{0x239a...}, Minted Batch: \texttt{2} (544 credits).
-\item \textbf{Total Minted Supply:} 1,088 credits against the fixture parcel's certified model output of 544 credits. Under VeriCarbon, Registry B's transaction reverts with \texttt{IssuanceNullifierAlreadySpent(0x1771171c...)}.
+\item \textbf{Registry A Transaction:} Broadcast by \texttt{0x7099...79C8}, Project ID \texttt{0xeecf...}, Minted Batch: \texttt{1} (544 credits).
+\item \textbf{Registry B Transaction:} Broadcast by \texttt{0x3C44...93BC}, Project ID \texttt{0x239a...}, Minted Batch: \texttt{2} (544 credits).
+\item \textbf{Total Minted Supply:} 1,088 credits against the fixture parcel's certified model output of 544 credits. Under VeriCarbon, Registry B's transaction reverts with \texttt{IssuanceNullifierAlreadySpent}.
 \end{itemize}
 
 

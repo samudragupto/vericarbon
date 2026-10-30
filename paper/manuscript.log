@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.10.28)  30 OCT 2026 22:24
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.10.28)  30 OCT 2026 22:52
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1129,15 +1129,9 @@ n/12 eval/results/baseline_double_issuance_receipt.json\T1/cmr/m/n/12 .
  []
 
 
-Overfull \hbox (162.2137pt too wide) in paragraph at lines 446--447
+Overfull \hbox (75.7848pt too wide) in paragraph at lines 446--447
 []\T1/cmr/m/n/12 Figures & Man-i-fest: Gen-er-ates high-resolution pub-li-ca-ti
-on fig-ures (\T1/cmtt/m/n/12 paper/figures/proving_time.pdf
- []
-
-
-Overfull \hbox (84.29393pt too wide) in paragraph at lines 446--447
-\T1/cmr/m/n/12 and \T1/cmtt/m/n/12 paper/figures/gas_comparison.pdf\T1/cmr/m/n/
-12 ) and writes \T1/cmtt/m/n/12 eval/results/manifest.json\T1/cmr/m/n/12 . 
+on fig-ures (\T1/cmtt/m/n/12 proving_time.png
  []
 
 
@@ -1160,24 +1154,6 @@ Overfull \hbox (9.15811pt too wide) in paragraph at lines 470--472
 eipt.json\T1/cmr/m/n/12 , the two
  []
 
-
-Overfull \hbox (114.55644pt too wide) in paragraph at lines 472--473
-[]\T1/cmr/bx/n/12 Registry A Trans-ac-tion: \T1/cmr/m/n/12 Broad-cast by \T1/cm
-tt/m/n/12 0x70997970C51812dc3A010C7d01b50e0d17dc79C8\T1/cmr/m/n/12 ,
- []
-
-
-Overfull \hbox (113.95935pt too wide) in paragraph at lines 473--474
-[]\T1/cmr/bx/n/12 Registry B Trans-ac-tion: \T1/cmr/m/n/12 Broad-cast by \T1/cm
-tt/m/n/12 0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC\T1/cmr/m/n/12 ,
- []
-
-
-Overfull \hbox (10.91736pt too wide) in paragraph at lines 474--475
-\T1/cmr/m/n/12 ac-tion re-verts with \T1/cmtt/m/n/12 IssuanceNullifierAlreadySp
-ent(0x1771171c...)\T1/cmr/m/n/12 . 
- []
-
 (manuscript.bbl [36]
 Underfull \hbox (badness 10000) in paragraph at lines 32--39
 \T1/cmr/m/n/12 URL [][]$\T1/cmtt/m/n/12 https : / / www . theguardian . com / e
@@ -1197,7 +1173,7 @@ dbank . org / en / topic /
  []
 
 [37] [38]
-Underfull \hbox (badness 1616) in paragraph at lines 162--167
+Underfull \hbox (badness 1616) in paragraph at lines 164--169
 []\T1/cmr/m/n/12 L. Grassi, D. Kales, D. Khovra-tovich, A. Roy, C. Rech-berger,
 
  []
@@ -1248,9 +1224,9 @@ ta/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/use
 r/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Us
 ers/user/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm
 10.pfb>
-Output written on manuscript.pdf (39 pages, 595102 bytes).
+Output written on manuscript.pdf (39 pages, 595697 bytes).
 PDF statistics:
- 1598 PDF objects out of 1728 (max. 8388607)
+ 1601 PDF objects out of 1728 (max. 8388607)
  159 named destinations out of 1000 (max. 500000)
  419 words of extra memory for PDF output out of 10000 (max. 10000000)
 
