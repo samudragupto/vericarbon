@@ -48,3 +48,18 @@ All toolchains, random seeds, dataset snapshots, and exact package versions used
   - `packages/contracts/script/Deploy.s.sol`: Deploys `Halo2Verifier`, `CarbonRegistry`, and `BaselineCentralRegistry` to Base Sepolia (`chainId: 84532`) and exports deployment manifests + ABIs to `packages/contracts/deployments/` and `packages/sdk/src/abi/`.
 - **Deterministic Fuzz & Invariant Seeds:** `fuzz.runs = 128`, `fuzz.seed = "0x2a"`, `invariant.runs = 32`, `invariant.depth = 16`.
 - **Gas Snapshot:** Saved in `eval/results/gas_snapshot.txt` via `forge snapshot --snap ../../eval/results/gas_snapshot.txt`.
+
+## Phase 5 Supabase Schema, Indexer, IPFS Adapter, and Local E2E (`supabase/`, `packages/sdk`, `apps/web`, `eval/e2e_local.sh`)
+
+- **Database Migrations & Seed (`supabase/`):**
+  - `supabase/migrations/20261030000000_initial_schema.sql`: Idempotent SQL schema defining `pg_cron` and `pg_net` extensions, tables (`profiles`, `projects`, `issuances`, `claims`, `nullifiers`, `sync_log`), Row Level Security (RLS) policies on all tables (public `SELECT` on data tables, self-read/update on `profiles`, writes restricted to `service_role`), indexes on `project_id` and `block_number`, and the atomic transactional RPC `public.ingest_indexer_batch(...)`.
+  - `supabase/migrations/20261030000001_indexer_cron.sql`: Schedules `indexer-hourly` (`0 * * * *`) via `cron.schedule` + `net.http_post`.
+  - `supabase/seed.sql`: Seeds 2 demo registries, 3 projects, 3 issuances, 1 claim, 4 spent nullifiers, and the `sync_log` watermark.
+  - `supabase/local_server.mjs`: Embedded PostgreSQL 16 (`@electric-sql/pglite@0.2.17`) PostgREST-compatible local gateway executing the exact `supabase/migrations/*.sql` and `supabase/seed.sql` files on port `54321` when the Supabase CLI Docker stack is not installed on the host.
+- **Indexer & SDK (`supabase/functions/indexer/index.ts`, `packages/sdk`):**
+  - `supabase/functions/indexer/index.ts`: Deno Edge Function using `viem@2.23.5` and `@supabase/supabase-js@2.49.1` with exponential backoff and structured JSON logging.
+  - `packages/sdk`: Exports `IIpfsStore`, `PinataIpfsStore`, `InMemoryIpfsStore` (deterministic `bafkrei...` CIDv1 over canonical bundle JSON), `createBaseSepoliaPublicClient`, typed event decoders (`decodeProjectRegisteredLog`, `decodeIssuedLog`, `decodeClaimedLog`), and `syncOnce()`.
+- **Web API Routes (`apps/web`):**
+  - `POST /api/evidence`, `GET /api/evidence/[cid]`, `GET /api/health`, and `GET/POST /api/cron/indexer` (with daily Vercel cron schedule in `apps/web/vercel.json`).
+- **End-to-End Local Verification (`eval/e2e_local.sh`):**
+  - Starts local PostgreSQL 16 (applying migrations + `seed.sql`) and `anvil`, executes `forge script script/IssueLocal.s.sol:IssueLocalScript --broadcast` with the real Halo2 proof, runs `syncOnce()`, and verifies rows in `projects`, `issuances`, `claims`, and `nullifiers`.

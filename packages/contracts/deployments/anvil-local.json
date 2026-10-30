@@ -1,0 +1,10 @@
+{
+  "CarbonRegistry": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+  "Halo2Verifier": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+  "projectId": "0x0f2424f45c5bc025be3b6482794fa03966d6d93aab549f1526e7494d17e562a9",
+  "geoCommitment": "0xfb1dc72939899d3e97515de6980aef1d62fc660aa6263f70e2f6ef960de68dba",
+  "issuanceNullifier": "0x9b71a6a986e6dc4158526c2fe76071a1669d2cb2db7a4043c6800680182bbf20",
+  "claimNullifier": "0x86b0c8eebe3be545dff94b72e92f0bd0018c596d17acb8bf918d322d65b114c3",
+  "amount": 544,
+  "vintageYear": 2024
+}

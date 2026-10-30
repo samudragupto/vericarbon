@@ -410,3 +410,4 @@ contract CarbonRegistry is ERC1155, AccessControl {
         return super.supportsInterface(interfaceId);
     }
 }
+

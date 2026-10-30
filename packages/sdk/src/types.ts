@@ -2,7 +2,8 @@ import { z } from "zod";
 import type { Address, Hex } from "viem";
 
 /**
- * Shared types and Zod schemas for VeriCarbon domain primitives and MRV evidence bundles.
+ * Shared types and Zod schemas for VeriCarbon domain primitives, MRV evidence bundles,
+ * API responses, and indexer synchronization.
  *
  * Domain semantics per AGENT.md:
  * - geoCommitment := keccak256(abi.encode(geohash8, salt))
@@ -58,6 +59,44 @@ export const IssuanceCommitmentSchema = z.object({
 });
 
 export type IssuanceCommitment = z.infer<typeof IssuanceCommitmentSchema>;
+
+export const PinEvidenceResponseSchema = z.object({
+  cid: z.string().min(1),
+});
+
+export type PinEvidenceResponse = z.infer<typeof PinEvidenceResponseSchema>;
+
+export const HealthResponseSchema = z.object({
+  status: z.enum(["ok", "degraded"]),
+  supabase: z.object({
+    reachable: z.boolean(),
+    latencyMs: z.number().nonnegative(),
+    error: z.string().optional(),
+  }),
+  rpc: z.object({
+    reachable: z.boolean(),
+    chainId: z.number().int().optional(),
+    latestBlock: z.string().optional(),
+    latencyMs: z.number().nonnegative(),
+    error: z.string().optional(),
+  }),
+  timestamp: z.string(),
+});
+
+export type HealthResponse = z.infer<typeof HealthResponseSchema>;
+
+export const SyncOnceResultSchema = z.object({
+  ok: z.boolean(),
+  chainId: z.number().int(),
+  fromBlock: z.number().int().nonnegative(),
+  toBlock: z.number().int().nonnegative(),
+  projectsUpserted: z.number().int().nonnegative(),
+  issuancesUpserted: z.number().int().nonnegative(),
+  claimsUpserted: z.number().int().nonnegative(),
+  nullifiersUpserted: z.number().int().nonnegative(),
+});
+
+export type SyncOnceResult = z.infer<typeof SyncOnceResultSchema>;
 
 export interface VeriCarbonContractConfig {
   chainId: 84532;
