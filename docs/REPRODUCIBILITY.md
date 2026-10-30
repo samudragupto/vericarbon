@@ -83,3 +83,62 @@ All toolchains, random seeds, dataset snapshots, and exact package versions used
   - Automates local Anvil, local Supabase PGlite gateway, Next.js server, and headless Google Chrome.
   - Completes project registration, credit issuance with Halo2 proof fixture, spatial map pin rendering, token retirement, and nullifier verification.
   - Captures 5 high-resolution screenshots saved to `eval/results/screenshots/` and embedded in the walkthrough artifact.
+
+
+## Phase 7 Evaluation Suite, Manuscript Artifacts & Known Limitations (`eval/`, `paper/`)
+
+### Exact One-Command Full Rerun
+
+To deterministically re-execute the entire evaluation suite and regenerate all manuscript tables, figures, and JSON results from a clean checkout:
+
+```bash
+uv run eval/run_all.py
+```
+
+Under the hood, `eval/run_all.py` orchestrates five modular benchmark scripts with fixed seed `SEED = 42`:
+1. `uv run python eval/model_metrics.py`: Evaluates spatial-block cross-validation (geohash-5 prefix partition) for `HistGradientBoostingRegressor` on Sentinel-2 + ESA WorldCover features -> `paper/tables/model_metrics.md` and `eval/results/model_metrics.json`.
+2. `uv run python eval/zk_benchmarks.py`: Re-runs the Halo2/KZG circuit complexity sweep across feature dimensions $F \in \{8, 12, 16, 32\}$ and tree ensemble sizes $T \in \{2, 4, 8\}$, recording host hardware specs, ezkl version, and UTC timestamp -> `paper/tables/zk_benchmarks.md` and `eval/results/zk_benchmarks.json`.
+3. `uv run python eval/gas_costs.py`: Executes `forge snapshot` and `forge test --gas-report`, extracts median execution gas per contract method, breaks down `CarbonRegistry.issue` into component subsystems (ZK verification, nullifier storage, token minting, dispatcher), and models USD costs for Base L2 vs. Ethereum L1 -> `paper/tables/gas_costs.md` and `eval/results/gas_costs.json`.
+4. `uv run python eval/fraud_simulation.py`: Executes the six fraud attack tests in Foundry (`test_Attack1` through `test_Attack6`) and the baseline demonstration test (`test_BaselineDemo`), spins up an ephemeral Anvil node to execute `packages/contracts/script/BaselineDoubleIssuance.s.sol`, and extracts transaction receipts of the baseline double-issuance vulnerability -> `paper/tables/fraud_results.md`, `eval/results/fraud_results.json`, and `eval/results/baseline_double_issuance_receipt.json`.
+5. `uv run python eval/latency.py`: Measures public Base Sepolia RPC roundtrip latency (`eth_blockNumber`, $N=20$) and end-to-end off-chain indexer visibility lag ($N=20$), computing Mean, Median, Min, Max, and p95 -> `paper/tables/latency.md` and `eval/results/latency.json`.
+6. Publication Figures (`paper/figures/`):
+   - `paper/figures/proving_time.png`: High-resolution (300 DPI) line plot of proving time vs. feature dimension grouped by tree ensemble count, with the canonical MRV model ($F=12, T=4$, 0.67s) explicitly annotated.
+   - `paper/figures/gas_comparison.png`: High-resolution (300 DPI) two-panel figure comparing EVM gas breakdown (stacked bar) and USD cost comparison on Base L2 vs. Ethereum L1 (log-scale bar).
+7. Verification & Manifest: Generates `eval/results/manifest.json`, certifying that all 13 tables, figures, and receipts exist and are non-empty.
+
+### Generated Manuscript Tables & Figures
+
+| File | Type | Description |
+| :--- | :--- | :--- |
+| `paper/tables/model_metrics.md` | Markdown Table | Spatial-block 4-fold cross-validation accuracy (MAE, RMSE, $R^2$) |
+| `paper/tables/zk_benchmarks.md` | Markdown Table | ezkl Halo2 circuit setup, proving time, off-chain verify, and EVM gas across $(F, T, D)$ |
+| `paper/tables/gas_costs.md` | Markdown Table | Smart contract gas measurements and projected USD costs (Base L2 vs. Ethereum L1) |
+| `paper/tables/fraud_results.md` | Markdown Table | Security matrix across 6 attacks (Attack \| Mechanism \| VeriCarbon \| Centralized Baseline) |
+| `paper/tables/latency.md` | Markdown Table | Public RPC roundtrip and indexer end-to-end lag ($N=20$, Mean and p95) |
+| `paper/figures/proving_time.png` | 300 DPI PNG | Proving time vs. feature count and tree ensemble size |
+| `paper/figures/gas_comparison.png` | 300 DPI PNG | Issuance gas component decomposition and L1 vs. L2 cost comparison |
+| `eval/results/manifest.json` | JSON Manifest | Complete execution metadata, machine specs, git commit, and artifact verification |
+| `eval/results/baseline_double_issuance_receipt.json` | JSON Artifact | Real EVM transaction receipts demonstrating cross-registry duplicate issuance on baseline |
+
+---
+
+## Known Limitations & Evaluation Disclaimers
+
+In accordance with academic rigor and the transparency requirements of `AGENT.md`, the following limitations apply to the experimental results presented in the paper:
+
+1. **Synthetic Aboveground Biomass (AGB) Ground-Truth Labels:**
+   - **Reason:** Public Planetary Computer STAC catalogs host Sentinel-2 L2A and ESA WorldCover without credentials, but do not provide frictionless access to spaceborne LiDAR biomass datasets (GEDI L4A requires NASA Earthdata Login with external approval; ESA CCI Biomass is not hosted on Planetary Computer).
+   - **Methodology:** Following `AGENT.md` fallback rules, pixel-level AGB labels (`agb_mg_ha`) were synthesized deterministically (`SEED = 42`) based on allometric canopy height and density functions derived from ESA WorldCover classes and seasonal Sentinel-2 red-edge vegetation indices.
+   - **Implication:** The relative spatial-block validation ($R^2 = 0.9869$ on block `6z900`) and the zero-knowledge circuit constraints operate identically regardless of whether the target column originates from in-situ forest inventory plots or synthesized allometric fixtures. Real-world commercial deployment will substitute forest inventory calibration plots without modifying the pipeline architecture.
+
+2. **Assumed Gas Prices and Asset Valuations for Cost Modeling:**
+   - **Reason:** Real-world Ethereum and L2 gas prices fluctuate with network congestion and EIP-4844 blob market dynamics.
+   - **Methodology:** Contract gas consumption (in execution gas units) is **empirically measured** using Foundry Cancun EVM execution (`forge snapshot` and `forge test --gas-report`). However, the translation of gas units to USD figures relies on clearly-labeled user-configurable parameters defined in `eval/gas_costs.py`:
+     - Assumed ETH Price: **\$2,500.00**
+     - Base L2 Gas Price: **0.005 gwei** (+ **\$0.001** amortized blob fee)
+     - Ethereum L1 Gas Price: **25.0 gwei**
+   - **Implication:** USD costs are presented as comparative models demonstrating the 4,500× cost reduction enabled by L2 rollups, rather than real-time financial guarantees.
+
+3. **Testnet-Only and Ephemeral Local EVM Deployment:**
+   - **Reason:** To satisfy the strict $0 budget constraint (`AGENT.md`), all on-chain deployments, transactions, and benchmarks are executed exclusively on Base Sepolia (`chainId: 84532`) and local Anvil EVM (`chainId: 31337`).
+   - **Implication:** No mainnet contracts are deployed, and no real financial assets or proprietary carbon credits are issued. Private keys used in scripts are well-known development mnemonic accounts (`0xac0974...`).

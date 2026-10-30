@@ -1,0 +1,71 @@
+{
+  "benchmark": "fraud_simulation",
+  "attacks": [
+    {
+      "attack": "Cross-Registry Double Issuance",
+      "description": "Two registries register the same land parcel (`geoCommitment`) and issue duplicate credits for the same vintage year",
+      "mechanism": "Global Geospatial Nullifier (`issuanceNullifier := keccak256(geoCommitment, vintageYear, creditType)`)",
+      "vericarbon_result": "REVERT (IssuanceNullifierAlreadySpent)",
+      "baseline_result": "SUCCEEDS (Double Mint / 2x Supply Created)",
+      "foundry_test": "test_Attack1_CrossRegistryDoubleIssuanceSameGeoCommitmentAndVintage_Reverts",
+      "foundry_status": "PASS",
+      "measured_gas": 1991296
+    },
+    {
+      "attack": "Single-Registry Duplicate Issuance",
+      "description": "Operator attempts to re-issue credits for an already credited plot or tampers with the claimed amount",
+      "mechanism": "Atomic `issuanceNullifierSpent` map + In-Circuit ZK Bound Binding",
+      "vericarbon_result": "REVERT (InvalidZKProof / IssuanceNullifierAlreadySpent)",
+      "baseline_result": "SUCCEEDS if assigned a new local project ID",
+      "foundry_test": "test_Attack2_SameRegistryDoubleIssuanceDifferentAmounts_Reverts",
+      "foundry_status": "PASS",
+      "measured_gas": 2410835
+    },
+    {
+      "attack": "Retirement Claim Replay",
+      "description": "Claimant replays an identical retirement parameter set to claim multiple ESG / Scope 1 offsets against the same tokens",
+      "mechanism": "Global Claim Nullifier (`claimNullifier := keccak256(issuanceNullifier, claimant, claimType, beneficiaryCommitment)`)",
+      "vericarbon_result": "REVERT (ClaimNullifierAlreadySpent)",
+      "baseline_result": "SUCCEEDS (Unbounded Duplicate Offsetting)",
+      "foundry_test": "test_Attack3_ReplayIdenticalRetirement_Reverts",
+      "foundry_status": "PASS",
+      "measured_gas": 1342182
+    },
+    {
+      "attack": "Claim Against Non-Existent Batch",
+      "description": "Retirement transaction targeting a non-existent serial batch identifier",
+      "mechanism": "Monotonic Batch Registry & Strict Existence Check",
+      "vericarbon_result": "REVERT (BatchDoesNotExist)",
+      "baseline_result": "REVERT (ERC1155NonexistentToken / Silent State Corruption)",
+      "foundry_test": "test_Attack4_ClaimAgainstNonExistentIssuance_Reverts",
+      "foundry_status": "PASS",
+      "measured_gas": 14630
+    },
+    {
+      "attack": "Evidence / Vintage Data Mismatch",
+      "description": "Submitting valid proof for plot A while submitting unverified data commitment for fraudulent plot B",
+      "mechanism": "Halo2 Public Input Instance Binding (`publicInputs[1] == dataCommitment`)",
+      "vericarbon_result": "REVERT (InvalidZKProof)",
+      "baseline_result": "SUCCEEDS (Unchecked Passive Metadata)",
+      "foundry_test": "test_Attack5_EvidenceVintageMismatchVsDataCommitment_Reverts",
+      "foundry_status": "PASS",
+      "measured_gas": 1021195
+    },
+    {
+      "attack": "MRV Output Amount Inflation",
+      "description": "Claiming 644 tCO2e when the verified satellite MRV model output only justifies 544 tCO2e",
+      "mechanism": "In-Circuit Inequality Constraint (`claimedAmount <= model(quantizedFeatures)`)",
+      "vericarbon_result": "REVERT (InvalidZKProof)",
+      "baseline_result": "SUCCEEDS (Arbitrary Minting Permitted)",
+      "foundry_test": "test_Attack6_AmountInflationAboveModelOutput_Reverts",
+      "foundry_status": "PASS",
+      "measured_gas": 1021189
+    }
+  ],
+  "baseline_demonstration_test": {
+    "name": "test_BaselineDemo_CrossRegistryDoubleIssuanceSucceedsOnBaselineRegistry",
+    "status": "PASS",
+    "gas": 512317,
+    "receipts_file": "eval/results/baseline_double_issuance_receipt.json"
+  }
+}

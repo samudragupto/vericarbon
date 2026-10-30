@@ -1,0 +1,20 @@
+[project]
+name = "vericarbon"
+version = "0.1.0"
+description = "VeriCarbon monorepo root for eval and reproducible pipelines"
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "mrv",
+    "vericarbon-zk",
+    "matplotlib>=3.8.0",
+]
+
+[tool.uv.sources]
+mrv = { workspace = true }
+vericarbon-zk = { workspace = true }
+
+[tool.uv.workspace]
+members = [
+    "services/mrv",
+    "services/zk",
+]

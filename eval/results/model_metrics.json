@@ -1,0 +1,110 @@
+{
+  "benchmark": "model_metrics",
+  "dataset": "Tapaj\u00f3s National Forest Sentinel-2 + ESA WorldCover (1.05 km \u00d7 1.05 km)",
+  "features": [
+    "ndvi_mean",
+    "ndvi_3m_p10",
+    "ndvi_3m_p50",
+    "ndvi_3m_p90",
+    "ndre_mean",
+    "reci_mean",
+    "ireci_mean",
+    "wc_tree_cover",
+    "wc_shrubland",
+    "wc_grassland",
+    "wc_cropland",
+    "wc_wetland"
+  ],
+  "hyperparameters": {
+    "max_iter": 40,
+    "max_depth": 4,
+    "learning_rate": 0.1,
+    "min_samples_leaf": 8,
+    "random_state": 42
+  },
+  "folds": [
+    {
+      "fold": 1,
+      "train_blocks": [
+        "6z3pb",
+        "6z8bp",
+        "6z900"
+      ],
+      "test_block": "6z2zz",
+      "train_samples": 192,
+      "test_samples": 64,
+      "mae": 2.1744,
+      "rmse": 2.7026,
+      "r2": 0.7699,
+      "is_canonical": false
+    },
+    {
+      "fold": 2,
+      "train_blocks": [
+        "6z2zz",
+        "6z8bp",
+        "6z900"
+      ],
+      "test_block": "6z3pb",
+      "train_samples": 192,
+      "test_samples": 64,
+      "mae": 1.745,
+      "rmse": 2.1326,
+      "r2": 0.9935,
+      "is_canonical": false
+    },
+    {
+      "fold": 3,
+      "train_blocks": [
+        "6z2zz",
+        "6z3pb",
+        "6z900"
+      ],
+      "test_block": "6z8bp",
+      "train_samples": 192,
+      "test_samples": 64,
+      "mae": 13.4895,
+      "rmse": 33.4757,
+      "r2": 0.7744,
+      "is_canonical": false
+    },
+    {
+      "fold": 4,
+      "train_blocks": [
+        "6z2zz",
+        "6z3pb",
+        "6z8bp"
+      ],
+      "test_block": "6z900",
+      "train_samples": 192,
+      "test_samples": 64,
+      "mae": 3.7514,
+      "rmse": 8.1675,
+      "r2": 0.9869,
+      "is_canonical": true
+    }
+  ],
+  "aggregate": {
+    "mae_mean": 5.2901,
+    "mae_std": 4.7925,
+    "rmse_mean": 11.6196,
+    "rmse_std": 12.8367,
+    "r2_mean": 0.8812,
+    "r2_std": 0.1091
+  },
+  "canonical_holdout": {
+    "fold": 4,
+    "train_blocks": [
+      "6z2zz",
+      "6z3pb",
+      "6z8bp"
+    ],
+    "test_block": "6z900",
+    "train_samples": 192,
+    "test_samples": 64,
+    "mae": 3.7514,
+    "rmse": 8.1675,
+    "r2": 0.9869,
+    "is_canonical": true
+  }
+}

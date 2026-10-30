@@ -1,0 +1,79 @@
+{
+  "benchmark": "gas_costs",
+  "assumptions": {
+    "eth_price_usd": 2500.0,
+    "base_l2": {
+      "execution_gas_price_gwei": 0.005,
+      "l1_data_fee_usd_estimate": 0.001,
+      "description": "Base L2 (EIP-4844 blobs, low L2 execution fee)"
+    },
+    "ethereum_l1": {
+      "gas_price_gwei": 25.0,
+      "description": "Ethereum L1 Reference Baseline (25 gwei)"
+    }
+  },
+  "issue_breakdown": {
+    "zk_verification": 643269,
+    "nullifier_storage": 23500,
+    "token_minting_storage": 113473,
+    "protocol_dispatcher_overhead": 92922
+  },
+  "operations": [
+    {
+      "contract": "CarbonRegistry",
+      "function": "registerProject",
+      "description": "Geospatial commitment registration + IPFS CID binding",
+      "gas": 118333,
+      "cost_base_usd": 0.0025,
+      "cost_l1_usd": 7.4
+    },
+    {
+      "contract": "CarbonRegistry",
+      "function": "issue",
+      "description": "Halo2 ZK proof verification + issuanceNullifier + ERC1155 mint",
+      "gas": 873164,
+      "cost_base_usd": 0.0119,
+      "cost_l1_usd": 54.57
+    },
+    {
+      "contract": "CarbonRegistry",
+      "function": "retire",
+      "description": "Batch burn + claimNullifier collision check",
+      "gas": 74121,
+      "cost_base_usd": 0.0019,
+      "cost_l1_usd": 4.63
+    },
+    {
+      "contract": "CarbonRegistry",
+      "function": "retireAmounts",
+      "description": "Partial fractional retirement + claimNullifier check",
+      "gas": 111476,
+      "cost_base_usd": 0.0024,
+      "cost_l1_usd": 6.97
+    },
+    {
+      "contract": "Halo2Verifier",
+      "function": "verifyProof",
+      "description": "Isolated KZG pairing + quotient check (in-circuit zkMRV)",
+      "gas": 643269,
+      "cost_base_usd": 0.009,
+      "cost_l1_usd": 40.2
+    },
+    {
+      "contract": "BaselineCentralRegistry",
+      "function": "registerProject",
+      "description": "Naive project record without global geo deduplication",
+      "gas": 185960,
+      "cost_base_usd": 0.0033,
+      "cost_l1_usd": 11.62
+    },
+    {
+      "contract": "BaselineCentralRegistry",
+      "function": "issue",
+      "description": "Naive credit minting (NO ZK verification, NO nullifier)",
+      "gas": 115632,
+      "cost_base_usd": 0.0024,
+      "cost_l1_usd": 7.23
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 """Deterministic ZKML benchmark sweep for VeriCarbon (ezkl Halo2 circuits).
 
-Sweeps number of input features (8, 16, 32) and gradient-boosted tree ensemble sizes,
+Sweeps number of input features (8, 12, 16, 32) and gradient-boosted tree ensemble sizes,
 measuring circuit setup time, witness + proving time, proof size (bytes), and EVM
 verification gas on Base Sepolia / Foundry Cancun EVM.
 
@@ -11,7 +11,11 @@ Outputs:
 
 from __future__ import annotations
 
+import ctypes
+import datetime
 import json
+import os
+import platform
 import re
 import subprocess
 import sys
@@ -31,6 +35,41 @@ from vericarbon_zk.workspace import (  # noqa: E402
     SEED,
     build_verifiable_mrv_onnx,
 )
+
+
+def get_machine_specs() -> dict[str, Any]:
+    """Retrieve host hardware and OS specifications."""
+    ram_gb: float | None = None
+    if sys.platform == "win32":
+        try:
+            class MEMORYSTATUSEX(ctypes.Structure):
+                _fields_ = [
+                    ("dwLength", ctypes.c_ulong),
+                    ("dwMemoryLoad", ctypes.c_ulong),
+                    ("ullTotalPhys", ctypes.c_ulonglong),
+                    ("ullAvailPhys", ctypes.c_ulonglong),
+                    ("ullTotalPageFile", ctypes.c_ulonglong),
+                    ("ullAvailPageFile", ctypes.c_ulonglong),
+                    ("ullTotalVirtual", ctypes.c_ulonglong),
+                    ("ullAvailVirtual", ctypes.c_ulonglong),
+                    ("sullAvailExtendedVirtual", ctypes.c_ulonglong),
+                ]
+
+            stat = MEMORYSTATUSEX()
+            stat.dwLength = ctypes.sizeof(MEMORYSTATUSEX)
+            ctypes.windll.kernel32.GlobalMemoryStatusEx(ctypes.byref(stat))
+            ram_gb = round(stat.ullTotalPhys / (1024**3), 1)
+        except Exception:
+            pass
+
+    return {
+        "os": f"{platform.system()} {platform.release()}",
+        "architecture": platform.machine(),
+        "processor": platform.processor(),
+        "cpu_cores": os.cpu_count(),
+        "ram_gb": ram_gb,
+        "python_version": platform.python_version(),
+    }
 
 
 def measure_foundry_verifier_gas() -> int:
@@ -171,6 +210,8 @@ def run_single_benchmark(
 def run_benchmark_sweep() -> dict[str, Any]:
     """Run the full feature and tree-size sweep and write JSON + Markdown table."""
     base_gas = measure_foundry_verifier_gas()
+    timestamp_utc = datetime.datetime.now(datetime.timezone.utc).isoformat()
+    machine_info = get_machine_specs()
 
     configs = [
         (8, 2, 2),
@@ -197,6 +238,8 @@ def run_benchmark_sweep() -> dict[str, Any]:
 
     payload: dict[str, Any] = {
         "benchmark": "zk_benchmarks",
+        "timestamp_utc": timestamp_utc,
+        "machine_specs": machine_info,
         "ezkl_version": ezkl.__version__,
         "seed": SEED,
         "foundry_measured_base_verify_gas": base_gas,
@@ -212,10 +255,15 @@ def run_benchmark_sweep() -> dict[str, Any]:
     tables_dir.mkdir(parents=True, exist_ok=True)
     md_path = tables_dir / "zk_benchmarks.md"
 
+    ram_str = f"{machine_info['ram_gb']} GB RAM" if machine_info["ram_gb"] else "N/A"
+    cpu_str = f"{machine_info['cpu_cores']} cores ({machine_info['processor']})"
+
     md_lines = [
         "# Table: Zero-Knowledge Verifiable MRV Circuit Benchmarks (`ezkl` Halo2 / KZG)",
         "",
         f"- **EZKL Version:** `{ezkl.__version__}` (`logrows = 13`, `input_scale = 7`, `param_scale = 7`)",
+        f"- **Host Machine:** `{machine_info['os']}` | `{cpu_str}` | `{ram_str}`",
+        f"- **Timestamp (UTC):** `{timestamp_utc}`",
         f"- **Deterministic Seed:** `{SEED}`",
         f"- **Measured Foundry `Halo2Verifier.verifyProof` Gas (12 features, 4 trees):** `{base_gas:,}` gas",
         "",
@@ -241,6 +289,8 @@ if __name__ == "__main__":
         json.dumps(
             {
                 "status": "ok",
+                "timestamp_utc": summary["timestamp_utc"],
+                "machine_specs": summary["machine_specs"],
                 "num_configs": len(summary["results"]),
                 "json_path": "eval/results/zk_benchmarks.json",
                 "md_path": "paper/tables/zk_benchmarks.md",

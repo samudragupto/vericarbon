@@ -1,0 +1,104 @@
+{
+  "manifest_version": "1.0.0",
+  "benchmark_suite": "VeriCarbon Evaluation Suite (Phase 7)",
+  "git_commit": "90e56ffe7c33f3fa3d6b01f1b526118a00c470a4",
+  "timestamp_start_utc": "2026-10-30T09:11:51.523474+00:00",
+  "timestamp_end_utc": "2026-10-30T09:12:27.015705+00:00",
+  "total_duration_seconds": 35.49,
+  "deterministic_seed": 42,
+  "tool_versions": {
+    "python": "3.11.9",
+    "platform": "Windows 10 (AMD64)",
+    "ezkl": "23.0.5",
+    "forge": "forge Version: 1.5.1-stable",
+    "node": "v22.20.0",
+    "pnpm": "12.16.1"
+  },
+  "machine_specs": {
+    "os": "Windows 10",
+    "architecture": "AMD64",
+    "processor": "AMD64 Family 25 Model 116 Stepping 1, AuthenticAMD",
+    "cpu_cores": 16,
+    "ram_gb": 15.2,
+    "python_version": "3.11.9"
+  },
+  "generated_tables": [
+    "paper/tables/model_metrics.md",
+    "paper/tables/zk_benchmarks.md",
+    "paper/tables/gas_costs.md",
+    "paper/tables/fraud_results.md",
+    "paper/tables/latency.md"
+  ],
+  "generated_figures": [
+    "paper/figures/proving_time.png",
+    "paper/figures/gas_comparison.png"
+  ],
+  "verified_artifacts": [
+    {
+      "path": "paper/tables/model_metrics.md",
+      "size_bytes": 1854,
+      "verified": true
+    },
+    {
+      "path": "paper/tables/zk_benchmarks.md",
+      "size_bytes": 1359,
+      "verified": true
+    },
+    {
+      "path": "paper/tables/gas_costs.md",
+      "size_bytes": 2594,
+      "verified": true
+    },
+    {
+      "path": "paper/tables/fraud_results.md",
+      "size_bytes": 3168,
+      "verified": true
+    },
+    {
+      "path": "paper/tables/latency.md",
+      "size_bytes": 1025,
+      "verified": true
+    },
+    {
+      "path": "paper/figures/proving_time.png",
+      "size_bytes": 197277,
+      "verified": true
+    },
+    {
+      "path": "paper/figures/gas_comparison.png",
+      "size_bytes": 220665,
+      "verified": true
+    },
+    {
+      "path": "eval/results/model_metrics.json",
+      "size_bytes": 2237,
+      "verified": true
+    },
+    {
+      "path": "eval/results/zk_benchmarks.json",
+      "size_bytes": 3728,
+      "verified": true
+    },
+    {
+      "path": "eval/results/gas_costs.json",
+      "size_bytes": 2330,
+      "verified": true
+    },
+    {
+      "path": "eval/results/fraud_results.json",
+      "size_bytes": 3804,
+      "verified": true
+    },
+    {
+      "path": "eval/results/latency.json",
+      "size_bytes": 1093,
+      "verified": true
+    },
+    {
+      "path": "eval/results/baseline_double_issuance_receipt.json",
+      "size_bytes": 27147,
+      "verified": true
+    }
+  ],
+  "status": "SUCCESS"
+}
