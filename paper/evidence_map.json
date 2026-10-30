@@ -1,0 +1,162 @@
+[
+  {
+    "claim_id": "C-01",
+    "target_file": "eval/results/model_metrics.json",
+    "json_pointer": "/canonical_holdout/mae",
+    "canonical_value": 3.7514,
+    "tolerance": 0.0001,
+    "caption": "Model canonical holdout (6z900) Mean Absolute Error (Mg/ha)"
+  },
+  {
+    "claim_id": "C-02",
+    "target_file": "eval/results/model_metrics.json",
+    "json_pointer": "/canonical_holdout/rmse",
+    "canonical_value": 8.1675,
+    "tolerance": 0.0001,
+    "caption": "Model canonical holdout (6z900) Root Mean Squared Error (Mg/ha)"
+  },
+  {
+    "claim_id": "C-03",
+    "target_file": "eval/results/model_metrics.json",
+    "json_pointer": "/canonical_holdout/r2",
+    "canonical_value": 0.9869,
+    "tolerance": 0.0001,
+    "caption": "Model canonical holdout (6z900) R-squared coefficient of determination"
+  },
+  {
+    "claim_id": "C-04",
+    "target_file": "eval/results/zk_benchmarks.json",
+    "json_pointer": "/results/3/proving_time_s",
+    "canonical_value": 0.5504,
+    "tolerance": 0.05,
+    "caption": "Laptop CPU proving time for canonical circuit (F=12, T=4, D=2)"
+  },
+  {
+    "claim_id": "C-05",
+    "target_file": "eval/results/zk_benchmarks.json",
+    "json_pointer": "/results/3/setup_time_s",
+    "canonical_value": 0.725,
+    "tolerance": 0.05,
+    "caption": "Circuit setup and key generation time for F=12, T=4, D=2"
+  },
+  {
+    "claim_id": "C-06",
+    "target_file": "eval/results/zk_benchmarks.json",
+    "json_pointer": "/results/3/proof_size_bytes",
+    "canonical_value": 4032,
+    "tolerance": 0,
+    "caption": "Halo2 SNARK proof size in bytes"
+  },
+  {
+    "claim_id": "C-07",
+    "target_file": "eval/results/manifest.json",
+    "json_pointer": "/contract_sizes/Halo2Verifier/initcode",
+    "canonical_value": 18007,
+    "tolerance": 0,
+    "caption": "Halo2Verifier.sol compiled initcode size in bytes (EIP-170 limit: 24,576)"
+  },
+  {
+    "claim_id": "C-08",
+    "target_file": "eval/results/zk_benchmarks.json",
+    "json_pointer": "/results/3/verification_gas",
+    "canonical_value": 643269,
+    "tolerance": 0,
+    "caption": "Halo2Verifier.verifyProof EVM verification gas"
+  },
+  {
+    "claim_id": "C-09",
+    "target_file": "eval/results/gas_costs.json",
+    "json_pointer": "/operations/1/gas",
+    "canonical_value": 873164,
+    "tolerance": 0,
+    "caption": "CarbonRegistry.issue measured execution gas (including ZK verification, nullifier storage, token minting)"
+  },
+  {
+    "claim_id": "C-10",
+    "target_file": "eval/results/gas_costs.json",
+    "json_pointer": "/operations/1/cost_base_usd",
+    "canonical_value": 0.0119,
+    "tolerance": 0.001,
+    "caption": "Modeled issuance transaction cost on Base L2 in USD"
+  },
+  {
+    "claim_id": "C-11",
+    "target_file": "eval/results/gas_costs.json",
+    "json_pointer": "/operations/1/cost_l1_usd",
+    "canonical_value": 54.57,
+    "tolerance": 0.1,
+    "caption": "Modeled issuance transaction cost on Ethereum L1 in USD"
+  },
+  {
+    "claim_id": "C-12",
+    "target_file": "eval/results/latency.json",
+    "json_pointer": "/rpc_roundtrip/p95_ms",
+    "canonical_value": 595.14,
+    "tolerance": 1.0,
+    "caption": "Base Sepolia public RPC eth_blockNumber roundtrip p95 latency in milliseconds"
+  },
+  {
+    "claim_id": "C-13",
+    "target_file": "eval/results/latency.json",
+    "json_pointer": "/indexer_lag/p95_ms",
+    "canonical_value": 31.57,
+    "tolerance": 1.0,
+    "caption": "Off-chain indexer visibility lag p95 in milliseconds"
+  },
+  {
+    "claim_id": "C-14",
+    "target_file": "eval/results/lighthouse_report.json",
+    "json_pointer": "/performanceScore",
+    "canonical_value": 95,
+    "tolerance": 0,
+    "caption": "Lighthouse performance score on landing page"
+  },
+  {
+    "claim_id": "C-15",
+    "target_file": "eval/results/fraud_results.json",
+    "json_pointer": "/total_attacks_evaluated",
+    "canonical_value": 9,
+    "tolerance": 0,
+    "caption": "Total security fraud scenarios evaluated (7 attacks + 2 pre-A0 holes)"
+  },
+  {
+    "claim_id": "C-16",
+    "target_file": "eval/results/baseline_double_issuance_receipt.json",
+    "json_pointer": "/total_double_issued_credits",
+    "canonical_value": 1088,
+    "tolerance": 0,
+    "caption": "Duplicate credits minted on BaselineCentralRegistry under cross-registry double issuance"
+  },
+  {
+    "claim_id": "C-17",
+    "target_file": "eval/results/model_metrics.json",
+    "json_pointer": "/aggregate/mae_mean",
+    "canonical_value": 5.2901,
+    "tolerance": 0.0001,
+    "caption": "4-fold spatial-block CV average MAE (Mg/ha)"
+  },
+  {
+    "claim_id": "C-18",
+    "target_file": "eval/results/model_metrics.json",
+    "json_pointer": "/aggregate/rmse_mean",
+    "canonical_value": 11.6196,
+    "tolerance": 0.0001,
+    "caption": "4-fold spatial-block CV average RMSE (Mg/ha)"
+  },
+  {
+    "claim_id": "C-19",
+    "target_file": "eval/results/model_metrics.json",
+    "json_pointer": "/aggregate/r2_mean",
+    "canonical_value": 0.8812,
+    "tolerance": 0.0001,
+    "caption": "4-fold spatial-block CV average R-squared"
+  },
+  {
+    "claim_id": "C-20",
+    "target_file": "eval/results/manifest.json",
+    "json_pointer": "/contract_sizes/CarbonRegistry/runtime",
+    "canonical_value": 11323,
+    "tolerance": 0,
+    "caption": "CarbonRegistry runtime bytecode size in bytes"
+  }
+]

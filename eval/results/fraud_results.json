@@ -1,5 +1,6 @@
 {
   "benchmark": "fraud_simulation",
+  "total_attacks_evaluated": 9,
   "attacks": [
     {
       "attack": "Pre-A0 Salt-Dodge Double Issuance",

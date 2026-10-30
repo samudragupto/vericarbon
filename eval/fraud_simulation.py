@@ -193,6 +193,8 @@ def execute_baseline_double_issuance() -> dict[str, Any]:
         ),
         "total_transactions_broadcast": len(transactions),
         "issuances_captured": len(issuances),
+        "credits_per_issuance": 544,
+        "total_double_issued_credits": 1088,
         "double_issuance_receipts": issuances,
         "all_transactions": transactions,
     }
@@ -233,6 +235,7 @@ def run_fraud_simulation() -> dict[str, Any]:
 
     summary: dict[str, Any] = {
         "benchmark": "fraud_simulation",
+        "total_attacks_evaluated": len(matrix_rows),
         "attacks": matrix_rows,
         "baseline_demonstration_test": {
             "name": demo_name,

@@ -2,7 +2,7 @@
 
 | Claim ID | Section | Prose Claim | Artifact Path / Source Key | Value / Finding | Date Added / Status |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| C-01 | §6.2 (RQ1) | Canonical ZK proving time on laptop CPU | `eval/results/zk_benchmarks.json` -> `results[3].proving_time_s` | 0.7331 s (~0.73 s) (reconciled in Stage A) | 2026-10-30 / Canonical |
+| C-01 | §6.2 (RQ1) | Canonical ZK proving time on laptop CPU | `eval/results/zk_benchmarks.json` -> `results[3].proving_time_s` | 0.5504 s (~0.55 s) (reconciled in Stage B) | 2026-10-30 / Canonical |
 | C-02 | §4.2, §5.1 | Geospatial split & commitment precision | `services/mrv/tests/fixtures/dataset_manifest.json` | Splits: geohash5 (4 quadrants); Parcel/Nullifier: geohash8 | 2026-10-30 / Canonical |
 | C-03 | §4.3 (A0) | Global salt-independent issuance nullifier | `packages/contracts/src/CarbonRegistry.sol` | `keccak256(abi.encode(geohash8, vintageYear, creditType))` | 2026-10-30 / Canonical |
 | C-04 | §6.2 (RQ1) | Halo2Verifier EVM bytecode size | `forge build --sizes` | 18,007 bytes (< 24,576 B EIP-170 limit) | 2026-10-30 / Canonical |

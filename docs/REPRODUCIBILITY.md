@@ -3,7 +3,7 @@
 
 All toolchains, random seeds, dataset snapshots, and exact package versions used to generate tables and figures in `paper/` are recorded here.
 
-- **Git Commit:** `245af6278a36b1c73686c2836089adeacb8a69e9`
+- **Git Commit:** `0f158ae55afcc31380c7b3d0d0879a5e7622a0b8`
 - **Verification Rule:** `PAPER.md §Non-negotiable writing rules`
 
 ## Phase 1–3 Toolchain & Pinned Versions
@@ -45,8 +45,8 @@ All toolchains, random seeds, dataset snapshots, and exact package versions used
   - Following the Phase 3 prompt allowance (*"if full sha256 in-circuit is impractical, use ezkl's elated commitment/poseidon approach and document the deviation explicitly"*), the circuit computes an in-circuit arithmetic feature commitment bound via `ezkl.poseidon_hash` over the input field elements (`04b6dcc8c1ea0ecfa16813d5c03383c936cdfb26bc9f9e1e9f9571006a730726`), while the off-chain SHA-256 `dataCommitment` is recorded in the evidence bundle as an off-chain audit pointer.
 - **Canonical Measured Circuit Performance (Reconciled from `eval/results/zk_benchmarks.json`):**
   - Canonical configuration ($F=12, T=4, D=2, \text{logrows}=13$):
-    - **Setup Time:** `0.7366s`
-    - **Proving Time (Laptop CPU):** `0.5476s` (canonical reconciled value: 0.73s)
+    - **Setup Time:** `0.725s`
+    - **Proving Time (Laptop CPU):** `0.5504s` (canonical reconciled value: 0.73s)
     - **Proof Size:** `4,032 bytes`
     - **Verifier Bytecode Size:** `18,007 bytes` (runtime: `17,978 bytes`, below the 24,576-byte Spurious Dragon limit)
     - **EVM Verification Gas:** `643,269 gas`

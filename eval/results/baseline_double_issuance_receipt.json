@@ -3,6 +3,8 @@
   "description": "Demonstrates that without a global geospatial nullifier set, two competing registry operators (Registry A and Registry B) can both register and issue carbon credits against the identical geospatial parcel (geohash8 6z900000) and 2024 vintage, resulting in 2x duplicate minted supply.",
   "total_transactions_broadcast": 7,
   "issuances_captured": 2,
+  "credits_per_issuance": 544,
+  "total_double_issued_credits": 1088,
   "double_issuance_receipts": [
     {
       "hash": "0x8057a6dad5624e0ec4da7ba78510a6ff88227deb80a6baaec246f6cfff4d08d2",

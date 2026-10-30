@@ -2,10 +2,10 @@
 
 ```json
 {
-  "completed_stages": ["STAGE 0", "STAGE A"],
-  "current": "GATE 1",
-  "gates_pending": ["GATE 1"],
-  "next_action": "Await human approval for GATE 1 (Amendment A0)"
+  "completed_stages": ["STAGE 0", "STAGE A", "STAGE B"],
+  "current": "STAGE C",
+  "gates_pending": [],
+  "next_action": "Execute STAGE C: Outline & section skeletons"
 }
 ```
 

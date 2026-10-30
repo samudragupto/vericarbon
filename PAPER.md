@@ -74,7 +74,7 @@ and the discrepancy is flagged in paper/CLAIMS_LOG.md — never resolve from mem
   issuanceNullifier= keccak256(abi.encode(geohash8, vintageYear, creditType)) // no salt, no registryId
   claimNullifier   = keccak256(abi.encode(issuanceNullifier, claimant, claimType, beneficiaryCommitment))
   creditType ∈ {REMOVAL, REDUCTION}; 2000 ≤ vintageYear ≤ current year.
-- Circuit: F=12, T=4, depth=2, logrows=13, input_scale=param_scale=7. Proving time = 0.7331s (0.73s), setup time = 0.7849s, proof size = 4,032 bytes, verifier bytecode = 18,007 bytes (Spurious Dragon limit: 24,576 bytes), verify gas = 643,269 gas. All canonical values from eval/results/zk_benchmarks.json and forge build --sizes (reconciled in Stage A).
+- Circuit: F=12, T=4, depth=2, logrows=13, input_scale=param_scale=7. Proving time = 0.5504s (0.55s), setup time = 0.725s, proof size = 4,032 bytes, verifier bytecode = 18,007 bytes (Spurious Dragon limit: 24,576 bytes), verify gas = 643,269 gas. All canonical values from eval/results/zk_benchmarks.json and forge build --sizes (reconciled in Stage B).
 - Verifier size vs EIP-170 (24,576 B): 18,007 bytes deployed measured from forge build --sizes.
 - R²: 0.9869 (MAE: 3.7514 Mg/ha) from eval/results/model_metrics.json, captioned "self-consistency on synthesized fixtures — NOT a field-accuracy claim".
 
