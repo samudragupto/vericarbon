@@ -3,7 +3,7 @@
 
 All toolchains, random seeds, dataset snapshots, and exact package versions used to generate tables and figures in `paper/` are recorded here.
 
-- **Git Commit:** `047a5586af98b63ca371deefcffeaeb90d3be3ae`
+- **Git Commit:** `44084a20150b45b02aa799bcbf6b85fed50f82ef`
 - **Verification Rule:** `PAPER.md §Non-negotiable writing rules`
 
 ## Phase 1–3 Toolchain & Pinned Versions
@@ -13,7 +13,7 @@ All toolchains, random seeds, dataset snapshots, and exact package versions used
 - **Package Manager:** `pnpm@12.16.1`
 - **Monorepo Orchestrator:** `turbo@2.4.4`
 - **Foundry (`forge`):** `1.5.1-stable` (`solc 0.8.24`, `evm_version = "cancun"`)
-- **Python Environment Manager:** `uv 0.11.15` (`CPython 3.11.9`)
+- **Python Environment Manager:** `uv 0.11.15` (`CPython 3.13.11`)
 - **Zero-Knowledge Proving System:** `ezkl==23.0.5` (Halo2 / KZG over BN254)
 - **Target Network:** Base Sepolia (`chainId: 84532`, RPC `https://sepolia.base.org`)
 
@@ -28,8 +28,9 @@ All toolchains, random seeds, dataset snapshots, and exact package versions used
 
 - **Deterministic Seed:** `SEED = 42` across all NumPy RNGs, feature quantization, salt derivation, and `HistGradientBoostingRegressor(random_state=42)`.
 - **AOI & Spatial-Block Split:** Default AOI `-54.8485,-2.8172,-54.8390,-2.8078` (~1.05 km × 1.05 km chip in Tapajós National Forest, Pará, Brazil).
-  - Chip falls within a single geographic geohash-5 cell. Spatial-block cross-validation uses 4 quadrant partition blocks (`6z2zz`, `6z3pb`, `6z8bp`, `6z900`) representing 2x2 spatial quadrants (precision 5) to evaluate spatial generalization and prevent spatial autocorrelation leakage.
+  - The 1.05 km × 1.05 km chip is positioned across the 4-way corner junction of four intersecting geohash-5 cells. Spatial-block cross-validation uses 4 quadrant partition blocks (`6z2zz`, `6z3pb`, `6z8bp`, `6z900`) representing 2x2 spatial quadrants to evaluate spatial generalization and prevent spatial autocorrelation leakage.
   - Parcel-level commitment and nullifier unicity use `geohash8` (~38.2m × ~19.1m).
+- **Known Limitations:** The AOI bounding box was constructed for the synthetic fixture (center placed on a geohash cell corner by design); it was not field-surveyed.
 - **Biomass (AGB) Labels Limitation Log (per `AGENT.md` lines 29–32):**
   - Probing Microsoft Planetary Computer's public STAC API for `gedi-l4a` and `esa-cci-biomass` confirmed that neither GEDI L4A (requires NASA Earthdata Login) nor ESA CCI Biomass is available without external authentication on Planetary Computer's public STAC catalog.
   - Per the fallback rule in `AGENT.md`, pixel-level AGB labels (`agb_mg_ha`) are synthesized deterministically (`SEED = 42`) from ESA WorldCover canopy classes and seasonal Sentinel-2 NDVI/NDRE trajectories, and cached in `services/mrv/tests/fixtures/sentinel2_window_cube.npz`.
@@ -63,7 +64,7 @@ All toolchains, random seeds, dataset snapshots, and exact package versions used
   - `packages/contracts/src/baseline/BaselineCentralRegistry.sol` (`8,833 bytes`): Centralized transfer-log baseline registry without nullifiers.
   - `packages/contracts/src/baseline/PreA0CarbonRegistry.sol` (`9,425 bytes`): Archive copy proving pre-A0 vulnerabilities (Hole A salt-dodge and Hole B vintage-relabel).
 - **Deterministic Fuzz & Invariant Seeds:** `fuzz.runs = 128`, `fuzz.seed = "0x2a"`, `invariant.runs = 32`, `invariant.depth = 16`.
-- **Gas Snapshot:** Saved in `eval/results/gas_snapshot.txt`. Total issuance gas on Base Sepolia = `835,391 gas` ($0.0114 USD at 0.005 gwei + $0.001 blob).
+- **Gas Snapshot:** Saved in `eval/results/gas_snapshot.txt`. Total issuance gas on Base Sepolia = `873,164 gas` ($0.0119 USD at 0.005 gwei + $0.001 blob).
 
 ## Phase 5 Supabase Schema, Indexer, IPFS Adapter, and Local E2E (`supabase/`, `packages/sdk`, `apps/web`)
 

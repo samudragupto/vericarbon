@@ -1,10 +1,43 @@
 # VeriCarbon: Zero-Knowledge Verifiable Carbon MRV
 
-VeriCarbon is a zero-knowledge verifiable Monitoring, Reporting, and Verification (MRV) protocol for voluntary and compliance carbon credit markets that pairs satellite remote sensing inference with on-chain cryptographic nullifiers.
+[![CI](https://github.com/samudragupto/vericarbon/actions/workflows/ci.yml/badge.svg)](https://github.com/samudragupto/vericarbon/actions)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Target: FGCS](https://img.shields.io/badge/Target-FGCS%20(Elsevier)-blue.svg)](paper/)
 
-## Problem Statement
+> [!CAUTION]
+> **RESEARCH PROTOTYPE ONLY — NOT A COMMERCIAL PRODUCTION REGISTRY**
+> VeriCarbon is an academic research prototype accompanying a manuscript intended for submission to *Future Generation Computer Systems* (FGCS, Elsevier). Authors: `TODO-AUTHOR`.
+> This software is strictly designed for empirical benchmarking on local testnets (Anvil `chainId: 31337`) and public testnets (Base Sepolia `chainId: 84532`). It is **NOT** a commercial carbon registry and must **NEVER** be deployed to Ethereum mainnet or used to hold real capital.
 
-Voluntary carbon credit markets are plagued by systematic over-crediting, cross-registry double-issuance, and fraudulent retirement claims enabled by opaque, manual verification procedures and siloed registries. Existing decentralized approaches either fail to prove that claimed credits match complex satellite-derived machine learning models or leak sensitive geographic boundaries directly on public blockchains. VeriCarbon resolves this trilemma by binding spaceborne remote sensing inference to zero-knowledge SNARKs and on-chain geospatial nullifiers on Base Sepolia, cryptographically preventing over-issuance and double claims while keeping land coordinates private.
+---
+
+## The Problem Statement in Three Sentences
+
+Voluntary carbon credit markets suffer from systemic over-crediting, cross-registry double issuance, and fraudulent retirement claims enabled by opaque, manual verification and siloed databases. Existing decentralized solutions either fail to prove that claimed credits faithfully match non-linear machine learning models over spaceborne remote sensing data, or leak sensitive geographic boundaries directly on public ledgers. VeriCarbon resolves this trilemma by coupling spaceborne remote sensing inference to Halo2/KZG zero-knowledge SNARKs and on-chain geospatial nullifiers on Base Sepolia, cryptographically guaranteeing that issuance cannot exceed model predictions and preventing cross-registry double issuance without revealing exact parcel boundaries.
+
+---
+
+## 100% $0 Cost Reproducibility Stack
+
+VeriCarbon is designed for full scientific auditability and zero-cost replication:
+- **Local EVM:** Foundry Anvil (`31337`) for fast local contract simulation.
+- **Testnet EVM:** Base Sepolia (`84532`) via free public RPCs ($0 testnet gas).
+- **Off-Chain Database:** Local Postgres-compatible double (Node.js) or Supabase Free Tier.
+- **Remote Sensing:** Microsoft Planetary Computer STAC / reproducible local offline fixtures.
+- **Proof Storage:** IPFS via Pinata Free Tier.
+
+---
+
+## Benchmark Hardware Specifications
+
+All benchmark numbers reported in Section 6 of the manuscript were captured on the following canonical reference workstation:
+
+- **Vendor & Model:** Lenovo LOQ 15APH8
+- **Processor (CPU):** AMD Ryzen 7 7840HS (8 cores, 16 threads, 3.8 GHz base / 5.1 GHz boost)
+- **System Memory (RAM):** 16.0 GB DDR5
+- **Dedicated Graphics (GPU):** NVIDIA GeForce RTX 4060 Laptop GPU (8.0 GB VRAM)
+  *(Listed for disclosure honesty; proving is executed entirely on CPU via `ezkl` Halo2/KZG, GPU is not used as an accelerator)*
+- **Operating System:** Windows 11 Home / PowerShell 7
 
 ---
 
@@ -55,7 +88,7 @@ flowchart TD
     DB --> WEB
 ```
 
-For complete technical specifications, sequence flows, and trust models, see [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+For complete technical specifications, sequence flows, and trust assumptions, see [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
 ---
 
@@ -69,7 +102,7 @@ For complete technical specifications, sequence flows, and trust models, see [do
 
 ### Option A: Local Evaluation (Recommended — 100% Offline & $0 Cost)
 
-Run the full end-to-end "Day in the Life" artifact evaluation journey in a single command. This boots a local Anvil EVM node, starts an embedded PostgreSQL 16 Supabase gateway (Postgres-compatible test double, offline only), deploys the protocol contracts, registers a project, mints 544 ZK-verified credits, thwarts two fraud attacks (cross-registry double issuance and duplicate retirement), syncs the off-chain indexer, and outputs a narrated summary:
+Run the end-to-end "Day in the Life" artifact evaluation journey in a single command. This boots local Anvil, starts an embedded local database gateway, deploys the protocol contracts, registers a project, mints 544 ZK-verified credits, halts two fraud vectors (cross-registry double issuance and duplicate retirement), syncs the off-chain indexer, and outputs a narrated summary:
 
 ```bash
 # On Linux / macOS:
@@ -99,69 +132,39 @@ Open [http://localhost:3000](http://localhost:3000) to view the Explorer and Con
 
 ### Option B: Cloud Testnet (Base Sepolia + Supabase Cloud)
 
-1. **Configure Environment Variables**:
-   ```bash
-   cp .env.example .env
-   cp apps/web/.env.example apps/web/.env.local
-   ```
-   Populate your `BASE_SEPOLIA_RPC_URL`, `DEPLOYER_PRIVATE_KEY`, and `NEXT_PUBLIC_SUPABASE_URL` credentials.
-
-2. **Deploy Smart Contracts to Base Sepolia**:
-   ```bash
-   cd packages/contracts
-   forge script script/Deploy.s.sol --rpc-url $BASE_SEPOLIA_RPC_URL --broadcast --verify
-   ```
-
-3. **Deploy Supabase Schema & Edge Functions**:
-   ```bash
-   supabase db push
-   supabase functions deploy indexer
-   ```
-
-4. **Launch Web Application**:
-   ```bash
-   pnpm --filter @vericarbon/web build
-   pnpm --filter @vericarbon/web start
-   ```
+See [docs/DEPLOY.md](docs/DEPLOY.md) for full instructions on configuring Base Sepolia testnet contracts, Supabase free tier database migrations, Pinata IPFS keys, and Vercel hosting.
 
 ---
 
 ## User Interface Screenshots
 
-All screenshots are captured directly from the live Next.js 15 application running against Base Sepolia / Anvil:
+All screenshots are captured directly from the Next.js 15 application running against Base Sepolia / Anvil:
 
-### 1. Landing Page & Live Market Architecture
-![Landing Page](eval/results/screenshots/01_landing.png)
-
-### 2. MapLibre Geospatial Project Explorer
-![Projects Explorer](eval/results/screenshots/02_projects_explorer.png)
-
-### 3. Project Details & On-Chain ZK Proof Verification
-![Project Details](eval/results/screenshots/03_project_details.png)
-
-### 4. Registry Console (Gated Issuance & Geohash Pinning)
-![Registry Console](eval/results/screenshots/04_registry_console.png)
-
-### 5. Global Cryptographic Nullifiers Explorer
-![Nullifiers Explorer](eval/results/screenshots/05_nullifiers_explorer.png)
+| 1. Landing Page | 2. Geospatial Project Explorer |
+| :---: | :---: |
+| ![Landing Page](eval/results/screenshots/01_landing.png) | ![Projects Explorer](eval/results/screenshots/02_projects_explorer.png) |
+| **3. Project Details & ZK Proof Verification** | **4. Registry Console** |
+| ![Project Details](eval/results/screenshots/03_project_details.png) | ![Registry Console](eval/results/screenshots/04_registry_console.png) |
+| **5. Nullifiers Explorer** | |
+| ![Nullifiers Explorer](eval/results/screenshots/05_nullifiers_explorer.png) | |
 
 ---
 
 ## Empirical Research Artifacts & Paper Tables
 
-All experimental results and benchmarks reported in the manuscript are deterministically generated by the `eval/` benchmark suite:
+All experimental results reported in the manuscript are deterministically generated by the `eval/` benchmark suite:
 
 | Paper Evaluation Section | Description | Artifact Table / Figure Link |
 | :--- | :--- | :--- |
 | **Model Accuracy** | Spatial-block cross-validation (MAE, RMSE, $R^2$) on Sentinel-2 & ESA WorldCover | [paper/tables/model_metrics.md](paper/tables/model_metrics.md) |
 | **ZK Prover Performance** | Halo2 prover scaling, RAM consumption, and verification times | [paper/tables/zk_benchmarks.md](paper/tables/zk_benchmarks.md) & [Figure 1](paper/figures/proving_time.png) |
 | **On-Chain Gas Economics** | Execution gas vs. Centralized Baseline & USD cost on Base L2 vs. Ethereum L1 | [paper/tables/gas_costs.md](paper/tables/gas_costs.md) & [Figure 2](paper/figures/gas_comparison.png) |
-| **Fraud & Security Matrix** | Empirical results against 6 attack vectors (double issuance, replay, fake proofs) | [paper/tables/fraud_results.md](paper/tables/fraud_results.md) |
+| **Fraud & Security Matrix** | Empirical results against post-A0 attack vectors (A1–A7) and pre-A0 baseline vulnerabilities | [paper/tables/fraud_results.md](paper/tables/fraud_results.md) |
 | **Indexing Latency** | End-to-end event indexing lag ($n=20$, mean and $p95$) into Supabase | [paper/tables/latency.md](paper/tables/latency.md) |
 
 To regenerate all evaluation tables and publication figures from scratch:
 ```bash
-python eval/run_all.py
+uv run eval/run_all.py
 ```
 
 ---
@@ -177,10 +180,16 @@ python eval/run_all.py
 | **`services/mrv`** | Python 3.11, uv, Scikit-learn, ONNX | `cd services/mrv && uv sync` | `cd services/mrv && uv run pytest` |
 | **`services/zk`** | ezkl v23.0.5, Halo2, KZG, BN254 | `cd services/zk && python test_zk.py` | `cd services/zk && pytest` |
 | **`supabase/`** | PostgreSQL 16, PostgREST, Deno TS | `node supabase/local_server.mjs` | `pnpm --filter @vericarbon/sdk test` |
-| **`eval/`** | Matplotlib, Web3, Python 3.11 | `python eval/run_all.py` | `python eval/fraud_simulation.py` |
+| **`eval/`** | Matplotlib, Web3, Python 3.11 | `uv run eval/run_all.py` | `uv run python eval/fraud_simulation.py` |
+
+---
+
+## Statement on AI Assistance
+
+In accordance with scholarly reporting and ethics standards: Generative AI coding assistants were utilized during project development for boilerplate scaffolding, test suite generation, and documentation drafting under strict human direction, continuous verification, deterministic unit testing, and rigorous automated self-auditing scripts.
 
 ---
 
 ## License
 
-MIT License. Designed and maintained for open-science reproducibility.
+MIT License. Designed and maintained for open-science reproducibility. See [LICENSE](LICENSE).
