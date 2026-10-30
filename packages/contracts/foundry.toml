@@ -6,11 +6,25 @@ solc_version = "0.8.24"
 evm_version = "cancun"
 optimizer = true
 optimizer_runs = 200
-remappings = ["forge-std/=lib/forge-std/src/"]
-fs_permissions = [
-    { access = "read", path = "./test/fixtures" },
-    { access = "read", path = "../../services/zk/artifacts" }
+remappings = [
+    "forge-std/=lib/forge-std/src/",
+    "@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/"
 ]
+fs_permissions = [
+    { access = "read", path = "./out" },
+    { access = "read", path = "./test/fixtures" },
+    { access = "read", path = "../../services/zk/artifacts" },
+    { access = "read-write", path = "./deployments" },
+    { access = "read-write", path = "../sdk/src/abi" }
+]
+
+[fuzz]
+runs = 128
+seed = "0x2a"
+
+[invariant]
+runs = 32
+depth = 16
 
 [rpc_endpoints]
 base_sepolia = "${BASE_SEPOLIA_RPC_URL}"

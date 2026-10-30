@@ -16,6 +16,7 @@ All toolchains, random seeds, dataset snapshots, and exact package versions used
 ### Pinned Workspace Dependencies
 - **`apps/web`:** `next@15.2.1`, `react@19.0.0`, `react-dom@19.0.0`, `tailwindcss@3.4.17`, `typescript@5.8.2`, `viem@2.23.5`, `zod@3.24.2`, `class-variance-authority@0.7.1`, `clsx@2.1.1`, `tailwind-merge@3.0.2`, `lucide-react@0.477.0`
 - **`packages/sdk`:** `viem@2.23.5`, `zod@3.24.2`, `typescript@5.8.2`
+- **`packages/contracts`:** `forge-std@v1.11.0`, `@openzeppelin/contracts@5.2.0` (`solc 0.8.24`, `evm_version = "cancun"`, `optimizer = true`, `optimizer_runs = 200`)
 - **`services/mrv`:** `typer==0.15.2`, `numpy==2.4.6`, `pandas==3.1.0`, `pyarrow==26.0.0`, `scikit-learn==1.9.1`, `onnx==1.23.2`, `skl2onnx==1.20.0`, `onnxruntime==1.31.1`, `pystac-client==0.9.1`, `planetary-computer==1.0.0`, `xarray==2026.9.0`, `rioxarray==0.19.0`, `pytest==8.3.5`, `ruff==0.9.9`, `black==25.1.0`, `hatchling==1.27.0`
 - **`services/zk`:** `ezkl==23.0.5`, `numpy==2.4.6`, `onnx==1.23.2`, `onnxruntime==1.31.1`, `typer==0.15.2`, `pytest==8.3.5`, `ruff==0.9.9`, `black==25.1.0`, `hatchling==1.27.0`
 
@@ -38,3 +39,12 @@ All toolchains, random seeds, dataset snapshots, and exact package versions used
 - **Tree Sizing for Laptop CPU & EVM Bytecode Limit:**
   - The default verifiable circuit uses `num_trees = 4`, `tree_depth = 2` (`12` features, `logrows = 13`), achieving `0.86s` setup time, `0.64s` proving time on a laptop CPU, `4,032`-byte proof size, `18,007`-byte deployed `Halo2Verifier.sol` contract size (below the 24,576-byte Spurious Dragon limit), and `643,269` EVM verification gas.
   - Regenerable benchmark sweeps across `features ∈ {8, 12, 16, 32}` and `trees ∈ {2, 4, 8}` are produced by `eval/zk_benchmarks.py` and written to `eval/results/zk_benchmarks.json` and `paper/tables/zk_benchmarks.md`.
+
+## Phase 4 On-Chain Nullifier Registry & Fraud Evaluation (`packages/contracts`)
+
+- **Contracts:**
+  - `packages/contracts/src/CarbonRegistry.sol`: OpenZeppelin v5.2.0 `ERC1155` + `AccessControl` multi-registry carbon credit registry with global cross-registry geospatial nullifiers (`issuanceNullifier := keccak256(abi.encode(geoCommitment, vintageYear, creditType))`) and double-claim retirement nullifiers (`claimNullifier := keccak256(abi.encode(issuanceNullifier, claimant, claimType, beneficiaryCommitment))`).
+  - `packages/contracts/src/baseline/BaselineCentralRegistry.sol`: Naive transfer-log baseline registry without a global geospatial nullifier set, demonstrating that cross-registry double-issuance of the same `(geoCommitment, vintageYear, creditType)` succeeds when `issuanceNullifier` is omitted.
+  - `packages/contracts/script/Deploy.s.sol`: Deploys `Halo2Verifier`, `CarbonRegistry`, and `BaselineCentralRegistry` to Base Sepolia (`chainId: 84532`) and exports deployment manifests + ABIs to `packages/contracts/deployments/` and `packages/sdk/src/abi/`.
+- **Deterministic Fuzz & Invariant Seeds:** `fuzz.runs = 128`, `fuzz.seed = "0x2a"`, `invariant.runs = 32`, `invariant.depth = 16`.
+- **Gas Snapshot:** Saved in `eval/results/gas_snapshot.txt` via `forge snapshot --snap ../../eval/results/gas_snapshot.txt`.
