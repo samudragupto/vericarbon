@@ -1,0 +1,43 @@
+[build-system]
+requires = ["hatchling==1.27.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "mrv"
+version = "0.1.0"
+description = "VeriCarbon MRV pipeline: satellite fetch, feature extraction, training, and biomass quantification"
+readme = "README.md"
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "typer==0.15.2",
+]
+
+[project.scripts]
+mrv = "mrv.cli:app"
+
+[dependency-groups]
+dev = [
+    "black==25.1.0",
+    "pytest==8.3.5",
+    "ruff==0.9.9",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/mrv"]
+
+[tool.black]
+line-length = 88
+target-version = ["py311"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "ANN"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+

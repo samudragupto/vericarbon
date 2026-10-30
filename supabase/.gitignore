@@ -1,0 +1,6 @@
+# Supabase local development artifacts
+.branches
+.temp
+.env
+!.env.example
+
