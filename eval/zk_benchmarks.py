@@ -38,7 +38,24 @@ from vericarbon_zk.workspace import (  # noqa: E402
 
 
 def get_machine_specs() -> dict[str, Any]:
-    """Retrieve host hardware and OS specifications."""
+    """Retrieve host hardware and OS specifications from machine_specs.json or fallback."""
+    specs_path = REPO_ROOT / "eval" / "results" / "machine_specs.json"
+    if specs_path.exists():
+        with open(specs_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+            return {
+                "os": data.get("os_name", f"{platform.system()} {platform.release()}"),
+                "architecture": platform.machine(),
+                "processor": data.get("cpu_name", platform.processor()),
+                "cpu_cores": data.get("cores_physical", 8),
+                "threads_logical": data.get("threads_logical", 16),
+                "ram_gb": data.get("ram_installed_gb", 16.0),
+                "ram_usable_gb": data.get("ram_usable_gb", 15.19),
+                "gpu_name": data.get("gpu_name", "None"),
+                "gpu_vram_gb": data.get("gpu_vram_gb", 0.0),
+                "python_version": platform.python_version(),
+            }
+
     ram_gb: float | None = None
     if sys.platform == "win32":
         try:

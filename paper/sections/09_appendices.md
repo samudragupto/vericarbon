@@ -6,9 +6,9 @@ To adhere to the rigorous reproducibility requirements of FGCS and the ACM/IEEE 
 
 ### A.1 One-Command Full Evaluation Rerun
 From a clean checkout with Foundry, Node.js 22+, and `uv` installed, execute:
-```bash
+\begin{verbatim}
 uv run eval/run_all.py
-```
+\end{verbatim}
 This orchestrates the five modular benchmark scripts with fixed deterministic seed `SEED = 42`:
 1. `eval/model_metrics.py`: Evaluates spatial-block cross-validation for `HistGradientBoostingRegressor` on Sentinel-2 + ESA WorldCover rasters -> `paper/tables/model_metrics.md` and `eval/results/model_metrics.json`.
 2. `eval/zk_benchmarks.py`: Re-runs the Halo2/KZG circuit complexity sweep across $F \in \{8, 12, 16, 32\}$ and $T \in \{2, 4, 8\}$, recording host specs and proving latency -> `paper/tables/zk_benchmarks.md` and `eval/results/zk_benchmarks.json`.
@@ -41,4 +41,4 @@ To prevent reverting, an adversary must find $(g_2, v_2, \tau_2) \neq (g_1, v_1,
 From `eval/results/baseline_double_issuance_receipt.json`, the two competing broadcast transactions on `BaselineCentralRegistry.sol` succeeded under identical parameters:
 * **Registry A Transaction:** Broadcast by `0x70997970C51812dc3A010C7d01b50e0d17dc79C8`, Project ID `0xeecf...`, Minted Batch: `1` (544 credits).
 * **Registry B Transaction:** Broadcast by `0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC`, Project ID `0x239a...`, Minted Batch: `2` (544 credits).
-* **Total Minted Supply:** 1,088 credits [C-16, baseline_double_issuance_receipt.json] against physical land supporting 544 $\text{tCO}_2\text{e}$. Under VeriCarbon, Registry B's transaction reverts with `IssuanceNullifierAlreadySpent(0x1771171c...)`.
+* **Total Minted Supply:** 1,088 credits against the fixture parcel's certified model output of 544 credits. Under VeriCarbon, Registry B's transaction reverts with `IssuanceNullifierAlreadySpent(0x1771171c...)`.

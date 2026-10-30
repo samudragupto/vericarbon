@@ -1,10 +1,10 @@
 {
   "manifest_version": "1.0.0",
   "benchmark_suite": "VeriCarbon Evaluation Suite (Stage A Automated Manifest)",
-  "git_commit": "0f158ae55afcc31380c7b3d0d0879a5e7622a0b8",
+  "git_commit": "047a5586af98b63ca371deefcffeaeb90d3be3ae",
   "tool_versions": {
     "python": "3.11.9",
-    "platform": "Windows 10 (AMD64)",
+    "platform": "Microsoft Windows 11 Home Single Language (LOQ 15APH8)",
     "ezkl": "23.0.5",
     "forge": "1.5.1-stable",
     "node": "v22.20.0",
@@ -31,8 +31,8 @@
     }
   },
   "canonical_numbers": {
-    "zk_proving_time_s": 0.5504,
-    "zk_setup_time_s": 0.725,
+    "zk_proving_time_s": 0.5634,
+    "zk_setup_time_s": 0.7503,
     "zk_verification_gas": 643269,
     "zk_proof_size_bytes": 4032,
     "model_r2": 0.9869,

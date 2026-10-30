@@ -19,7 +19,7 @@ def sanitize_latex_prose(text):
     i = 0
     n = len(text)
     
-    no_escape_cmds = ('\\cite{', '\\label{', '\\ref{', '\\input{', '\\includegraphics{', '\\url{', '\\href{', '\\begin{', '\\end{')
+    no_escape_cmds = ('\\cite{', '\\label{', '\\ref{', '\\autoref{', '\\input{', '\\includegraphics{', '\\url{', '\\href{', '\\begin{', '\\end{')
     
     while i < n:
         if text[i:i+2] == '\\$':
@@ -216,6 +216,7 @@ def build():
 }}
 
 \\journal{{Future Generation Computer Systems}}
+\\date{{\\today}}
 
 \\newtheorem{{definition}}{{Definition}}
 \\newtheorem{{lemma}}{{Lemma}}
@@ -227,7 +228,9 @@ def build():
 
 \\title{{VeriCarbon: Zero-Knowledge Verifiable Monitoring, Reporting, and Verification for Decentralized Carbon Registries}}
 
-\\author{{Anonymous Authors}}
+\\author[inst1]{{TODO-AUTHOR-NAME\\corref{{cor1}}}}
+\\cortext[cor1]{{Corresponding author. Email: TODO-AUTHOR-EMAIL. ORCID: TODO-AUTHOR-ORCID}}
+\\affiliation[inst1]{{organization={{TODO-AUTHOR-AFFILIATION}}}}
 
 \\begin{{abstract}}
 {ab_tex}
@@ -243,6 +246,9 @@ Zero-Knowledge Proofs \\sep Verifiable Machine Learning \\sep Carbon Markets \\s
 
 \\appendix
 {app_tex}
+
+\\section*{{Declaration of Generative AI and AI-assisted technologies in the writing process}}
+During the preparation of this work the authors used Gemini (Antigravity agentic coding) to assist with code generation and manuscript drafting. After using this tool, the authors reviewed and edited the content as needed and take full responsibility for the content of the published article.
 
 \\bibliographystyle{{elsarticle-num}}
 \\bibliography{{refs}}

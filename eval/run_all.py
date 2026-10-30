@@ -65,9 +65,18 @@ def get_git_commit_hash() -> str:
 
 def get_tool_versions() -> dict[str, str]:
     """Inspect and return pinned tool versions across the monorepo."""
+    specs_path = RESULTS_DIR / "machine_specs.json"
+    plat_str = f"{platform.system()} {platform.release()} ({platform.machine()})"
+    if specs_path.exists():
+        try:
+            specs = json.loads(specs_path.read_text(encoding="utf-8"))
+            plat_str = f"{specs.get('os_name', platform.system())} ({specs.get('model', 'LOQ 15APH8')})"
+        except Exception:
+            pass
+
     versions: dict[str, str] = {
         "python": platform.python_version(),
-        "platform": f"{platform.system()} {platform.release()} ({platform.machine()})",
+        "platform": plat_str,
     }
 
     try:

@@ -220,7 +220,7 @@ export default function LandingPage() {
               Sub-Second Laptop Proving
             </div>
             <p className="mt-2 text-xs text-zinc-400 leading-relaxed">
-              Halo2 KZG circuit over BN254 with 4 trees &amp; depth 2 completes proof generation in <strong className="text-zinc-200">0.64s on consumer CPU</strong> with 4,032 byte proof size, eliminating high-performance compute barriers.
+              Halo2 KZG circuit over BN254 with 4 trees &amp; depth 2 completes proof generation in <strong className="text-zinc-200">0.56s on consumer CPU</strong> with 4,032 byte proof size, eliminating high-performance compute barriers.
             </p>
           </div>
 

@@ -1,0 +1,14 @@
+{
+  "manufacturer": "LENOVO",
+  "model": "LOQ 15APH8",
+  "cpu_name": "AMD Ryzen 7 7840HS w/ Radeon 780M Graphics",
+  "cores_physical": 8,
+  "threads_logical": 16,
+  "ram_installed_gb": 16.0,
+  "ram_usable_gb": 15.19,
+  "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+  "gpu_vram_gb": 8.0,
+  "os_name": "Microsoft Windows 11 Home Single Language",
+  "os_version": "10.0.26200",
+  "captured_at_utc": "2026-10-30T16:10:19.404432+00:00"
+}

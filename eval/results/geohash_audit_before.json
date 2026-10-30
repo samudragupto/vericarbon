@@ -1,0 +1,22 @@
+{
+  "audit": "geohash_truth_audit",
+  "aoi_bbox": [
+    -2.8172,
+    -54.8485,
+    -2.8078,
+    -54.839
+  ],
+  "aoi_centroid": [
+    -2.8125,
+    -54.84375
+  ],
+  "alleged_contradiction": "Text claimed chip 'falls within a single geographic geohash-5 cell' while simultaneously claiming 4 quadrant geohash-5 cells (6z2zz, 6z3pb, 6z8bp, 6z900).",
+  "investigation": "The AOI centroid sits exactly on the 4-way corner vertex (-2.8125, -54.84375). The chip does NOT fall within a single cell; it straddles all 4 adjacent cells, with 64 pixels in each. The single-cell claim in prose was factually incorrect and removed.",
+  "all_cells_intersect_aoi": true,
+  "cells": {
+    "6z2zz": { "decoded_bbox": [-2.8564453125, -54.8876953125, -2.8125, -54.84375], "intersects": true },
+    "6z3pb": { "decoded_bbox": [-2.8564453125, -54.84375, -2.8125, -54.7998046875], "intersects": true },
+    "6z8bp": { "decoded_bbox": [-2.8125, -54.8876953125, -2.7685546875, -54.84375], "intersects": true },
+    "6z900": { "decoded_bbox": [-2.8125, -54.84375, -2.7685546875, -54.7998046875], "intersects": true }
+  }
+}

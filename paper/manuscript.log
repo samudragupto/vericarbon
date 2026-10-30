@@ -1,0 +1,1256 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.10.28)  30 OCT 2026 22:24
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**./manuscript.tex
+(manuscript.tex
+LaTeX2e <2025-11-01>
+L3 programming layer <2025-12-24>
+
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/latex/elsarticle\elsarticle.cl
+s
+Document Class: elsarticle 2026/01/09, 3.5: Elsevier Ltd
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/latex/base\fontenc.sty
+Package: fontenc 2025/07/18 v2.1d Standard LaTeX package
+)
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/latex/l3kernel\expl3.sty
+Package: expl3 2025-12-24 L3 programming layer (loader) 
+
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdft
+ex.def
+File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count275
+))
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/latex/l3packages/xparse\xparse
+.sty
+Package: xparse 2025-10-09 L3 Experimental document command parser
+)
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/latex/etoolbox\etoolbox.sty
+Package: etoolbox 2025/10/02 v2.5m e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count276
+)
+\@bls=\dimen148
+
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/latex/base\article.cls
+Document Class: article 2025/01/22 v1.4n Standard LaTeX document class
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/latex/base\size12.clo
+File: size12.clo 2025/01/22 v1.4n Standard LaTeX file (size option)
+)
+\c@part=\count277
+\c@section=\count278
+\c@subsection=\count279
+\c@subsubsection=\count280
+\c@paragraph=\count281
+\c@subparagraph=\count282
+\c@figure=\count283
+\c@table=\count284
+\abovecaptionskip=\skip49
+\belowcaptionskip=\skip50
+\bibindent=\dimen149
+)
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphicx.sty
+Package: graphicx 2024/12/31 v1.2e Enhanced LaTeX Graphics (DPC,SPQR)
+
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/latex/graphics\keyval.sty
+Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
+\KV@toks@=\toks17
+)
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphics.sty
+Package: graphics 2024/08/06 v1.4g Standard LaTeX Graphics (DPC,SPQR)
+
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/latex/graphics\trig.sty
+Package: trig 2023/12/02 v1.11 sin cos tan (DPC)
+)
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\graphics.cf
+g
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 106.
+
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/latex/graphics-def\pdftex.def
+File: pdftex.def 2025/09/29 v1.2d Graphics/color driver for pdftex
+))
+\Gin@req@height=\dimen150
+\Gin@req@width=\dimen151
+)
+\c@tnote=\count285
+\c@fnote=\count286
+\c@cnote=\count287
+\c@ead=\count288
+\c@elsarticle@author=\count289
+\@eadauthor=\toks18
+\c@affn=\count290
+\absbox=\box53
+\elsarticlehighlightsbox=\box54
+\elsarticlegrabsbox=\box55
+\keybox=\box56
+\Columnwidth=\dimen152
+\space@left=\dimen153
+\els@boxa=\box57
+\els@boxb=\box58
+\leftMargin=\dimen154
+\@enLab=\toks19
+\@sep=\skip51
+\@@sep=\skip52
+ (manuscript.spl)
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/latex/natbib\natbib.sty
+Package: natbib 2010/09/13 8.31b (PWD, AO)
+\bibhang=\skip53
+\bibsep=\skip54
+LaTeX Info: Redefining \cite on input line 694.
+\c@NAT@ctr=\count291
+)
+\splwrite=\write3
+\openout3 = `manuscript.spl'.
+
+\appnamewidth=\dimen155
+)
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsmath.sty
+Package: amsmath 2025/07/09 v2.17z AMS math features
+\@mathmargin=\skip55
+
+For additional information on amsmath, use the `?' option.
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amstext.sty
+Package: amstext 2024/11/17 v2.01 AMS text
+
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks20
+\ex@=\dimen156
+))
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen157
+)
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsopn.sty
+Package: amsopn 2022/04/08 v2.04 operator names
+)
+\inf@bad=\count292
+LaTeX Info: Redefining \frac on input line 233.
+\uproot@=\count293
+\leftroot@=\count294
+LaTeX Info: Redefining \overline on input line 398.
+LaTeX Info: Redefining \colon on input line 409.
+\classnum@=\count295
+\DOTSCASE@=\count296
+LaTeX Info: Redefining \ldots on input line 495.
+LaTeX Info: Redefining \dots on input line 498.
+LaTeX Info: Redefining \cdots on input line 619.
+\Mathstrutbox@=\box59
+\strutbox@=\box60
+LaTeX Info: Redefining \big on input line 721.
+LaTeX Info: Redefining \Big on input line 722.
+LaTeX Info: Redefining \bigg on input line 723.
+LaTeX Info: Redefining \Bigg on input line 724.
+\big@size=\dimen158
+LaTeX Font Info:    Redeclaring font encoding OML on input line 742.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 743.
+\macc@depth=\count297
+LaTeX Info: Redefining \bmod on input line 904.
+LaTeX Info: Redefining \pmod on input line 909.
+LaTeX Info: Redefining \smash on input line 939.
+LaTeX Info: Redefining \relbar on input line 969.
+LaTeX Info: Redefining \Relbar on input line 970.
+\c@MaxMatrixCols=\count298
+\dotsspace@=\muskip17
+\c@parentequation=\count299
+\dspbrk@lvl=\count300
+\tag@help=\toks21
+\row@=\count301
+\column@=\count302
+\maxfields@=\count303
+\andhelp@=\toks22
+\eqnshift@=\dimen159
+\alignsep@=\dimen160
+\tagshift@=\dimen161
+\tagwidth@=\dimen162
+\totwidth@=\dimen163
+\lineht@=\dimen164
+\@envbody=\toks23
+\multlinegap=\skip56
+\multlinetaggap=\skip57
+\mathdisplay@stack=\toks24
+LaTeX Info: Redefining \[ on input line 2950.
+LaTeX Info: Redefining \] on input line 2951.
+)
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+))
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/latex/amscls\amsthm.sty
+Package: amsthm 2020/05/29 v2.20.6
+\thm@style=\toks25
+\thm@bodyfont=\toks26
+\thm@headfont=\toks27
+\thm@notefont=\toks28
+\thm@headpunct=\toks29
+\thm@preskip=\skip58
+\thm@postskip=\skip59
+\thm@headsep=\skip60
+\dth@everypar=\toks30
+LaTeX Info: Redefining \qed on input line 273.
+)
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/latex/booktabs\booktabs.sty
+Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
+\heavyrulewidth=\dimen165
+\lightrulewidth=\dimen166
+\cmidrulewidth=\dimen167
+\belowrulesep=\dimen168
+\belowbottomsep=\dimen169
+\aboverulesep=\dimen170
+\abovetopsep=\dimen171
+\cmidrulesep=\dimen172
+\cmidrulekern=\dimen173
+\defaultaddspace=\dimen174
+\@cmidla=\count304
+\@cmidlb=\count305
+\@aboverulesep=\dimen175
+\@belowrulesep=\dimen176
+\@thisruleclass=\count306
+\@lastruleclass=\count307
+\@thisrulewidth=\dimen177
+)
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hyperref.sty
+Package: hyperref 2025-07-12 v7.01o Hypertext links for LaTeX
+
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/generic/iftex\iftex.sty
+Package: iftex 2024/12/12 v1.0g TeX engine tests
+)
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/latex/kvsetkeys\kvsetkeys.sty
+Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
+)
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/generic/kvdefinekeys\kvdefinek
+eys.sty
+Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
+)
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/generic/pdfescape\pdfescape.st
+y
+Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
+ (C:\Users\user\AppData\Local\Programs\MiKTeX\tex/generic/ltxcmds\ltxcmds.sty
+Package: ltxcmds 2023-12-04 v1.26 LaTeX kernel commands for general use (HO)
+)
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/generic/pdftexcmds\pdftexcmds.
+sty
+Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO
+)
+
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/generic/infwarerr\infwarerr.st
+y
+Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
+)
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)) (C:\Users\user\AppData\Local\Programs\MiKTeX\tex/latex/hycolor\hycolor.sty
+Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
+) (C:\Users\user\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\nameref.sty
+Package: nameref 2025-06-21 v2.57 Cross-referencing by name of section
+
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/latex/refcount\refcount.sty
+Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
+)
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/generic/gettitlestring\gettitl
+estring.sty
+Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
+
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/latex/kvoptions\kvoptions.sty
+Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
+))
+\c@section@level=\count308
+)
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/generic/stringenc\stringenc.st
+y
+Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO
+)
+)
+\@linkdim=\dimen178
+\Hy@linkcounter=\count309
+\Hy@pagecounter=\count310
+ (C:\Users\user\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\pd1enc.def
+File: pd1enc.def 2025-07-12 v7.01o Hyperref: PDFDocEncoding definition (HO)
+Now handling font encoding PD1 ...
+... no UTF-8 mapping file for font encoding PD1
+)
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/generic/intcalc\intcalc.sty
+Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
+)
+\Hy@SavedSpaceFactor=\count311
+
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\puenc.def
+File: puenc.def 2025-07-12 v7.01o Hyperref: PDF Unicode definition (HO)
+Now handling font encoding PU ...
+... no UTF-8 mapping file for font encoding PU
+)
+Package hyperref Info: Hyper figures OFF on input line 4195.
+Package hyperref Info: Link nesting OFF on input line 4200.
+Package hyperref Info: Hyper index ON on input line 4203.
+Package hyperref Info: Plain pages OFF on input line 4210.
+Package hyperref Info: Backreferencing OFF on input line 4215.
+Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
+Package hyperref Info: Bookmarks ON on input line 4462.
+\c@Hy@tempcnt=\count312
+
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/latex/url\url.sty
+\Urlmuskip=\muskip18
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+LaTeX Info: Redefining \url on input line 4801.
+\XeTeXLinkMargin=\dimen179
+
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/generic/bitset\bitset.sty
+Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
+
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/generic/bigintcalc\bigintcalc.
+sty
+Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
+)
+))
+\Fld@menulength=\count313
+\Field@Width=\dimen180
+\Fld@charsize=\dimen181
+Package hyperref Info: Hyper figures OFF on input line 6078.
+Package hyperref Info: Link nesting OFF on input line 6083.
+Package hyperref Info: Hyper index ON on input line 6086.
+Package hyperref Info: backreferencing OFF on input line 6093.
+Package hyperref Info: Link coloring OFF on input line 6098.
+Package hyperref Info: Link coloring with OCG OFF on input line 6103.
+Package hyperref Info: PDF/A mode OFF on input line 6108.
+\Hy@abspage=\count314
+\c@Item=\count315
+\c@Hfootnote=\count316
+)
+Package hyperref Info: Driver (autodetected): hpdftex.
+
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hpdftex.def
+File: hpdftex.def 2025-07-12 v7.01o Hyperref driver for pdfTeX
+\Fld@listcount=\count317
+\c@bookmark@seq@number=\count318
+
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/latex/rerunfilecheck\rerunfile
+check.sty
+Package: rerunfilecheck 2025-06-21 v1.11 Rerun checks for auxiliary files (HO)
+
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/generic/uniquecounter\uniqueco
+unter.sty
+Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
+)
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
+84.
+)
+\Hy@SectionHShift=\skip61
+)
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/latex/xcolor\xcolor.sty
+Package: xcolor 2024/09/29 v3.02 LaTeX color extensions (UK)
+
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: pdftex.def on input line 274.
+
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/latex/graphics\mathcolor.ltx)
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1349.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1353.
+Package xcolor Info: Model `RGB' extended on input line 1365.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1367.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1368.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1370.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1371.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1372.
+) (C:\Users\user\AppData\Local\Programs\MiKTeX\tex/latex/tools\tabularx.sty
+Package: tabularx 2023/12/11 v2.12a `tabularx' package (DPC)
+
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/latex/tools\array.sty
+Package: array 2025/09/25 v2.6n Tabular extension package (FMi)
+\col@sep=\dimen182
+\ar@mcellbox=\box61
+\extrarowheight=\dimen183
+\NC@list=\toks31
+\extratabsurround=\skip62
+\backup@length=\skip63
+\ar@cellbox=\box62
+)
+\TX@col@width=\dimen184
+\TX@old@table=\dimen185
+\TX@old@col=\dimen186
+\TX@target=\dimen187
+\TX@delta=\dimen188
+\TX@cols=\count319
+\TX@ftn=\toks32
+)
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/latex/enumitem\enumitem.sty
+Package: enumitem 2025/02/06 v3.11 Customized lists
+\labelindent=\skip64
+\enit@outerparindent=\dimen189
+\enit@toks=\toks33
+\enit@inbox=\box63
+\enit@count@id=\count320
+\enitdp@description=\count321
+)
+Package hyperref Info: Option `colorlinks' set `true' on input line 17.
+\c@definition=\count322
+\c@lemma=\count323
+\c@assumption=\count324
+
+(manuscript.aux)
+\openout1 = `manuscript.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mki
+i
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count325
+\scratchdimen=\dimen190
+\scratchbox=\box64
+\nofMPsegments=\count326
+\nofMParguments=\count327
+\everyMPshowfont=\toks34
+\MPscratchCnt=\count328
+\MPscratchDim=\dimen191
+\MPnumerator=\count329
+\makeMPintoPDFobject=\count330
+\everyMPtoPDFconversion=\toks35
+)
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-ba
+se.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+85.
+
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/latex/00miktex\epstopdf-sys.cf
+g
+File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
+))
+Package hyperref Info: Link coloring ON on input line 26.
+ (manuscript.out) (manuscript.out)
+\@outlinefile=\write4
+\openout4 = `manuscript.out'.
+
+LaTeX Font Info:    Trying to load font information for U+msa on input line 44.
+
+
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 44.
+
+
+(C:\Users\user\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+Underfull \hbox (badness 3049) in paragraph at lines 44--44
+[][]\T1/cmr/m/n/10 Corresponding au-thor. Email: TODO-AUTHOR-EMAIL. OR-CID: TOD
+O-
+ []
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\<def>-command' on input line 44.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\cnotenum' on input line 44.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\<def>-command' on input line 44.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\@corref' on input line 44.
+
+[1
+
+
+{C:/Users/user/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}] [2]
+[3]
+Overfull \hbox (24.95276pt too wide) in paragraph at lines 69--70
+\T1/cmr/m/n/12 li-fier ($[] \OT1/cmr/m/n/12 := []([] \OMS/cmsy/m/n/12 k [] k []
+\OT1/cmr/m/n/12 )$\T1/cmr/m/n/12 )
+ []
+
+[4] [5]
+Overfull \hbox (4.01196pt too wide) in paragraph at lines 87--88
+\T1/cmr/m/n/12 fac-tors and sto-i-chio-met-ric con-stants^^Vspecifically the In
+-ter-gov-ern-men-tal Panel
+ []
+
+[6]
+Overfull \hbox (1.38768pt too wide) in paragraph at lines 97--97
+[]\T1/cmr/m/it/12 Zero-Knowledge Cryp-tog-ra-phy and Ver-i-fi-able Ma-chine Lea
+rn-ing (ZKML) 
+ []
+
+[7] (tables/related_work_matrix.tex
+Underfull \hbox (badness 10000) in paragraph at lines 8--8
+[]|\T1/cmr/bx/n/10.95 System /
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 8--8
+[]|\T1/cmr/bx/n/10.95 Data Ver-i-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 8--8
+[]|\T1/cmr/bx/n/10.95 In-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 8--8
+\T1/cmr/bx/n/10.95 Circuit
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 8--8
+[]|\T1/cmr/bx/n/10.95 Double-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 8--8
+\T1/cmr/bx/n/10.95 Issuance De-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 8--9
+[]|\T1/cmr/bx/n/10.95 Double-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 8--9
+\T1/cmr/bx/n/10.95 Retirement
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 10--10
+[]|\T1/cmr/m/n/10.95 Web3 Car-bon
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 10--10
+[]|\T1/cmr/m/n/10.95 No (as-sumes
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 10--10
+[]|\T1/cmr/m/n/10.95 None (iso-lated
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 10--11
+[]|\T1/cmr/m/n/10.95 ERC-20 burn
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 11--11
+[]|\T1/cmr/m/n/10.95 Carbon Cur-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 11--11
+[]|\T1/cmr/m/n/10.95 No (ex-ter-nal
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 11--11
+[]|\T1/cmr/m/n/10.95 None (in-her-its
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 12--12
+[]|\T1/cmr/bx/n/10.95 Climate Ware-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 12--12
+[]|\T1/cmr/m/n/10.95 World Bank
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 12--12
+[]|\T1/cmr/m/n/10.95 No (ex-ter-nal
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 12--13
+[]|\T1/cmr/m/n/10.95 Bilateral mes-
+ []
+
+
+Underfull \hbox (badness 5064) in paragraph at lines 13--13
+[]|\T1/cmr/bx/n/10.95 dMRV (Mo-han
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 13--13
+[]|\T1/cmr/m/n/10.95 TLS-Notary
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 13--14
+[]|\T1/cmr/m/n/10.95 Smart con-tract
+ []
+
+
+Underfull \hbox (badness 7685) in paragraph at lines 14--14
+[]|\T1/cmr/bx/n/10.95 dMRV (Franke
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 14--14
+[]|\T1/cmr/m/n/10.95 Blockchain
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 14--14
+[]|\T1/cmr/m/n/10.95 None (na-tional
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 16--16
+[]|\T1/cmr/bx/n/10.95 VeriCarbon
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 16--16
+[]|\T1/cmr/bx/n/10.95 Verifiable
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 16--16
+\T1/cmr/bx/n/10.95 Satel-lite
+ []
+
+
+Underfull \hbox (badness 4543) in paragraph at lines 16--16
+[]|\T1/cmr/bx/n/10.95 Yes (Po-sei-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 16--16
+\T1/cmr/bx/n/10.95 ci-sion
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 16--16
+[]|\T1/cmr/bx/n/10.95 Cryptographic
+ []
+
+
+Underfull \hbox (badness 3679) in paragraph at lines 16--17
+[]|\T1/cmr/bx/n/10.95 Global Claim
+ []
+
+
+Overfull \hbox (125.86313pt too wide) in paragraph at lines 6--19
+ [][] 
+ []
+
+) [8] [9]
+Overfull \hbox (47.42569pt too wide) in paragraph at lines 129--130
+\T1/cmr/m/n/12 tion $\OML/cmm/m/it/12 e\OT1/cmr/m/n/12 (\OMS/cmsy/m/n/12 ^^A\OM
+L/cmm/m/it/12 ; \OMS/cmsy/m/n/12 ^^A\OT1/cmr/m/n/12 ) = \OML/cmm/m/it/12 e\OT1/
+cmr/m/n/12 (\OMS/cmsy/m/n/12 ^^A\OML/cmm/m/it/12 ; \OMS/cmsy/m/n/12 ^^A\OT1/cmr
+/m/n/12 )$ \T1/cmr/m/n/12 for pub-lic in-stances $\OT1/cmr/m/n/12 [\OML/cmm/m/i
+t/12 modelHash; dataCommitment; amount\OT1/cmr/m/n/12 ]$\T1/cmr/m/n/12 ,
+ []
+
+
+Overfull \hbox (36.22952pt too wide) in paragraph at lines 129--130
+\T1/cmr/m/n/12 in-put $\OML/cmm/m/it/12 X$ \T1/cmr/m/n/12 such that $\OML/cmm/m
+/it/12 amount \OMS/cmsy/m/n/12 ^^T \OML/cmm/m/it/12 f[]\OT1/cmr/m/n/12 (\OML/cm
+m/m/it/12 X\OT1/cmr/m/n/12 )$ \T1/cmr/m/n/12 and $\OMS/cmsy/m/n/12 H[]\OT1/cmr/
+m/n/12 (\OML/cmm/m/it/12 X\OT1/cmr/m/n/12 ) = \OML/cmm/m/it/12 dataCommitment$\
+T1/cmr/m/n/12 . 
+ []
+
+
+Overfull \hbox (12.25595pt too wide) in paragraph at lines 130--131
+\T1/cmr/m/n/12 In-ter-Plan-e-tary File Sys-tem (IPFS) pro-vides content-address
+ed im-mutabil-
+ []
+
+
+Overfull \hbox (45.22232pt too wide) in paragraph at lines 130--131
+\T1/cmr/m/n/12 ity. An ev-i-dence bun-dle iden-ti-fied by Con-tent Iden-ti-fier
+ $[] \OT1/cmr/m/n/12 = [](\OML/cmm/m/it/12 bundle\OT1/cmr/m/n/12 )$
+ []
+
+[10] [11]
+Overfull \hbox (75.2254pt too wide) in paragraph at lines 149--150
+\T1/cmr/m/n/12 is-suance at-tempt trig-gers an atomic EVM re-vert (\T1/cmtt/m/n
+/12 IssuanceNullifierAlreadySpent\T1/cmr/m/n/12 ). 
+ []
+
+
+Overfull \hbox (7.15144pt too wide) in paragraph at lines 151--152
+[]\T1/cmr/bx/n/12 Single-Claim Re-tire-ment Nul-li-fi-ca-tion (Double-Claim De-
+fense):
+ []
+
+[12]
+Overfull \hbox (13.18343pt too wide) in paragraph at lines 169--171
+[]\T1/cmr/m/n/12 VeriCarbon re-solves the com-pu-ta-tional di-chotomy be-tween 
+high-dimensional
+ []
+
+
+Overfull \hbox (81.86389pt too wide) in paragraph at lines 173--174
+\T1/cmr/m/n/12 mod-u-lar smart con-tracts on Base Se-po-lia (\T1/cmtt/m/n/12 Ha
+lo2Verifier.sol\T1/cmr/m/n/12 , \T1/cmtt/m/n/12 CarbonRegistry.sol\T1/cmr/m/n/1
+2 ).
+ []
+
+[13]
+Overfull \hbox (4.76878pt too wide) in paragraph at lines 182--184
+\T1/cmr/m/n/12 where $[]$ de-notes stan-dard So-lid-ity se-ri-al-iza-tion with 
+strict
+ []
+
+
+Overfull \hbox (74.8573pt too wide) in paragraph at lines 186--187
+[]\T1/cmr/m/n/12 During project on-board-ing, the reg-istry op-er-a-tor in-voke
+s \T1/cmtt/m/n/12 registerProject(projectId,
+ []
+
+[14] [15]
+Overfull \hbox (8.98102pt too wide) in paragraph at lines 225--226
+[]\T1/cmr/m/n/12 Executing \T1/cmtt/m/n/12 retire(serialIds[], claimType, benef
+iciaryCommitment)
+ []
+
+
+Overfull \hbox (70.50479pt too wide) in paragraph at lines 225--226
+\T1/cmr/m/n/12 burns the cor-re-spond-ing ERC-1155 to-ken quan-tity, as-serts t
+hat $\OT1/cmr/m/n/12 ![][\OMS/cmsy/m/n/12 N[]\OT1/cmr/m/n/12 ]$\T1/cmr/m/n/12 ,
+
+ []
+
+[16]
+Overfull \hbox (43.17741pt too wide) in paragraph at lines 237--238
+[]\T1/cmr/m/n/12 By Def-i-ni-tion 2, trans-ac-tion $\OML/cmm/m/it/12 T[]$ \T1/c
+mr/m/n/12 pro-vides valid call-data $\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 P[]; g; 
+s[]; v; ^^\; m[]; D[]; ^^Y[]\OT1/cmr/m/n/12 )$\T1/cmr/m/n/12 .
+ []
+
+
+Overfull \hbox (0.47205pt too wide) in paragraph at lines 237--238
+\T1/cmr/m/n/12 Ex-e-cu-tion of \T1/cmtt/m/n/12 issue() \T1/cmr/m/n/12 ver-i-fie
+s $\OMS/cmsy/m/n/12 H[]\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 g; s[]\OT1/cmr/m/n/12 
+) = [][\OML/cmm/m/it/12 P[]\OT1/cmr/m/n/12 ]\OML/cmm/m/it/12 :geoCommitment$\T1
+/cmr/m/n/12 ,
+ []
+
+
+Overfull \hbox (66.30237pt too wide) in paragraph at lines 237--238
+\T1/cmr/m/n/12 val-i-dates proof $\OML/cmm/m/it/12 ^^Y[]$ \T1/cmr/m/n/12 via \T
+1/cmtt/m/n/12 Halo2Verifier.sol\T1/cmr/m/n/12 , com-putes $\OMS/cmsy/m/n/12 N[]
+ \OT1/cmr/m/n/12 = \OMS/cmsy/m/n/12 H[]\OT1/cmr/m/n/12 ([](\OML/cmm/m/it/12 g; 
+v; ^^\\OT1/cmr/m/n/12 ))$\T1/cmr/m/n/12 ,
+ []
+
+
+Overfull \hbox (5.41165pt too wide) in paragraph at lines 240--241
+[]\T1/cmr/m/n/12 Now con-sider trans-ac-tion $\OML/cmm/m/it/12 T[]$\T1/cmr/m/n/
+12 , which sub-mits $\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 P[]; g[]; s[]; v[]; ^^\[
+]; m[]; D[]; ^^Y[]\OT1/cmr/m/n/12 )$\T1/cmr/m/n/12 .
+ []
+
+
+Overfull \hbox (7.55914pt too wide) in paragraph at lines 254--255
+[]\T1/cmr/m/n/12 Find dis-tinct preim-ages $\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 g
+[]; v[]; ^^\[]\OT1/cmr/m/n/12 ) \OMS/cmsy/m/n/12 6\OT1/cmr/m/n/12 = (\OML/cmm/m
+/it/12 g; v; ^^\\OT1/cmr/m/n/12 )$ \T1/cmr/m/n/12 such that $\OMS/cmsy/m/n/12 H
+[]\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 g[]; v[]; ^^\[]\OT1/cmr/m/n/12 ) =
+ []
+
+[17]
+Overfull \hbox (3.84976pt too wide) in paragraph at lines 264--265
+\T1/cmr/m/n/12 Halo2 cir-cuit us-ing \T1/cmtt/m/n/12 ezkl v23.0.5\T1/cmr/m/n/12
+ . Space-borne ob-ser-va-tions (Sentinel-2 bands
+ []
+
+[18]
+LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <12> not available
+(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 270.
+
+Overfull \hbox (0.38795pt too wide) in paragraph at lines 271--272
+\T1/cmr/m/n/12 the pro-hibitive con-straint over-head of bit-wise SHA-256 (>50,
+000 lookup
+ []
+
+[19]
+Overfull \hbox (73.84505pt too wide) in paragraph at lines 290--290
+[]\T1/cmr/m/it/12 Zero-Knowledge Prov-ing and Smart Con-tracts (\T1/cmtt/m/it/1
+2 services/zk \T1/cmr/m/it/12 & \T1/cmtt/m/it/12 packages/contracts\T1/cmr/m/it
+/12 ) 
+ []
+
+[20]
+Overfull \hbox (13.77492pt too wide) in paragraph at lines 294--295
+[]\T1/cmr/m/n/12 The on-chain smart con-tract ar-chi-tec-ture is im-ple-mented 
+in So-lid-ity (v0.8.24,
+ []
+
+
+Overfull \hbox (17.74763pt too wide) in paragraph at lines 300--301
+\T1/cmr/m/n/12 Base Se-po-lia RPC, an asyn-chronous in-dexer dae-mon writ-ten i
+n Deno/TypeScript
+ []
+
+
+Overfull \hbox (12.65997pt too wide) in paragraph at lines 300--301
+\T1/cmr/m/n/12 16 database us-ing idem-po-tent com-pound pri-mary keys \T1/cmtt
+/m/n/12 (tx_hash, log_index)\T1/cmr/m/n/12 ,
+ []
+
+[21]
+Overfull \hbox (0.6877pt too wide) in paragraph at lines 308--309
+\T1/cmr/m/n/12 ques-tions: prov-ing fea-si-bil-ity on com-mod-ity hard-ware (RQ
+1), se-cu-rity against
+ []
+
+[22] (tables/model_metrics.tex
+Overfull \hbox (93.24953pt too wide) in paragraph at lines 6--19
+ [][] 
+ []
+
+)
+Overfull \hbox (53.96666pt too wide) in paragraph at lines 314--315
+[]\T1/cmr/m/n/12 We eval-u-ate the \T1/cmtt/m/n/12 HistGradientBoostingRegresso
+r \T1/cmr/m/n/12 ($\OML/cmm/m/it/12 max[]iter \OT1/cmr/m/n/12 = 40\OML/cmm/m/it
+/12 ; max[]depth \OT1/cmr/m/n/12 =
+ []
+
+[23]
+Overfull \hbox (1.66693pt too wide) in paragraph at lines 318--319
+[]\T1/cmr/m/n/12 To an-swer RQ1^^Vwhether zero-knowledge proofs over re-mote se
+ns-ing mod-
+ []
+
+(tables/zk_benchmarks.tex
+Overfull \hbox (218.00832pt too wide) in paragraph at lines 6--22
+ [][] 
+ []
+
+)
+<figures/proving_time.pdf, id=441, 578.16pt x 375.804pt>
+File: figures/proving_time.pdf Graphic file (type pdf)
+<use figures/proving_time.pdf>
+Package pdftex.def Info: figures/proving_time.pdf  used on input line 326.
+(pdftex.def)             Requested size: 350.99762pt x 228.14485pt.
+ [24] [25 <./figures/proving_time.pdf>] (tables/fraud_results.tex
+Underfull \hbox (badness 10000) in paragraph at lines 8--8
+[]|\T1/cmr/bx/n/10.95 VeriCarbon Out-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 8--9
+[]|\T1/cmr/bx/n/10.95 Centralized Base-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 10--10
+[]|\T1/cmr/m/n/10.95 Vulnerable pre-A0
+ []
+
+
+Underfull \hbox (badness 6876) in paragraph at lines 10--11
+[]|\T1/cmr/m/n/10.95 SUCCEEDS (Dou-ble
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 11--11
+[]|\T1/cmr/m/n/10.95 Vulnerable pre-A0
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 11--12
+[]|\T1/cmr/m/n/10.95 SUCCEEDS (Un-
+ []
+
+LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <10.95> not available
+(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 13.
+
+Underfull \hbox (badness 10000) in paragraph at lines 13--13
+[]|\T1/cmr/bx/n/10.95 REVERT
+ []
+
+
+Overfull \hbox (65.70268pt too wide) in paragraph at lines 13--13
+\T1/cmr/bx/n/10.95 (\T1/cmtt/m/n/10.95 IssuanceNullifierAlreadySpent\T1/cmr/bx/
+n/10.95 )| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 13--14
+[]|\T1/cmr/m/n/10.95 SUCCEEDS (Du-pli-
+ []
+
+
+Underfull \hbox (badness 1005) in paragraph at lines 14--14
+[]|\T1/cmr/m/n/10.95 Atomic nul-li-fier stor-age
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 14--14
+[]|\T1/cmr/bx/n/10.95 REVERT
+ []
+
+
+Overfull \hbox (65.70268pt too wide) in paragraph at lines 14--14
+\T1/cmr/bx/n/10.95 (\T1/cmtt/m/n/10.95 IssuanceNullifierAlreadySpent\T1/cmr/bx/
+n/10.95 )| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 14--15
+[]|\T1/cmr/m/n/10.95 SUCCEEDS (Du-pli-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 15--15
+[]|\T1/cmr/bx/n/10.95 REVERT
+ []
+
+
+Overfull \hbox (65.70268pt too wide) in paragraph at lines 15--15
+\T1/cmr/bx/n/10.95 (\T1/cmtt/m/n/10.95 IssuanceNullifierAlreadySpent\T1/cmr/bx/
+n/10.95 )| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 15--16
+[]|\T1/cmr/m/n/10.95 SUCCEEDS (By-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 16--16
+[]|\T1/cmr/m/n/10.95 Single-claim nul-li-fier
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 16--16
+[]|\T1/cmr/bx/n/10.95 REVERT
+ []
+
+
+Overfull \hbox (48.72757pt too wide) in paragraph at lines 16--16
+\T1/cmr/bx/n/10.95 (\T1/cmtt/m/n/10.95 ClaimNullifierAlreadySpent\T1/cmr/bx/n/1
+0.95 )| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 16--17
+[]|\T1/cmr/m/n/10.95 SUCCEEDS (Un-
+ []
+
+
+Underfull \hbox (badness 1810) in paragraph at lines 17--17
+[]|\T1/cmr/bx/n/10.95 A5: Non-Existent
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 17--17
+[]|\T1/cmr/bx/n/10.95 REVERT
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 18--18
+[]|\T1/cmr/bx/n/10.95 REVERT
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 18--19
+[]|\T1/cmr/m/n/10.95 SUCCEEDS (Ar-bi-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 19--19
+[]|\T1/cmr/m/n/10.95 Strict bounds
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 19--19
+[]|\T1/cmr/bx/n/10.95 REVERT
+ []
+
+
+Overfull \hbox (3.4606pt too wide) in paragraph at lines 19--19
+\T1/cmr/bx/n/10.95 (\T1/cmtt/m/n/10.95 InvalidVintageYear\T1/cmr/bx/n/10.95 )| 
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 19--20
+[]|\T1/cmr/m/n/10.95 SUCCEEDS (Fu-ture
+ []
+
+
+Overfull \hbox (101.86311pt too wide) in paragraph at lines 6--22
+ [][] 
+ []
+
+) [26]
+Overfull \hbox (9.40376pt too wide) in paragraph at lines 344--345
+[]\T1/cmr/bx/n/12 A2 (Same-Registry Du-pli-cate Is-suance): \T1/cmr/m/n/12 An o
+p-er-a-tor re-submitting
+ []
+
+
+Overfull \hbox (8.63042pt too wide) in paragraph at lines 345--346
+[]\T1/cmr/bx/n/12 A3 (Salt-Dodge At-tack): \T1/cmr/m/n/12 An ad-ver-sary re-reg
+istering par-cel \T1/cmtt/m/n/12 6z900000
+ []
+
+
+Overfull \hbox (125.83089pt too wide) in paragraph at lines 352--353
+[]\T1/cmr/m/n/12 In stark con-trast, eval-u-at-ing the same at-tack sce-nar-ios
+ against \T1/cmtt/m/n/12 BaselineCentralRegistry.sol\T1/cmr/m/n/12 ^^Va
+ []
+
+
+Overfull \hbox (31.91763pt too wide) in paragraph at lines 352--353
+\T1/cmr/m/n/12 con-ven-tional cen-tral-ized transfer-log reg-istry lack-ing glo
+bal nul-li-fiers^^Vdemonstrates
+ []
+
+
+Overfull \hbox (145.3701pt too wide) in paragraph at lines 352--353
+\T1/cmr/m/n/12 se-vere se-cu-rity fail-ures. In our pro-gram-matic Foundry demo
+n-stra-tion (\T1/cmtt/m/n/12 BaselineDoubleIssuance.s.sol\T1/cmr/m/n/12 ),
+ []
+
+
+Overfull \hbox (99.84288pt too wide) in paragraph at lines 352--353
+\T1/cmr/m/n/12 cred-its never ex-ceed to-tal is-sued cred-its (\T1/cmtt/m/n/12 
+invariant_TotalRetiredNeverExceedsTotalIssued\T1/cmr/m/n/12 ),
+ []
+
+
+Overfull \hbox (80.55316pt too wide) in paragraph at lines 352--353
+\T1/cmr/m/n/12 and no claim nul-li-fier is ever recorded twice (\T1/cmtt/m/n/12
+ invariant_NoClaimNullifierRecordedTwice\T1/cmr/m/n/12 ). 
+ []
+
+[27] (tables/gas_costs.tex
+Overfull \hbox (79.54018pt too wide) in paragraph at lines 6--20
+ [][] 
+ []
+
+)
+Overfull \hbox (95.58148pt too wide) in paragraph at lines 360--361
+[]\T1/cmr/m/n/12 As de-tailed in [][]Ta-ble 5[][][] and [][]Fig-ure 2[][][], en
+d-to-end credit is-suance via \T1/cmtt/m/n/12 CarbonRegistry.issue()
+ []
+
+<figures/gas_comparison.pdf, id=583, 794.97pt x 375.804pt>
+File: figures/gas_comparison.pdf Graphic file (type pdf)
+<use figures/gas_comparison.pdf>
+Package pdftex.def Info: figures/gas_comparison.pdf  used on input line 364.
+(pdftex.def)             Requested size: 350.99762pt x 165.9277pt.
+[28] (tables/latency.tex
+Overfull \hbox (105.4983pt too wide) in paragraph at lines 6--14
+ [][] 
+ []
+
+)
+Overfull \hbox (53.39676pt too wide) in paragraph at lines 375--376
+\T1/cmr/m/n/12 rate-limiting ar-ti-facts). Pub-lic Base Se-po-lia RPC roundtrip
+ la-tency (\T1/cmtt/m/n/12 eth_blockNumber\T1/cmr/m/n/12 )
+ []
+
+[29 <./figures/gas_comparison.pdf>] [30]
+Overfull \hbox (4.69928pt too wide) in paragraph at lines 400--401
+[]\T1/cmr/m/n/12 Mitigating physical-layer or-a-cle com-pro-mise re-quires lay-
+ered cryp-to-graphic
+ []
+
+[31] [32] [33]
+Overfull \hbox (89.52736pt too wide) in paragraph at lines 441--442
+\T1/cmr/m/n/12 rasters -> \T1/cmtt/m/n/12 paper/tables/model_metrics.md \T1/cmr
+/m/n/12 and \T1/cmtt/m/n/12 eval/results/model_metrics.json\T1/cmr/m/n/12 . 
+ []
+
+[34]
+Overfull \hbox (107.0157pt too wide) in paragraph at lines 443--444
+\T1/cmr/m/n/12 L2 vs. Ethereum L1 -> \T1/cmtt/m/n/12 paper/tables/gas_costs.md 
+\T1/cmr/m/n/12 and \T1/cmtt/m/n/12 eval/results/gas_costs.json\T1/cmr/m/n/12 . 
+
+ []
+
+
+Overfull \hbox (19.46799pt too wide) in paragraph at lines 444--445
+[]\T1/cmtt/m/n/12 eval/fraud_simulation.py\T1/cmr/m/n/12 : Ex-e-cutes the 9 se-
+cu-rity sce-nar-ios in Foundry,
+ []
+
+
+Overfull \hbox (42.66107pt too wide) in paragraph at lines 444--445
+\T1/cmr/m/n/12 launches an ephemeral Anvil node to ex-e-cute \T1/cmtt/m/n/12 Ba
+selineDoubleIssuance.s.sol\T1/cmr/m/n/12 ,
+ []
+
+
+Overfull \hbox (4.26479pt too wide) in paragraph at lines 444--445
+\T1/cmr/m/n/12 and ex-tracts trans-ac-tion re-ceipts -> \T1/cmtt/m/n/12 paper/t
+ables/fraud_results.md\T1/cmr/m/n/12 ,
+ []
+
+
+Overfull \hbox (170.35483pt too wide) in paragraph at lines 444--445
+\T1/cmtt/m/n/12 eval/results/fraud_results.json\T1/cmr/m/n/12 , and \T1/cmtt/m/
+n/12 eval/results/baseline_double_issuance_receipt.json\T1/cmr/m/n/12 . 
+ []
+
+
+Overfull \hbox (162.2137pt too wide) in paragraph at lines 446--447
+[]\T1/cmr/m/n/12 Figures & Man-i-fest: Gen-er-ates high-resolution pub-li-ca-ti
+on fig-ures (\T1/cmtt/m/n/12 paper/figures/proving_time.pdf
+ []
+
+
+Overfull \hbox (84.29393pt too wide) in paragraph at lines 446--447
+\T1/cmr/m/n/12 and \T1/cmtt/m/n/12 paper/figures/gas_comparison.pdf\T1/cmr/m/n/
+12 ) and writes \T1/cmtt/m/n/12 eval/results/manifest.json\T1/cmr/m/n/12 . 
+ []
+
+
+Overfull \hbox (3.43083pt too wide) in paragraph at lines 456--459
+\T1/cmr/m/n/12 re-sis-tant. Let $\U/msb/m/n/12 S$ \T1/cmr/m/n/12 de-note the pe
+r-sis-tent key-value state of \T1/cmtt/m/n/12 CarbonRegistry.sol\T1/cmr/m/n/12 
+.
+ []
+
+[35]
+Overfull \hbox (6.72551pt too wide) in paragraph at lines 464--466
+\T1/cmr/m/n/12 Since $\U/msb/m/n/12 S\OT1/cmr/m/n/12 [[]][\OMS/cmsy/m/n/12 N[]\
+OT1/cmr/m/n/12 ] == []$\T1/cmr/m/n/12 , this con-di-tion eval-u-ates to \T1/cmt
+t/m/n/12 false\T1/cmr/m/n/12 ,
+ []
+
+
+Overfull \hbox (9.15811pt too wide) in paragraph at lines 470--472
+[]\T1/cmr/m/n/12 From \T1/cmtt/m/n/12 eval/results/baseline_double_issuance_rec
+eipt.json\T1/cmr/m/n/12 , the two
+ []
+
+
+Overfull \hbox (114.55644pt too wide) in paragraph at lines 472--473
+[]\T1/cmr/bx/n/12 Registry A Trans-ac-tion: \T1/cmr/m/n/12 Broad-cast by \T1/cm
+tt/m/n/12 0x70997970C51812dc3A010C7d01b50e0d17dc79C8\T1/cmr/m/n/12 ,
+ []
+
+
+Overfull \hbox (113.95935pt too wide) in paragraph at lines 473--474
+[]\T1/cmr/bx/n/12 Registry B Trans-ac-tion: \T1/cmr/m/n/12 Broad-cast by \T1/cm
+tt/m/n/12 0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC\T1/cmr/m/n/12 ,
+ []
+
+
+Overfull \hbox (10.91736pt too wide) in paragraph at lines 474--475
+\T1/cmr/m/n/12 ac-tion re-verts with \T1/cmtt/m/n/12 IssuanceNullifierAlreadySp
+ent(0x1771171c...)\T1/cmr/m/n/12 . 
+ []
+
+(manuscript.bbl [36]
+Underfull \hbox (badness 10000) in paragraph at lines 32--39
+\T1/cmr/m/n/12 URL [][]$\T1/cmtt/m/n/12 https : / / www . theguardian . com / e
+nvironment / 2023 / jan / 18 /
+ []
+
+
+Overfull \hbox (51.77084pt too wide) in paragraph at lines 32--39
+\T1/cmtt/m/n/12 revealed-[]forest-[]carbon-[]offsets-[]biggest-[]provider-[]wor
+thless-[]verra-[]aoe$[][] 
+ []
+
+
+Underfull \hbox (badness 1178) in paragraph at lines 48--54
+\T1/cmr/m/n/12 Group, Wash-ing-ton, DC (2022).  [][]$\T1/cmtt/m/n/12 doi : worl
+dbank . org / en / topic /
+ []
+
+[37] [38]
+Underfull \hbox (badness 1616) in paragraph at lines 162--167
+[]\T1/cmr/m/n/12 L. Grassi, D. Kales, D. Khovra-tovich, A. Roy, C. Rech-berger,
+
+ []
+
+) [39] (manuscript.aux)
+ ***********
+LaTeX2e <2025-11-01>
+L3 programming layer <2025-12-24>
+ ***********
+Package rerunfilecheck Info: File `manuscript.out' has not changed.
+(rerunfilecheck)             Checksum: A26E1239EAE01AAEE3580C5AA6780D12;14926.
+ ) 
+Here is how much of TeX's memory you used:
+ 12145 strings out of 467871
+ 185210 string characters out of 5418859
+ 607846 words of memory out of 5000000
+ 40679 multiletter control sequences out of 15000+600000
+ 649195 words of font info for 93 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 75i,15n,79p,1662b,699s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ <C:\Users\user\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm0
+700.pk> <C:\Users\user\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\
+ecti1095.pk> <C:\Users\user\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dp
+i600\ectt1000.pk> <C:\Users\user\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/
+ec/dpi600\ectt1095.pk> <C:\Users\user\AppData\Local\MiKTeX\fonts/pk/ljfour/jkna
+ppen/ec/dpi600\tcrm1200.pk> <C:\Users\user\AppData\Local\MiKTeX\fonts/pk/ljfour
+/jknappen/ec/dpi600\ecrm1095.pk> <C:\Users\user\AppData\Local\MiKTeX\fonts/pk/l
+jfour/jknappen/ec/dpi600\ecbx1095.pk> <C:\Users\user\AppData\Local\MiKTeX\fonts
+/pk/ljfour/jknappen/ec/dpi600\ecit1200.pk> <C:\Users\user\AppData\Local\MiKTeX\
+fonts/pk/ljfour/jknappen/ec/dpi600\ectt1200.pk> <C:\Users\user\AppData\Local\Mi
+KTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1000.pk> <C:\Users\user\AppData\Loc
+al\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1200.pk> <C:\Users\user\AppDat
+a\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\user\A
+ppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1000.pk> <C:\Users\u
+ser\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecti0700.pk> <C:\Us
+ers\user\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm0800.pk> <
+C:\Users\user\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1200.
+pk> <C:\Users\user\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm
+1728.pk><C:/Users/user/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfont
+s/cm/cmmi10.pfb><C:/Users/user/AppData/Local/Programs/MiKTeX/fonts/type1/public
+/amsfonts/cm/cmmi12.pfb><C:/Users/user/AppData/Local/Programs/MiKTeX/fonts/type
+1/public/amsfonts/cm/cmmi8.pfb><C:/Users/user/AppData/Local/Programs/MiKTeX/fon
+ts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/user/AppData/Local/Programs/MiK
+TeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/user/AppData/Local/Progr
+ams/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/user/AppData/Local
+/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/user/AppDa
+ta/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/use
+r/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Us
+ers/user/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm
+10.pfb>
+Output written on manuscript.pdf (39 pages, 595102 bytes).
+PDF statistics:
+ 1598 PDF objects out of 1728 (max. 8388607)
+ 159 named destinations out of 1000 (max. 500000)
+ 419 words of extra memory for PDF output out of 10000 (max. 10000000)
+

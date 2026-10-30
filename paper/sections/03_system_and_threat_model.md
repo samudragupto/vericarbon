@@ -2,11 +2,11 @@
 
 ## 3.1 Network Participants and Protocol Roles
 
-The VeriCarbon protocol operates as a decentralized, multi-registry coordination layer on top of an Ethereum Layer 2 rollup (Base Sepolia), orchestrating interactions among five distinct participant classes:
+The VeriCarbon protocol operates as a decentralized, multi-registry coordination layer on top of an Ethereum Layer 2 rollup (Base Sepolia), orchestrating interactions among six distinct participant classes:
 1. **Project Developers ($\mathcal{D}$):** Land stewards, conservation organizations, or commercial forestry managers who manage physical land parcels, ingest spaceborne satellite observations, generate zero-knowledge Halo2 proofs of biomass inference, and submit credit issuance requests.
 2. **Independent MRV Auditors ($\mathcal{A}$):** Third-party scientific entities and environmental researchers who inspect off-chain evidence bundles pinned to IPFS, audit model training architectures, and verify public cryptographic commitments without requiring physical parcel access.
 3. **Competing Registry Operators ($\mathcal{R}$):** Sovereign standards bodies, compliance administrators, or voluntary registry organizations holding the `REGISTRY_ROLE` permission in the on-chain registry contract. Registries authenticate project developers, verify eligibility under specific legal regimes, and sign on-chain registration and issuance transactions.
-4. **Protocol Governance ($\mathcal{G}$):** Multi-signature consortium governance holding `DEFAULT_ADMIN_ROLE`, responsible for granting registry permissions and establishing an immutable whitelist of approved machine learning model hashes (`modelHash`). This whitelisting prevents a rogue or collusive registry from submitting proofs evaluated over an adversarial, self-trained model with inflated weights.
+4. **Protocol Governance ($\mathcal{G}$):** Multi-signature consortium governance holding `DEFAULT_ADMIN_ROLE`, responsible for granting registry permissions and configuring the immutable canonical machine learning model hash (`modelHash`).
 5. **Off-Chain Synchronization Indexers ($\mathcal{I}$):** Automated indexing nodes (implemented via Supabase and edge runtime daemons) that continuously ingest on-chain log events (`ProjectRegistered`, `Issued`, `Claimed`), maintain idempotent state caches, and serve low-latency spatial and token queries.
 6. **Credit Claimants and Retirers ($\mathcal{C}$):** Commercial enterprises, corporate buyers, or individuals who purchase minted credit tokens and permanently retire them against verified greenhouse gas emissions liabilities.
 
@@ -28,7 +28,7 @@ We consider an active Byzantine adversary $\mathcal{M}$ whose objective is to ex
 
 ## 3.4 Cryptographically Enforced Security Guarantees
 
-Under the stated assumptions and Byzantine capabilities, VeriCarbon enforces four immutable on-chain guarantees across all 9 evaluated fraud attack scenarios [C-15, fraud_results.json]:
+Under the stated assumptions and Byzantine capabilities, VeriCarbon enforces four immutable on-chain guarantees evaluated in the adversarial test suite (Table~\ref{tab:fraud_results}):
 1. **Mathematical In-Circuit Bound (Over-Crediting Defense):** A collusive registry cannot issue credit quantities exceeding the physical inference output of the verified remote sensing model. The on-chain `Halo2Verifier.sol` asserts the in-circuit constraint $amount \le f_{model}(X)$ via pairing cryptography.
 2. **Global Geospatial Unicity (Cross-Registry Double-Issuance Defense):** Competing registries cannot issue credits for the same physical parcel, vintage year, and credit type. Because the issuance nullifier is globally shared across all registries on Base Sepolia, any subsequent issuance attempt triggers an atomic EVM revert (`IssuanceNullifierAlreadySpent`).
 3. **Salt-Dodge Invariance (Amendment A0):** An adversary cannot circumvent spatial nullification by generating a new blinding salt for a previously credited land parcel. The contract enforces that the issuance nullifier depends directly on the canonical spatial cell (`geohash8`), ensuring that salt manipulation attempts revert on-chain.

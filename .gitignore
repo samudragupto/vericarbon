@@ -41,3 +41,10 @@ Thumbs.db
 .idea/
 *.swp
 
+# LaTeX temporary files
+*.aux
+*.bbl
+*.blg
+*.out
+*.spl
+

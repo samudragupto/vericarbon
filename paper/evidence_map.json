@@ -27,7 +27,7 @@
     "claim_id": "C-04",
     "target_file": "eval/results/zk_benchmarks.json",
     "json_pointer": "/results/3/proving_time_s",
-    "canonical_value": 0.5504,
+    "canonical_value": 0.5634,
     "tolerance": 0.05,
     "caption": "Laptop CPU proving time for canonical circuit (F=12, T=4, D=2)"
   },
@@ -35,7 +35,7 @@
     "claim_id": "C-05",
     "target_file": "eval/results/zk_benchmarks.json",
     "json_pointer": "/results/3/setup_time_s",
-    "canonical_value": 0.725,
+    "canonical_value": 0.7503,
     "tolerance": 0.05,
     "caption": "Circuit setup and key generation time for F=12, T=4, D=2"
   },

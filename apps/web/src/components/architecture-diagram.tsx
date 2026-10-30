@@ -67,7 +67,7 @@ export function ArchitectureDiagram() {
             SNARK proof binding private features to public [modelHash, dataCommitment, amount].
           </p>
           <div className="mt-3 text-[10px] font-mono text-zinc-500 bg-zinc-950/60 p-1.5 rounded border border-zinc-800">
-            0.64s proving time
+            0.56s proving time
           </div>
         </div>
 

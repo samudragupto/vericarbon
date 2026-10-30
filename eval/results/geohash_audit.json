@@ -1,0 +1,54 @@
+{
+  "aoi_bbox_lat_lon": [
+    -2.8172,
+    -54.8485,
+    -2.8078,
+    -54.839
+  ],
+  "blocks_evaluated": [
+    "6z2zz",
+    "6z3pb",
+    "6z8bp",
+    "6z900"
+  ],
+  "block_details": {
+    "6z2zz": {
+      "decoded_bbox": [
+        -2.8564453125,
+        -54.8876953125,
+        -2.8125,
+        -54.84375
+      ],
+      "intersects_aoi": true
+    },
+    "6z3pb": {
+      "decoded_bbox": [
+        -2.8564453125,
+        -54.84375,
+        -2.8125,
+        -54.7998046875
+      ],
+      "intersects_aoi": true
+    },
+    "6z8bp": {
+      "decoded_bbox": [
+        -2.8125,
+        -54.8876953125,
+        -2.7685546875,
+        -54.84375
+      ],
+      "intersects_aoi": true
+    },
+    "6z900": {
+      "decoded_bbox": [
+        -2.8125,
+        -54.84375,
+        -2.7685546875,
+        -54.7998046875
+      ],
+      "intersects_aoi": true
+    }
+  },
+  "all_intersect": true,
+  "errors": []
+}

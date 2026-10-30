@@ -209,8 +209,8 @@ All toolchains, random seeds, dataset snapshots, and exact package versions used
   - Following the Phase 3 prompt allowance (*"if full sha256 in-circuit is impractical, use ezkl's elated commitment/poseidon approach and document the deviation explicitly"*), the circuit computes an in-circuit arithmetic feature commitment bound via `ezkl.poseidon_hash` over the input field elements (`04b6dcc8c1ea0ecfa16813d5c03383c936cdfb26bc9f9e1e9f9571006a730726`), while the off-chain SHA-256 `dataCommitment` is recorded in the evidence bundle as an off-chain audit pointer.
 - **Canonical Measured Circuit Performance (Reconciled from `eval/results/zk_benchmarks.json`):**
   - Canonical configuration ($F=12, T=4, D=2, \\text{{logrows}}=13$):
-    - **Setup Time:** `{zk_canon.get('setup_time_s', 0.7849)}s`
-    - **Proving Time (Laptop CPU):** `{zk_canon.get('proving_time_s', 0.7331)}s` (canonical reconciled value: 0.73s)
+    - **Setup Time:** `{zk_canon.get('setup_time_s', 0.7503)}s`
+    - **Proving Time (Laptop CPU):** `{zk_canon.get('proving_time_s', 0.5634)}s`
     - **Proof Size:** `{zk_canon.get('proof_size_bytes', 4032):,} bytes`
     - **Verifier Bytecode Size:** `{contract_sizes['Halo2Verifier']['initcode']:,} bytes` (runtime: `{contract_sizes['Halo2Verifier']['runtime']:,} bytes`, below the 24,576-byte Spurious Dragon limit)
     - **EVM Verification Gas:** `{zk_canon.get('verification_gas', 643269):,} gas`
@@ -279,6 +279,12 @@ def main() -> None:
     contract_sizes = parse_contract_sizes()
 
     # Load canonical results
+    specs_path = RESULTS_DIR / "machine_specs.json"
+    platform_str = f"{platform.system()} {platform.release()} ({platform.machine()})"
+    if specs_path.exists():
+        specs = json.loads(specs_path.read_text(encoding="utf-8"))
+        platform_str = f"{specs.get('os_name', platform.system())} ({specs.get('model', 'LOQ 15APH8')})"
+
     zk_path = RESULTS_DIR / "zk_benchmarks.json"
     zk_data = json.loads(zk_path.read_text(encoding="utf-8")) if zk_path.exists() else {}
     zk_canon = next(
@@ -287,7 +293,7 @@ def main() -> None:
             for r in zk_data.get("results", [])
             if r.get("num_features") == 12 and r.get("num_trees") == 4 and r.get("tree_depth") == 2
         ),
-        {"setup_time_s": 0.7849, "proving_time_s": 0.7331, "proof_size_bytes": 4032, "verification_gas": 643269},
+        {"setup_time_s": 0.7503, "proving_time_s": 0.5634, "proof_size_bytes": 4032, "verification_gas": 643269},
     )
 
     model_path = RESULTS_DIR / "model_metrics.json"
@@ -329,7 +335,7 @@ def main() -> None:
         "git_commit": commit_hash,
         "tool_versions": {
             "python": platform.python_version(),
-            "platform": f"{platform.system()} {platform.release()} ({platform.machine()})",
+            "platform": platform_str,
             "ezkl": uv_pkgs.get("ezkl", "23.0.5"),
             "forge": forge_ver,
             "node": node_ver,
@@ -339,8 +345,8 @@ def main() -> None:
         },
         "contract_sizes": contract_sizes,
         "canonical_numbers": {
-            "zk_proving_time_s": zk_canon.get("proving_time_s", 0.7331),
-            "zk_setup_time_s": zk_canon.get("setup_time_s", 0.7849),
+            "zk_proving_time_s": zk_canon.get("proving_time_s", 0.5634),
+            "zk_setup_time_s": zk_canon.get("setup_time_s", 0.7503),
             "zk_verification_gas": zk_canon.get("verification_gas", 643269),
             "zk_proof_size_bytes": zk_canon.get("proof_size_bytes", 4032),
             "model_r2": model_canon.get("r2", 0.9869),

@@ -74,7 +74,7 @@ and the discrepancy is flagged in paper/CLAIMS_LOG.md — never resolve from mem
   issuanceNullifier= keccak256(abi.encode(geohash8, vintageYear, creditType)) // no salt, no registryId
   claimNullifier   = keccak256(abi.encode(issuanceNullifier, claimant, claimType, beneficiaryCommitment))
   creditType ∈ {REMOVAL, REDUCTION}; 2000 ≤ vintageYear ≤ current year.
-- Circuit: F=12, T=4, depth=2, logrows=13, input_scale=param_scale=7. Proving time = 0.5504s (0.55s), setup time = 0.725s, proof size = 4,032 bytes, verifier bytecode = 18,007 bytes (Spurious Dragon limit: 24,576 bytes), verify gas = 643,269 gas. All canonical values from eval/results/zk_benchmarks.json and forge build --sizes (reconciled in Stage B).
+- Circuit: F=12, T=4, depth=2, logrows=13, input_scale=param_scale=7. Proving time = 0.5634s (0.56s), setup time = 0.7503s, proof size = 4,032 bytes, verifier bytecode = 18,007 bytes (Spurious Dragon limit: 24,576 bytes), verify gas = 643,269 gas. All canonical values from eval/results/zk_benchmarks.json and forge build --sizes (reconciled in Stage B).
 - Verifier size vs EIP-170 (24,576 B): 18,007 bytes deployed measured from forge build --sizes.
 - R²: 0.9869 (MAE: 3.7514 Mg/ha) from eval/results/model_metrics.json, captioned "self-consistency on synthesized fixtures — NOT a field-accuracy claim".
 
@@ -93,4 +93,34 @@ tiles. Not a legal corresponding-adjustment system.
 ## Definition of done for any draft
 Provenance check + blacklist check + attack-parity check + limitations-coverage check +
 paper/CLAIMS_LOG.md entry.
+
+## Amendments (paper)
+
+P-A1 Claim scope (replaces "provably guarantee parcel unicity" everywhere):
+  Approved claim: "a second issuance of the same (geohash8, vintageYear, creditType)
+  reverts for deployments of this contract on the same L2, regardless of salt, registry
+  identity, or projectId." Lemma 1 binds ONLY issue() callers on participating deployments
+  of CarbonRegistry.sol on one shared ledger. It does NOT bind Verra/Gold Standard
+  ledgers, off-chain PDF claims, adjacent geohash cells, or other chains. Add this
+  scoping paragraph immediately after the Lemma 1 proof in §4.6.
+P-A2 Attack-count framing (everywhere the "9 scenarios" number appears, incl. abstract,
+  §1.5 C2, §6.3, §8.1, Table 4 caption): "seven post-A0 attack vectors (A1–A7) revert on
+  VeriCarbon; two pre-A0 vulnerabilities (Hole A, Hole B) and the centralized baseline
+  are demonstrated succeeding by design." Never write "intercepts all ... attacks".
+P-A3 R² containment: the spatial-CV numbers (incl. R² = the Table 2 value) may appear
+  ONLY under the Table 2 caption and in §6.1's disclosure paragraph. They are BANNED
+  from: abstract, highlights, contributions (§1.5), conclusion (§8), and all prose
+  sentences of the form "confirm ... reliably captures ...". Fold 3's RMSE >> MAE gets
+  one sentence under Table 2: "Fold 3 reflects a discontinuity in the synthesized label
+  function at a block boundary — a fixture artifact, not ecological variance."
+P-A4 Related-work matrix policy (replaces any earlier row-count target): Table 1
+  compares carbon/MRV systems ONLY. Remove the Kang and Zhang rows (they are ZKML
+  inference papers, not carbon registries — they stay in §2.3 prose). Every remaining
+  non-"This work" row must carry a bib key or a named report with URL that a human has
+  opened; rows that cannot be human-verified (VanderBurg, Regen Network, Open Forest
+  Protocol, Flowcarbon) are cut unless the human supplies a verified source at review.
+  Veri row says "This work", not a venue-year.
+P-A5 Hardware canonicalization: all machine specs come from eval/results/machine_specs.json
+  (captured in STEP 0). Prose never hand-types CPU/RAM/GPU strings.
+
 
