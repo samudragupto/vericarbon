@@ -127,4 +127,5 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: ZK Benchmark Notice
-        run: echo "Note: Official canonical paper numbers are benchmarked on local reference workstation (Lenovo LOQ 15APH8, AMD Ryzen 7 7840HS, 16 GB RAM)."
+        run: |
+          echo "Note: Official canonical paper numbers are benchmarked on local reference workstation (Lenovo LOQ 15APH8, AMD Ryzen 7 7840HS, 16 GB RAM)."
