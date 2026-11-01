@@ -2,6 +2,11 @@
 
 import React, { useEffect, useState, useMemo } from "react";
 import { supabase } from "@/lib/supabase";
+import {
+  SEEDED_FIXTURE_NULLIFIERS,
+  type NullifierRecord,
+} from "@/lib/fixtures";
+import { FallbackBanner } from "@/components/fallback-banner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -19,39 +24,9 @@ import {
   Fingerprint,
 } from "lucide-react";
 
-interface NullifierRecord {
-  nullifier: string;
-  kind: "issuance" | "claim";
-  spent: boolean;
-  first_seen_tx: string;
-  log_index: number;
-  block_number: number;
-  created_at: string;
-}
-
-const DEMO_NULLIFIERS: NullifierRecord[] = [
-  {
-    nullifier: "0x3f5c7a8b9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a",
-    kind: "issuance",
-    spent: true,
-    first_seen_tx: "0xa1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2",
-    log_index: 0,
-    block_number: 1428575,
-    created_at: new Date().toISOString(),
-  },
-  {
-    nullifier: "0x4e6d8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f",
-    kind: "issuance",
-    spent: true,
-    first_seen_tx: "0xb2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3",
-    log_index: 1,
-    block_number: 1428595,
-    created_at: new Date().toISOString(),
-  },
-];
-
 export default function NullifiersExplorerPage() {
-  const [nullifiers, setNullifiers] = useState<NullifierRecord[]>(DEMO_NULLIFIERS);
+  const [nullifiers, setNullifiers] = useState<NullifierRecord[]>(SEEDED_FIXTURE_NULLIFIERS);
+  const [isFallback, setIsFallback] = useState(true);
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const [kindFilter, setKindFilter] = useState<"all" | "issuance" | "claim">("all");
@@ -66,13 +41,16 @@ export default function NullifiersExplorerPage() {
           .order("block_number", { ascending: false });
 
         if (error || !data || data.length === 0) {
-          // Keep instant demo nullifiers
+          // Keep reproducible seeded fixtures if Supabase is offline or empty
+          setIsFallback(true);
           return;
         }
 
         setNullifiers(data as NullifierRecord[]);
+        setIsFallback(false);
       } catch {
-        // Keep instant demo nullifiers
+        // Keep reproducible seeded fixtures on network fetch error
+        setIsFallback(true);
       }
     }
 
@@ -121,6 +99,9 @@ export default function NullifiersExplorerPage() {
           </Badge>
         </div>
       </div>
+
+      {/* Persistent Fallback Banner */}
+      {isFallback && <FallbackBanner />}
 
       {/* Search & Kind Filter Controls */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">

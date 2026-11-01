@@ -10,6 +10,12 @@ import {
   CARBON_REGISTRY_ABI,
   HALO2_VERIFIER_ABI,
 } from "@/lib/contracts";
+import {
+  SEEDED_FIXTURE_PROJECTS,
+  SEEDED_FIXTURE_ISSUANCES,
+  SEEDED_FIXTURE_EVIDENCE,
+} from "@/lib/fixtures";
+import { FallbackBanner } from "@/components/fallback-banner";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
@@ -68,6 +74,7 @@ export default function ProjectDetailsPage({
   const [verifying, setVerifying] = useState(false);
   const [verificationResult, setVerificationResult] = useState<boolean | null>(null);
   const [verificationDetails, setVerificationDetails] = useState<string | null>(null);
+  const [isFallback, setIsFallback] = useState(false);
 
   useEffect(() => {
     async function loadData() {
@@ -75,6 +82,8 @@ export default function ProjectDetailsPage({
       try {
         // 1. Fetch project from Supabase
         let projData: ProjectDetails | null = null;
+        let fallbackActive = false;
+
         const { data: dbProj, error: projErr } = await supabase
           .from("projects")
           .select("*")
@@ -83,6 +92,7 @@ export default function ProjectDetailsPage({
 
         if (dbProj) {
           projData = dbProj;
+          fallbackActive = false;
         } else if (publicClient) {
           // On-chain fallback
           try {
@@ -102,28 +112,47 @@ export default function ProjectDetailsPage({
                 block_number: 0,
                 created_at: new Date().toISOString(),
               };
+              fallbackActive = false;
             }
           } catch {
             // on-chain read error fallback
           }
         }
 
-        setProject(projData);
+        // 2. Deterministic fixture fallback if project is not in DB or chain
+        if (!projData) {
+          const matchedFixture = SEEDED_FIXTURE_PROJECTS.find(
+            (p) => p.project_id.toLowerCase() === projectId.toLowerCase()
+          );
+          if (matchedFixture) {
+            projData = matchedFixture;
+            fallbackActive = true;
+          }
+        }
 
-        // 2. Fetch Evidence Bundle if CID exists
+        setProject(projData);
+        setIsFallback(fallbackActive);
+
+        // 3. Fetch Evidence Bundle if CID exists
+        let bundleLoaded = false;
         if (projData?.evidence_cid) {
           try {
             const res = await fetch(`/api/evidence/${encodeURIComponent(projData.evidence_cid)}`);
             if (res.ok) {
               const bundle = await res.json();
               setEvidence(bundle);
+              bundleLoaded = true;
             }
           } catch (e) {
             console.warn("Could not fetch evidence bundle from IPFS adapter:", e);
           }
+
+          if (!bundleLoaded && projData.evidence_cid in SEEDED_FIXTURE_EVIDENCE) {
+            setEvidence(SEEDED_FIXTURE_EVIDENCE[projData.evidence_cid]);
+          }
         }
 
-        // 3. Fetch Issuance timeline
+        // 4. Fetch Issuance timeline
         const { data: dbIssuances } = await supabase
           .from("issuances")
           .select("*")
@@ -132,6 +161,8 @@ export default function ProjectDetailsPage({
 
         if (dbIssuances && dbIssuances.length > 0) {
           setIssuances(dbIssuances);
+        } else if (fallbackActive && projectId in SEEDED_FIXTURE_ISSUANCES) {
+          setIssuances(SEEDED_FIXTURE_ISSUANCES[projectId]);
         }
       } catch (err) {
         toastError(
@@ -284,6 +315,9 @@ export default function ProjectDetailsPage({
           </Button>
         </div>
       </div>
+
+      {/* Persistent Fallback Banner */}
+      {isFallback && <FallbackBanner />}
 
       {/* Verification Result Banner (if run) */}
       {verificationResult !== null && (

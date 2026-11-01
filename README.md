@@ -1,22 +1,21 @@
 # VeriCarbon: Zero-Knowledge Verifiable Carbon MRV
 
-[![CI](https://github.com/samudragupto/vericarbon/actions/workflows/ci.yml/badge.svg)](https://github.com/samudragupto/vericarbon/actions)
+[![CI](https://github.com/samudragupto/vericarbon/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/samudragupto/vericarbon/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Target: FGCS](https://img.shields.io/badge/Target-FGCS%20(Elsevier)-blue.svg)](paper/manuscript.pdf)
 [![Network: Base Sepolia](https://img.shields.io/badge/Network-Base%20Sepolia%20(84532)-0052FF.svg)](https://sepolia.basescan.org)
 
 > [!CAUTION]
 > **RESEARCH PROTOTYPE ONLY — NOT A COMMERCIAL PRODUCTION REGISTRY**  
-> VeriCarbon is an academic research prototype accompanying a manuscript submitted to *Future Generation Computer Systems* (FGCS, Elsevier).  
+> VeriCarbon is an academic research prototype accompanying a research manuscript.  
 > **Authors:**
 > - **Arrhat Nag** (Department of Data Science, Dr. M.G.R. Educational and Research Institute, `arrhat.dsai24-1011@drmgrdu.ac.in`, ORCID: [0009-0004-4328-0943](https://orcid.org/0009-0004-4328-0943))
-> - **Barninee Nag** (Department of Data Science, School of Sciences, JAIN (Deemed-to-be University), `barninee.26014303@jainuniversity.ac.in`)  
+> - **Barninee Nag** (Department of Data Science, School of Sciences, JAIN (Deemed-to-be University), `barninee.26014303@jainuniversity.ac.in`, ORCID: [0009-0008-2208-9989](https://orcid.org/0009-0008-2208-9989))  
 > 
-> This software is strictly designed for empirical benchmarking on local testnets (Anvil `chainId: 31337`) and public L2 testnets (Base Sepolia `chainId: 84532`). It is **NOT** a commercial carbon registry and must **NEVER** be deployed to Ethereum mainnet or used to hold real capital.
+> This software is strictly designed for empirical benchmarking on local testnets (Anvil `chainId: 31337`) and public L2 testnets (Base Sepolia `chainId: 84532`). It is **NOT** a commercial carbon registry and must **NEVER** be deployed to Ethereum mainnet or used to hold real capital. AGB labels in the evaluation fixture are synthesized (SEED=42); reported metrics are fixture self-consistency.
 
 > [!NOTE]
 > **Cloud Deployment & Cold-Start Latency Notice:**  
-> When accessing the live prototype hosted on the **$0 free-tier cloud stack** (Vercel Serverless + Supabase Free Tier), the initial page load may require **15–25 seconds** while serverless edge containers and the idle database spin up from a cold start. Subsequent navigation is cached and fast. Additionally, the web client incorporates automatic client-side demo fallbacks so the Tapajós geospatial explorer and nullifier feeds render immediately even during cold-start transitions.
+> When accessing the live prototype hosted on the **$0 free-tier cloud stack** (Vercel Serverless + Supabase Free Tier), the initial page load may require **15–25 seconds** while serverless edge containers and the idle database spin up from a cold start. Subsequent navigation is cached and fast. Additionally, the web client displays a persistent status banner (`Cached demo data — live sync in progress`) whenever fallback is active, rendering the reproducible fixture dataset from `services/mrv/tests/fixtures/`.
 
 ---
 
@@ -24,7 +23,7 @@
 
 The core protocol smart contracts are live on **Base Sepolia (Chain ID `84532`)**:
 
-| Contract Component | Deployed Address | Basescan Explorer Verification |
+| Contract Component | Deployed Address | Address on Basescan |
 | :--- | :--- | :--- |
 | **`CarbonRegistry`** (ERC-1155 Spatial Nullifiers) | `0x2ab745F51002Ce236A9A2dA81cDaA553B87f28CD` | [View on Basescan](https://sepolia.basescan.org/address/0x2ab745F51002Ce236A9A2dA81cDaA553B87f28CD) |
 | **`Halo2Verifier`** (Zero-Knowledge Verifier) | `0xb8416cb4d82BA72b70C3EC55d7AC66b5DB415CF8` | [View on Basescan](https://sepolia.basescan.org/address/0xb8416cb4d82BA72b70C3EC55d7AC66b5DB415CF8) |
@@ -35,7 +34,7 @@ The core protocol smart contracts are live on **Base Sepolia (Chain ID `84532`)*
 
 ## The Problem Statement in Three Sentences
 
-Voluntary carbon credit markets suffer from systemic over-crediting, cross-registry double issuance, and fraudulent retirement claims enabled by opaque, manual verification and siloed databases. Existing decentralized solutions either fail to prove that claimed credits faithfully match non-linear machine learning models over spaceborne remote sensing data, or leak sensitive geographic boundaries directly on public ledgers. VeriCarbon resolves this trilemma by coupling spaceborne remote sensing inference to Halo2/KZG zero-knowledge SNARKs and on-chain geospatial nullifiers on Base Sepolia, cryptographically guaranteeing that issuance cannot exceed model predictions and preventing cross-registry double issuance without revealing exact parcel boundaries.
+Voluntary carbon credit markets suffer from systemic over-crediting, cross-registry double issuance, and fraudulent retirement claims enabled by opaque, manual verification and siloed databases. Existing decentralized solutions either fail to prove that claimed credits faithfully match non-linear machine learning models over spaceborne remote sensing data, or leak sensitive geographic boundaries directly on public ledgers. VeriCarbon resolves this trilemma by coupling spaceborne remote sensing inference to Halo2/KZG zero-knowledge SNARKs and on-chain geospatial nullifiers on Base Sepolia, so that any second issuance of the same (geohash8 cell, vintage year, credit type) reverts across deployments of this contract on the same L2, claimed issuance is bounded by the committed model's output, and parcel boundaries stay off-chain.
 
 ---
 
@@ -127,11 +126,11 @@ All benchmark figures and tables reported in Section 6 of the manuscript are gen
 
 | Manuscript Evaluation Section | Description | Artifact Table / Figure Link |
 | :--- | :--- | :--- |
-| **Model Accuracy (§6.1)** | Spatial-block cross-validation (MAE, RMSE, $R^2$) on Sentinel-2 & WorldCover | [paper/tables/model_metrics.md](paper/tables/model_metrics.md) |
-| **ZK Prover Performance (§6.2)** | Halo2 prover scaling, RAM consumption, and verification times | [paper/tables/zk_benchmarks.md](paper/tables/zk_benchmarks.md) & [Figure 1](docs/screenshots/proving_time.png) |
-| **On-Chain Gas Economics (§6.3)** | Execution gas vs. Centralized Baseline & USD cost on Base L2 vs. Ethereum L1 | [paper/tables/gas_costs.md](paper/tables/gas_costs.md) & [Figure 2](docs/screenshots/gas_comparison.png) |
-| **Fraud & Security Matrix (§6.4)** | Verification against post-A0 attack vectors (A1–A7) and pre-A0 baseline vulnerabilities | [paper/tables/fraud_results.md](paper/tables/fraud_results.md) |
-| **Indexing Latency (§6.5)** | End-to-end event indexing lag ($n=20$, mean and $p95$) into Supabase | [paper/tables/latency.md](paper/tables/latency.md) |
+| **Pipeline validation (§6.1)** | Spatial-block cross-validation (MAE, RMSE, $R^2$) on Sentinel-2 & WorldCover (synthesized fixture labels — self-consistency, not field accuracy) | [paper/tables/model_metrics.md](paper/tables/model_metrics.md) |
+| **ZK Prover Performance (§6.2)** | Halo2 prover scaling, proving time, and verification gas across model topologies | [paper/tables/zk_benchmarks.md](paper/tables/zk_benchmarks.md) & [Figure 1](docs/screenshots/proving_time.png) |
+| **Fraud & Security Matrix (§6.3)** | Verification against post-A0 attack vectors (A1–A7) and pre-A0 baseline vulnerabilities | [paper/tables/fraud_results.md](paper/tables/fraud_results.md) |
+| **On-Chain Gas & Indexing Overhead (§6.4)** | Execution gas vs. Centralized Baseline, Base L2 USD economics, and event indexing latency ($n=20$, mean and $p95$) | [paper/tables/gas_costs.md](paper/tables/gas_costs.md), [paper/tables/latency.md](paper/tables/latency.md) & [Figure 2](docs/screenshots/gas_comparison.png) |
+| **Privacy–auditability trade-off (§6.5, qualitative)** | Qualitative analysis of off-chain imagery retention, on-chain SHA-256 audit commitments, and ezkl field bindings | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md#security-and-threat-model) |
 
 To regenerate all evaluation tables and publication figures from raw data:
 ```bash

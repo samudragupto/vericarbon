@@ -69,7 +69,15 @@ begin
     created_at timestamptz not null default now()
   );
 exception
-  when others then null;
+  when insufficient_privilege then
+    raise notice 'auth schema/table managed by Supabase Cloud, skipping: %', sqlerrm;
+  when duplicate_table then
+    raise notice 'auth.users already exists: %', sqlerrm;
+  when duplicate_schema then
+    raise notice 'auth schema already exists: %', sqlerrm;
+  when others then
+    raise warning 'Unexpected error in auth setup: %, propagating error', sqlerrm;
+    raise;
 end
 $$;
 
@@ -88,7 +96,13 @@ begin
     $fn$;
   end if;
 exception
-  when others then null;
+  when insufficient_privilege then
+    raise notice 'auth.uid() managed by Supabase Cloud, skipping: %', sqlerrm;
+  when duplicate_function then
+    raise notice 'auth.uid() already exists: %', sqlerrm;
+  when others then
+    raise warning 'Unexpected error in auth.uid() setup: %, propagating error', sqlerrm;
+    raise;
 end
 $$;
 
@@ -110,7 +124,13 @@ begin
     $fn$;
   end if;
 exception
-  when others then null;
+  when insufficient_privilege then
+    raise notice 'auth.role() managed by Supabase Cloud, skipping: %', sqlerrm;
+  when duplicate_function then
+    raise notice 'auth.role() already exists: %', sqlerrm;
+  when others then
+    raise warning 'Unexpected error in auth.role() setup: %, propagating error', sqlerrm;
+    raise;
 end
 $$;
 
