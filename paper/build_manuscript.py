@@ -230,7 +230,7 @@ def build():
 
 \\author[inst1]{{Arrhat Nag\\corref{{cor1}}}}
 \\cortext[cor1]{{Corresponding author. Email: arrhat.dsai24-1011@drmgrdu.ac.in. ORCID: 0009-0004-4328-0943}}
-\\affiliation[inst1]{{organization={{Department of Data Science}}}}
+\\affiliation[inst1]{{organization={{Department of Data Science, Dr. M.G.R. Educational and Research Institute}}}}
 
 \\begin{{abstract}}
 {ab_tex}

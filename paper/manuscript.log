@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.10.28)  30 OCT 2026 23:50
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.10.28)  1 NOV 2026 12:40
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1150,30 +1150,48 @@ eipt.json\T1/cmr/m/n/12 , the two
  []
 
 (manuscript.bbl [36]
-Underfull \hbox (badness 10000) in paragraph at lines 32--39
+Underfull \hbox (badness 10000) in paragraph at lines 33--38
 \T1/cmr/m/n/12 URL [][]$\T1/cmtt/m/n/12 https : / / www . theguardian . com / e
 nvironment / 2023 / jan / 18 /
  []
 
 
-Overfull \hbox (51.77084pt too wide) in paragraph at lines 32--39
+Overfull \hbox (51.77084pt too wide) in paragraph at lines 33--38
 \T1/cmtt/m/n/12 revealed-[]forest-[]carbon-[]offsets-[]biggest-[]provider-[]wor
 thless-[]verra-[]aoe$[][] 
  []
 
 
-Underfull \hbox (badness 1178) in paragraph at lines 48--54
-\T1/cmr/m/n/12 Group, Wash-ing-ton, DC (2022).  [][]$\T1/cmtt/m/n/12 doi : worl
-dbank . org / en / topic /
+Underfull \hbox (badness 10000) in paragraph at lines 47--52
+\T1/cmr/m/n/12 URL [][]$\T1/cmtt/m/n/12 https : / / www . worldbank . org / en 
+/ topic / climatechange /
  []
 
 [37] [38]
-Underfull \hbox (badness 1616) in paragraph at lines 164--169
+Underfull \hbox (badness 1616) in paragraph at lines 159--164
 []\T1/cmr/m/n/12 L. Grassi, D. Kales, D. Khovra-tovich, A. Roy, C. Rech-berger,
 
  []
 
-) [39] (manuscript.aux)
+
+Underfull \hbox (badness 1052) in paragraph at lines 159--164
+\T1/cmr/m/n/12 proof sys-tems[][], in: 30th USENIX Se-cu-rity Sym-po-sium (USEN
+IX
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 159--164
+\T1/cmr/m/n/12 URL [][]$\T1/cmtt/m/n/12 https : / / www . usenix . org / confer
+ence / usenixsecurity21 /
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 174--180
+\T1/cmr/m/n/12 URL [][]$\T1/cmtt/m/n/12 https : / / www . usenix . org / confer
+ence / usenixsecurity21 /
+ []
+
+[39]) [40] (manuscript.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-12-24>
@@ -1182,8 +1200,8 @@ Package rerunfilecheck Info: File `manuscript.out' has not changed.
 (rerunfilecheck)             Checksum: A26E1239EAE01AAEE3580C5AA6780D12;14926.
  ) 
 Here is how much of TeX's memory you used:
- 12145 strings out of 467871
- 185210 string characters out of 5418859
+ 12146 strings out of 467871
+ 185217 string characters out of 5418859
  607846 words of memory out of 5000000
  40679 multiletter control sequences out of 15000+600000
  649195 words of font info for 93 fonts, out of 8000000 for 9000
@@ -1219,9 +1237,9 @@ ta/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/use
 r/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Us
 ers/user/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm
 10.pfb>
-Output written on manuscript.pdf (39 pages, 597214 bytes).
+Output written on manuscript.pdf (40 pages, 605174 bytes).
 PDF statistics:
- 1605 PDF objects out of 1728 (max. 8388607)
- 159 named destinations out of 1000 (max. 500000)
+ 1634 PDF objects out of 1728 (max. 8388607)
+ 160 named destinations out of 1000 (max. 500000)
  419 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -6,7 +6,7 @@
 
 > [!CAUTION]
 > **RESEARCH PROTOTYPE ONLY — NOT A COMMERCIAL PRODUCTION REGISTRY**
-> VeriCarbon is an academic research prototype accompanying a manuscript intended for submission to *Future Generation Computer Systems* (FGCS, Elsevier). Author: Arrhat Nag (Department of Data Science, arrhat.dsai24-1011@drmgrdu.ac.in, ORCID: 0009-0004-4328-0943).
+> VeriCarbon is an academic research prototype accompanying a manuscript intended for submission to *Future Generation Computer Systems* (FGCS, Elsevier). Author: Arrhat Nag (Department of Data Science, Dr. M.G.R. Educational and Research Institute, arrhat.dsai24-1011@drmgrdu.ac.in, ORCID: 0009-0004-4328-0943).
 > This software is strictly designed for empirical benchmarking on local testnets (Anvil `chainId: 31337`) and public testnets (Base Sepolia `chainId: 84532`). It is **NOT** a commercial carbon registry and must **NEVER** be deployed to Ethereum mainnet or used to hold real capital.
 
 ---
