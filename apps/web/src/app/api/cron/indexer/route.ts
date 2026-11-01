@@ -25,7 +25,8 @@ async function handleTrigger(request: Request): Promise<NextResponse> {
         process.env.NEXT_PUBLIC_SUPABASE_URL,
       supabaseServiceRoleKey:
         overrides.supabaseServiceRoleKey ??
-        process.env.SUPABASE_SERVICE_ROLE_KEY,
+        process.env.SUPABASE_SERVICE_ROLE_KEY ??
+        process.env.SUPABASE_SECRET_KEY,
       rpcUrl:
         overrides.rpcUrl ??
         process.env.BASE_SEPOLIA_RPC_URL ??
