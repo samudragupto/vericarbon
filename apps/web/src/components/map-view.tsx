@@ -3,6 +3,10 @@
 import React, { useEffect, useRef } from "react";
 import * as maplibregl from "maplibre-gl";
 
+if (typeof window !== "undefined" && typeof maplibregl.setWorkerUrl === "function") {
+  maplibregl.setWorkerUrl("/maplibre-gl-worker.mjs");
+}
+
 export interface MapPin {
   id: string;
   latitude: number;
