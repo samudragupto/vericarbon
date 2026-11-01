@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.10.28)  1 NOV 2026 12:40
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.10.28)  1 NOV 2026 13:01
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -451,13 +451,13 @@ Package hyperref Info: Link coloring ON on input line 26.
 \@outlinefile=\write4
 \openout4 = `manuscript.out'.
 
-LaTeX Font Info:    Trying to load font information for U+msa on input line 44.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 49.
 
 
 (C:\Users\user\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 44.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 49.
 
 
 (C:\Users\user\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
@@ -465,38 +465,38 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\<def>-command' on input line 44.
+(hyperref)                removing `\<def>-command' on input line 49.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\cnotenum' on input line 44.
+(hyperref)                removing `\cnotenum' on input line 49.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\<def>-command' on input line 44.
+(hyperref)                removing `\<def>-command' on input line 49.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\@corref' on input line 44.
+(hyperref)                removing `\@corref' on input line 49.
 
 [1
 
 
 {C:/Users/user/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}] [2]
 [3]
-Overfull \hbox (24.95276pt too wide) in paragraph at lines 69--70
+Overfull \hbox (24.95276pt too wide) in paragraph at lines 74--75
 \T1/cmr/m/n/12 li-fier ($[] \OT1/cmr/m/n/12 := []([] \OMS/cmsy/m/n/12 k [] k []
 \OT1/cmr/m/n/12 )$\T1/cmr/m/n/12 )
  []
 
 [4] [5]
-Overfull \hbox (4.01196pt too wide) in paragraph at lines 87--88
+Overfull \hbox (4.01196pt too wide) in paragraph at lines 92--93
 \T1/cmr/m/n/12 fac-tors and sto-i-chio-met-ric con-stants^^Vspecifically the In
 -ter-gov-ern-men-tal Panel
  []
 
 [6]
-Overfull \hbox (1.38768pt too wide) in paragraph at lines 97--97
+Overfull \hbox (1.38768pt too wide) in paragraph at lines 102--102
 []\T1/cmr/m/it/12 Zero-Knowledge Cryp-tog-ra-phy and Ver-i-fi-able Ma-chine Lea
 rn-ing (ZKML) 
  []
@@ -667,7 +667,7 @@ Overfull \hbox (125.86313pt too wide) in paragraph at lines 6--19
  []
 
 ) [8] [9]
-Overfull \hbox (47.42569pt too wide) in paragraph at lines 129--130
+Overfull \hbox (47.42569pt too wide) in paragraph at lines 134--135
 \T1/cmr/m/n/12 tion $\OML/cmm/m/it/12 e\OT1/cmr/m/n/12 (\OMS/cmsy/m/n/12 ^^A\OM
 L/cmm/m/it/12 ; \OMS/cmsy/m/n/12 ^^A\OT1/cmr/m/n/12 ) = \OML/cmm/m/it/12 e\OT1/
 cmr/m/n/12 (\OMS/cmsy/m/n/12 ^^A\OML/cmm/m/it/12 ; \OMS/cmsy/m/n/12 ^^A\OT1/cmr
@@ -676,7 +676,7 @@ t/12 modelHash; dataCommitment; amount\OT1/cmr/m/n/12 ]$\T1/cmr/m/n/12 ,
  []
 
 
-Overfull \hbox (36.22952pt too wide) in paragraph at lines 129--130
+Overfull \hbox (36.22952pt too wide) in paragraph at lines 134--135
 \T1/cmr/m/n/12 in-put $\OML/cmm/m/it/12 X$ \T1/cmr/m/n/12 such that $\OML/cmm/m
 /it/12 amount \OMS/cmsy/m/n/12 ^^T \OML/cmm/m/it/12 f[]\OT1/cmr/m/n/12 (\OML/cm
 m/m/it/12 X\OT1/cmr/m/n/12 )$ \T1/cmr/m/n/12 and $\OMS/cmsy/m/n/12 H[]\OT1/cmr/
@@ -685,76 +685,76 @@ T1/cmr/m/n/12 .
  []
 
 
-Overfull \hbox (12.25595pt too wide) in paragraph at lines 130--131
+Overfull \hbox (12.25595pt too wide) in paragraph at lines 135--136
 \T1/cmr/m/n/12 In-ter-Plan-e-tary File Sys-tem (IPFS) pro-vides content-address
 ed im-mutabil-
  []
 
 
-Overfull \hbox (45.22232pt too wide) in paragraph at lines 130--131
+Overfull \hbox (45.22232pt too wide) in paragraph at lines 135--136
 \T1/cmr/m/n/12 ity. An ev-i-dence bun-dle iden-ti-fied by Con-tent Iden-ti-fier
  $[] \OT1/cmr/m/n/12 = [](\OML/cmm/m/it/12 bundle\OT1/cmr/m/n/12 )$
  []
 
 [10] [11]
-Overfull \hbox (75.2254pt too wide) in paragraph at lines 149--150
+Overfull \hbox (75.2254pt too wide) in paragraph at lines 154--155
 \T1/cmr/m/n/12 is-suance at-tempt trig-gers an atomic EVM re-vert (\T1/cmtt/m/n
 /12 IssuanceNullifierAlreadySpent\T1/cmr/m/n/12 ). 
  []
 
 
-Overfull \hbox (7.15144pt too wide) in paragraph at lines 151--152
+Overfull \hbox (7.15144pt too wide) in paragraph at lines 156--157
 []\T1/cmr/bx/n/12 Single-Claim Re-tire-ment Nul-li-fi-ca-tion (Double-Claim De-
 fense):
  []
 
 [12]
-Overfull \hbox (13.18343pt too wide) in paragraph at lines 169--171
+Overfull \hbox (13.18343pt too wide) in paragraph at lines 174--176
 []\T1/cmr/m/n/12 VeriCarbon re-solves the com-pu-ta-tional di-chotomy be-tween 
 high-dimensional
  []
 
 
-Overfull \hbox (81.86389pt too wide) in paragraph at lines 173--174
+Overfull \hbox (81.86389pt too wide) in paragraph at lines 178--179
 \T1/cmr/m/n/12 mod-u-lar smart con-tracts on Base Se-po-lia (\T1/cmtt/m/n/12 Ha
 lo2Verifier.sol\T1/cmr/m/n/12 , \T1/cmtt/m/n/12 CarbonRegistry.sol\T1/cmr/m/n/1
 2 ).
  []
 
 [13]
-Overfull \hbox (4.76878pt too wide) in paragraph at lines 182--184
+Overfull \hbox (4.76878pt too wide) in paragraph at lines 187--189
 \T1/cmr/m/n/12 where $[]$ de-notes stan-dard So-lid-ity se-ri-al-iza-tion with 
 strict
  []
 
 
-Overfull \hbox (74.8573pt too wide) in paragraph at lines 186--187
+Overfull \hbox (74.8573pt too wide) in paragraph at lines 191--192
 []\T1/cmr/m/n/12 During project on-board-ing, the reg-istry op-er-a-tor in-voke
 s \T1/cmtt/m/n/12 registerProject(projectId,
  []
 
 [14] [15]
-Overfull \hbox (8.98102pt too wide) in paragraph at lines 225--226
+Overfull \hbox (8.98102pt too wide) in paragraph at lines 230--231
 []\T1/cmr/m/n/12 Executing \T1/cmtt/m/n/12 retire(serialIds[], claimType, benef
 iciaryCommitment)
  []
 
 
-Overfull \hbox (70.50479pt too wide) in paragraph at lines 225--226
+Overfull \hbox (70.50479pt too wide) in paragraph at lines 230--231
 \T1/cmr/m/n/12 burns the cor-re-spond-ing ERC-1155 to-ken quan-tity, as-serts t
 hat $\OT1/cmr/m/n/12 ![][\OMS/cmsy/m/n/12 N[]\OT1/cmr/m/n/12 ]$\T1/cmr/m/n/12 ,
 
  []
 
 [16]
-Overfull \hbox (43.17741pt too wide) in paragraph at lines 237--238
+Overfull \hbox (43.17741pt too wide) in paragraph at lines 242--243
 []\T1/cmr/m/n/12 By Def-i-ni-tion 2, trans-ac-tion $\OML/cmm/m/it/12 T[]$ \T1/c
 mr/m/n/12 pro-vides valid call-data $\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 P[]; g; 
 s[]; v; ^^\; m[]; D[]; ^^Y[]\OT1/cmr/m/n/12 )$\T1/cmr/m/n/12 .
  []
 
 
-Overfull \hbox (0.47205pt too wide) in paragraph at lines 237--238
+Overfull \hbox (0.47205pt too wide) in paragraph at lines 242--243
 \T1/cmr/m/n/12 Ex-e-cu-tion of \T1/cmtt/m/n/12 issue() \T1/cmr/m/n/12 ver-i-fie
 s $\OMS/cmsy/m/n/12 H[]\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 g; s[]\OT1/cmr/m/n/12 
 ) = [][\OML/cmm/m/it/12 P[]\OT1/cmr/m/n/12 ]\OML/cmm/m/it/12 :geoCommitment$\T1
@@ -762,7 +762,7 @@ s $\OMS/cmsy/m/n/12 H[]\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 g; s[]\OT1/cmr/m/n/12
  []
 
 
-Overfull \hbox (66.30237pt too wide) in paragraph at lines 237--238
+Overfull \hbox (66.30237pt too wide) in paragraph at lines 242--243
 \T1/cmr/m/n/12 val-i-dates proof $\OML/cmm/m/it/12 ^^Y[]$ \T1/cmr/m/n/12 via \T
 1/cmtt/m/n/12 Halo2Verifier.sol\T1/cmr/m/n/12 , com-putes $\OMS/cmsy/m/n/12 N[]
  \OT1/cmr/m/n/12 = \OMS/cmsy/m/n/12 H[]\OT1/cmr/m/n/12 ([](\OML/cmm/m/it/12 g; 
@@ -770,14 +770,14 @@ v; ^^\\OT1/cmr/m/n/12 ))$\T1/cmr/m/n/12 ,
  []
 
 
-Overfull \hbox (5.41165pt too wide) in paragraph at lines 240--241
+Overfull \hbox (5.41165pt too wide) in paragraph at lines 245--246
 []\T1/cmr/m/n/12 Now con-sider trans-ac-tion $\OML/cmm/m/it/12 T[]$\T1/cmr/m/n/
 12 , which sub-mits $\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 P[]; g[]; s[]; v[]; ^^\[
 ]; m[]; D[]; ^^Y[]\OT1/cmr/m/n/12 )$\T1/cmr/m/n/12 .
  []
 
 
-Overfull \hbox (7.55914pt too wide) in paragraph at lines 254--255
+Overfull \hbox (7.55914pt too wide) in paragraph at lines 259--260
 []\T1/cmr/m/n/12 Find dis-tinct preim-ages $\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 g
 []; v[]; ^^\[]\OT1/cmr/m/n/12 ) \OMS/cmsy/m/n/12 6\OT1/cmr/m/n/12 = (\OML/cmm/m
 /it/12 g; v; ^^\\OT1/cmr/m/n/12 )$ \T1/cmr/m/n/12 such that $\OMS/cmsy/m/n/12 H
@@ -785,47 +785,47 @@ Overfull \hbox (7.55914pt too wide) in paragraph at lines 254--255
  []
 
 [17]
-Overfull \hbox (3.84976pt too wide) in paragraph at lines 264--265
+Overfull \hbox (3.84976pt too wide) in paragraph at lines 269--270
 \T1/cmr/m/n/12 Halo2 cir-cuit us-ing \T1/cmtt/m/n/12 ezkl v23.0.5\T1/cmr/m/n/12
  . Space-borne ob-ser-va-tions (Sentinel-2 bands
  []
 
 [18]
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <12> not available
-(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 270.
+(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 275.
 
-Overfull \hbox (0.38795pt too wide) in paragraph at lines 271--272
+Overfull \hbox (0.38795pt too wide) in paragraph at lines 276--277
 \T1/cmr/m/n/12 the pro-hibitive con-straint over-head of bit-wise SHA-256 (>50,
 000 lookup
  []
 
 [19]
-Overfull \hbox (73.84505pt too wide) in paragraph at lines 290--290
+Overfull \hbox (73.84505pt too wide) in paragraph at lines 295--295
 []\T1/cmr/m/it/12 Zero-Knowledge Prov-ing and Smart Con-tracts (\T1/cmtt/m/it/1
 2 services/zk \T1/cmr/m/it/12 & \T1/cmtt/m/it/12 packages/contracts\T1/cmr/m/it
 /12 ) 
  []
 
 [20]
-Overfull \hbox (13.77492pt too wide) in paragraph at lines 294--295
+Overfull \hbox (13.77492pt too wide) in paragraph at lines 299--300
 []\T1/cmr/m/n/12 The on-chain smart con-tract ar-chi-tec-ture is im-ple-mented 
 in So-lid-ity (v0.8.24,
  []
 
 
-Overfull \hbox (17.74763pt too wide) in paragraph at lines 300--301
+Overfull \hbox (17.74763pt too wide) in paragraph at lines 305--306
 \T1/cmr/m/n/12 Base Se-po-lia RPC, an asyn-chronous in-dexer dae-mon writ-ten i
 n Deno/TypeScript
  []
 
 
-Overfull \hbox (12.65997pt too wide) in paragraph at lines 300--301
+Overfull \hbox (12.65997pt too wide) in paragraph at lines 305--306
 \T1/cmr/m/n/12 16 database us-ing idem-po-tent com-pound pri-mary keys \T1/cmtt
 /m/n/12 (tx_hash, log_index)\T1/cmr/m/n/12 ,
  []
 
 [21]
-Overfull \hbox (0.6877pt too wide) in paragraph at lines 308--309
+Overfull \hbox (0.6877pt too wide) in paragraph at lines 313--314
 \T1/cmr/m/n/12 ques-tions: prov-ing fea-si-bil-ity on com-mod-ity hard-ware (RQ
 1), se-cu-rity against
  []
@@ -836,14 +836,14 @@ Overfull \hbox (93.24953pt too wide) in paragraph at lines 6--19
  []
 
 )
-Overfull \hbox (53.96666pt too wide) in paragraph at lines 314--315
+Overfull \hbox (53.96666pt too wide) in paragraph at lines 319--320
 []\T1/cmr/m/n/12 We eval-u-ate the \T1/cmtt/m/n/12 HistGradientBoostingRegresso
 r \T1/cmr/m/n/12 ($\OML/cmm/m/it/12 max[]iter \OT1/cmr/m/n/12 = 40\OML/cmm/m/it
 /12 ; max[]depth \OT1/cmr/m/n/12 =
  []
 
 [23]
-Overfull \hbox (1.66693pt too wide) in paragraph at lines 318--319
+Overfull \hbox (1.66693pt too wide) in paragraph at lines 323--324
 []\T1/cmr/m/n/12 To an-swer RQ1^^Vwhether zero-knowledge proofs over re-mote se
 ns-ing mod-
  []
@@ -854,10 +854,10 @@ Overfull \hbox (218.00832pt too wide) in paragraph at lines 6--22
  []
 
 )
-<figures/proving_time.pdf, id=441, 578.16pt x 375.804pt>
+<figures/proving_time.pdf, id=443, 578.16pt x 375.804pt>
 File: figures/proving_time.pdf Graphic file (type pdf)
 <use figures/proving_time.pdf>
-Package pdftex.def Info: figures/proving_time.pdf  used on input line 326.
+Package pdftex.def Info: figures/proving_time.pdf  used on input line 331.
 (pdftex.def)             Requested size: 350.99762pt x 228.14485pt.
  [24] [25 <./figures/proving_time.pdf>] (tables/fraud_results.tex
 Underfull \hbox (badness 10000) in paragraph at lines 8--8
@@ -1012,43 +1012,43 @@ Overfull \hbox (101.86311pt too wide) in paragraph at lines 6--22
  []
 
 ) [26]
-Overfull \hbox (9.40376pt too wide) in paragraph at lines 344--345
+Overfull \hbox (9.40376pt too wide) in paragraph at lines 349--350
 []\T1/cmr/bx/n/12 A2 (Same-Registry Du-pli-cate Is-suance): \T1/cmr/m/n/12 An o
 p-er-a-tor re-submitting
  []
 
 
-Overfull \hbox (8.63042pt too wide) in paragraph at lines 345--346
+Overfull \hbox (8.63042pt too wide) in paragraph at lines 350--351
 []\T1/cmr/bx/n/12 A3 (Salt-Dodge At-tack): \T1/cmr/m/n/12 An ad-ver-sary re-reg
 istering par-cel \T1/cmtt/m/n/12 6z900000
  []
 
 
-Overfull \hbox (125.83089pt too wide) in paragraph at lines 352--353
+Overfull \hbox (125.83089pt too wide) in paragraph at lines 357--358
 []\T1/cmr/m/n/12 In stark con-trast, eval-u-at-ing the same at-tack sce-nar-ios
  against \T1/cmtt/m/n/12 BaselineCentralRegistry.sol\T1/cmr/m/n/12 ^^Va
  []
 
 
-Overfull \hbox (31.91763pt too wide) in paragraph at lines 352--353
+Overfull \hbox (31.91763pt too wide) in paragraph at lines 357--358
 \T1/cmr/m/n/12 con-ven-tional cen-tral-ized transfer-log reg-istry lack-ing glo
 bal nul-li-fiers^^Vdemonstrates
  []
 
 
-Overfull \hbox (145.3701pt too wide) in paragraph at lines 352--353
+Overfull \hbox (145.3701pt too wide) in paragraph at lines 357--358
 \T1/cmr/m/n/12 se-vere se-cu-rity fail-ures. In our pro-gram-matic Foundry demo
 n-stra-tion (\T1/cmtt/m/n/12 BaselineDoubleIssuance.s.sol\T1/cmr/m/n/12 ),
  []
 
 
-Overfull \hbox (99.84288pt too wide) in paragraph at lines 352--353
+Overfull \hbox (99.84288pt too wide) in paragraph at lines 357--358
 \T1/cmr/m/n/12 cred-its never ex-ceed to-tal is-sued cred-its (\T1/cmtt/m/n/12 
 invariant_TotalRetiredNeverExceedsTotalIssued\T1/cmr/m/n/12 ),
  []
 
 
-Overfull \hbox (80.55316pt too wide) in paragraph at lines 352--353
+Overfull \hbox (80.55316pt too wide) in paragraph at lines 357--358
 \T1/cmr/m/n/12 and no claim nul-li-fier is ever recorded twice (\T1/cmtt/m/n/12
  invariant_NoClaimNullifierRecordedTwice\T1/cmr/m/n/12 ). 
  []
@@ -1059,15 +1059,15 @@ Overfull \hbox (79.54018pt too wide) in paragraph at lines 6--20
  []
 
 )
-Overfull \hbox (95.58148pt too wide) in paragraph at lines 360--361
+Overfull \hbox (95.58148pt too wide) in paragraph at lines 365--366
 []\T1/cmr/m/n/12 As de-tailed in [][]Ta-ble 5[][][] and [][]Fig-ure 2[][][], en
 d-to-end credit is-suance via \T1/cmtt/m/n/12 CarbonRegistry.issue()
  []
 
-<figures/gas_comparison.pdf, id=583, 794.97pt x 375.804pt>
+<figures/gas_comparison.pdf, id=584, 794.97pt x 375.804pt>
 File: figures/gas_comparison.pdf Graphic file (type pdf)
 <use figures/gas_comparison.pdf>
-Package pdftex.def Info: figures/gas_comparison.pdf  used on input line 364.
+Package pdftex.def Info: figures/gas_comparison.pdf  used on input line 369.
 (pdftex.def)             Requested size: 350.99762pt x 165.9277pt.
 [28] (tables/latency.tex
 Overfull \hbox (105.4983pt too wide) in paragraph at lines 6--14
@@ -1075,76 +1075,76 @@ Overfull \hbox (105.4983pt too wide) in paragraph at lines 6--14
  []
 
 )
-Overfull \hbox (53.39676pt too wide) in paragraph at lines 375--376
+Overfull \hbox (53.39676pt too wide) in paragraph at lines 380--381
 \T1/cmr/m/n/12 rate-limiting ar-ti-facts). Pub-lic Base Se-po-lia RPC roundtrip
  la-tency (\T1/cmtt/m/n/12 eth_blockNumber\T1/cmr/m/n/12 )
  []
 
 [29 <./figures/gas_comparison.pdf>] [30]
-Overfull \hbox (4.69928pt too wide) in paragraph at lines 400--401
+Overfull \hbox (4.69928pt too wide) in paragraph at lines 405--406
 []\T1/cmr/m/n/12 Mitigating physical-layer or-a-cle com-pro-mise re-quires lay-
 ered cryp-to-graphic
  []
 
 [31] [32] [33]
-Overfull \hbox (89.52736pt too wide) in paragraph at lines 441--442
+Overfull \hbox (89.52736pt too wide) in paragraph at lines 446--447
 \T1/cmr/m/n/12 rasters -> \T1/cmtt/m/n/12 paper/tables/model_metrics.md \T1/cmr
 /m/n/12 and \T1/cmtt/m/n/12 eval/results/model_metrics.json\T1/cmr/m/n/12 . 
  []
 
 [34]
-Overfull \hbox (107.0157pt too wide) in paragraph at lines 443--444
+Overfull \hbox (107.0157pt too wide) in paragraph at lines 448--449
 \T1/cmr/m/n/12 L2 vs. Ethereum L1 -> \T1/cmtt/m/n/12 paper/tables/gas_costs.md 
 \T1/cmr/m/n/12 and \T1/cmtt/m/n/12 eval/results/gas_costs.json\T1/cmr/m/n/12 . 
 
  []
 
 
-Overfull \hbox (19.46799pt too wide) in paragraph at lines 444--445
+Overfull \hbox (19.46799pt too wide) in paragraph at lines 449--450
 []\T1/cmtt/m/n/12 eval/fraud_simulation.py\T1/cmr/m/n/12 : Ex-e-cutes the 9 se-
 cu-rity sce-nar-ios in Foundry,
  []
 
 
-Overfull \hbox (42.66107pt too wide) in paragraph at lines 444--445
+Overfull \hbox (42.66107pt too wide) in paragraph at lines 449--450
 \T1/cmr/m/n/12 launches an ephemeral Anvil node to ex-e-cute \T1/cmtt/m/n/12 Ba
 selineDoubleIssuance.s.sol\T1/cmr/m/n/12 ,
  []
 
 
-Overfull \hbox (4.26479pt too wide) in paragraph at lines 444--445
+Overfull \hbox (4.26479pt too wide) in paragraph at lines 449--450
 \T1/cmr/m/n/12 and ex-tracts trans-ac-tion re-ceipts -> \T1/cmtt/m/n/12 paper/t
 ables/fraud_results.md\T1/cmr/m/n/12 ,
  []
 
 
-Overfull \hbox (170.35483pt too wide) in paragraph at lines 444--445
+Overfull \hbox (170.35483pt too wide) in paragraph at lines 449--450
 \T1/cmtt/m/n/12 eval/results/fraud_results.json\T1/cmr/m/n/12 , and \T1/cmtt/m/
 n/12 eval/results/baseline_double_issuance_receipt.json\T1/cmr/m/n/12 . 
  []
 
 
-Overfull \hbox (75.7848pt too wide) in paragraph at lines 446--447
+Overfull \hbox (75.7848pt too wide) in paragraph at lines 451--452
 []\T1/cmr/m/n/12 Figures & Man-i-fest: Gen-er-ates high-resolution pub-li-ca-ti
 on fig-ures (\T1/cmtt/m/n/12 proving_time.png
  []
 
 
-Overfull \hbox (3.43083pt too wide) in paragraph at lines 456--459
+Overfull \hbox (3.43083pt too wide) in paragraph at lines 461--464
 \T1/cmr/m/n/12 re-sis-tant. Let $\U/msb/m/n/12 S$ \T1/cmr/m/n/12 de-note the pe
 r-sis-tent key-value state of \T1/cmtt/m/n/12 CarbonRegistry.sol\T1/cmr/m/n/12 
 .
  []
 
 [35]
-Overfull \hbox (6.72551pt too wide) in paragraph at lines 464--466
+Overfull \hbox (6.72551pt too wide) in paragraph at lines 469--471
 \T1/cmr/m/n/12 Since $\U/msb/m/n/12 S\OT1/cmr/m/n/12 [[]][\OMS/cmsy/m/n/12 N[]\
 OT1/cmr/m/n/12 ] == []$\T1/cmr/m/n/12 , this con-di-tion eval-u-ates to \T1/cmt
 t/m/n/12 false\T1/cmr/m/n/12 ,
  []
 
 
-Overfull \hbox (9.15811pt too wide) in paragraph at lines 470--472
+Overfull \hbox (9.15811pt too wide) in paragraph at lines 475--477
 []\T1/cmr/m/n/12 From \T1/cmtt/m/n/12 eval/results/baseline_double_issuance_rec
 eipt.json\T1/cmr/m/n/12 , the two
  []
@@ -1200,25 +1200,25 @@ Package rerunfilecheck Info: File `manuscript.out' has not changed.
 (rerunfilecheck)             Checksum: A26E1239EAE01AAEE3580C5AA6780D12;14926.
  ) 
 Here is how much of TeX's memory you used:
- 12146 strings out of 467871
- 185217 string characters out of 5418859
- 607846 words of memory out of 5000000
- 40679 multiletter control sequences out of 15000+600000
+ 12148 strings out of 467871
+ 185230 string characters out of 5418859
+ 608000 words of memory out of 5000000
+ 40680 multiletter control sequences out of 15000+600000
  649195 words of font info for 93 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,15n,79p,1662b,699s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,15n,79p,1662b,696s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\user\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm0
 700.pk> <C:\Users\user\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\
 ecti1095.pk> <C:\Users\user\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dp
-i600\ectt1000.pk> <C:\Users\user\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/
-ec/dpi600\ectt1095.pk> <C:\Users\user\AppData\Local\MiKTeX\fonts/pk/ljfour/jkna
-ppen/ec/dpi600\tcrm1200.pk> <C:\Users\user\AppData\Local\MiKTeX\fonts/pk/ljfour
-/jknappen/ec/dpi600\ecrm1095.pk> <C:\Users\user\AppData\Local\MiKTeX\fonts/pk/l
-jfour/jknappen/ec/dpi600\ecbx1095.pk> <C:\Users\user\AppData\Local\MiKTeX\fonts
-/pk/ljfour/jknappen/ec/dpi600\ecit1200.pk> <C:\Users\user\AppData\Local\MiKTeX\
-fonts/pk/ljfour/jknappen/ec/dpi600\ectt1200.pk> <C:\Users\user\AppData\Local\Mi
-KTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1000.pk> <C:\Users\user\AppData\Loc
-al\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1200.pk> <C:\Users\user\AppDat
+i600\ectt1095.pk> <C:\Users\user\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/
+ec/dpi600\tcrm1200.pk> <C:\Users\user\AppData\Local\MiKTeX\fonts/pk/ljfour/jkna
+ppen/ec/dpi600\ecrm1095.pk> <C:\Users\user\AppData\Local\MiKTeX\fonts/pk/ljfour
+/jknappen/ec/dpi600\ecbx1095.pk> <C:\Users\user\AppData\Local\MiKTeX\fonts/pk/l
+jfour/jknappen/ec/dpi600\ecit1200.pk> <C:\Users\user\AppData\Local\MiKTeX\fonts
+/pk/ljfour/jknappen/ec/dpi600\ectt1200.pk> <C:\Users\user\AppData\Local\MiKTeX\
+fonts/pk/ljfour/jknappen/ec/dpi600\ecti1200.pk> <C:\Users\user\AppData\Local\Mi
+KTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1000.pk> <C:\Users\user\AppData\Loc
+al\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1000.pk> <C:\Users\user\AppDat
 a\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\user\A
 ppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1000.pk> <C:\Users\u
 ser\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecti0700.pk> <C:\Us
@@ -1237,9 +1237,9 @@ ta/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/use
 r/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Us
 ers/user/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm
 10.pfb>
-Output written on manuscript.pdf (40 pages, 605174 bytes).
+Output written on manuscript.pdf (40 pages, 617161 bytes).
 PDF statistics:
- 1634 PDF objects out of 1728 (max. 8388607)
- 160 named destinations out of 1000 (max. 500000)
+ 1672 PDF objects out of 1728 (max. 8388607)
+ 161 named destinations out of 1000 (max. 500000)
  419 words of extra memory for PDF output out of 10000 (max. 10000000)
 

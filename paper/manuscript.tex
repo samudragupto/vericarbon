@@ -30,8 +30,13 @@
 \title{VeriCarbon: Zero-Knowledge Verifiable Monitoring, Reporting, and Verification for Decentralized Carbon Registries}
 
 \author[inst1]{Arrhat Nag\corref{cor1}}
-\cortext[cor1]{Corresponding author. Email: arrhat.dsai24-1011@drmgrdu.ac.in. ORCID: 0009-0004-4328-0943}
+\cortext[cor1]{Corresponding author. ORCID: 0009-0004-4328-0943}
+\ead{arrhat.dsai24-1011@drmgrdu.ac.in}
 \affiliation[inst1]{organization={Department of Data Science, Dr. M.G.R. Educational and Research Institute}}
+
+\author[inst2]{Barninee Nag}
+\ead{barninee.26014303@jainuniversity.ac.in}
+\affiliation[inst2]{organization={Department of Data Science, School of Sciences, JAIN (Deemed-to-be University)}}
 
 \begin{abstract}
 Voluntary carbon markets face two critical failure modes: uncoordinated cross-registry issuance of the same land parcel and vintage year, and unverified credit quantity claims derived from opaque models. We introduce VeriCarbon, an open-source research prototype addressing both challenges through verifiable computation and cryptographic state commitments. VeriCarbon compiles quantized gradient-boosted decision trees using ezkl into Halo2/KZG SNARKs over the BN254 curve, proving that claimed carbon credits satisfy claimedAmount <= model(X) without publishing underlying remote-sensing imagery. To eliminate cross-registry duplicate minting on a shared ledger, VeriCarbon enforces a salt-independent global nullifier, keccak256(geohash8, vintageYear, creditType), causing duplicate issuances to revert on-chain. On a commodity laptop CPU, proof generation completes in 0.56 s with an invariant 4,032-byte proof (Table 3). On-chain verification requires 643,269 gas (Table 3), contributing to an end-to-end issuance gas of 873,164 (Table 4), or \$0.0119 on Base L2 under assumed fee parameters. In adversarial evaluations, seven post-A0 attack vectors (A1–A7) revert on VeriCarbon, whereas an uncoordinated centralized baseline erroneously mints 1,088 duplicate credits (Table 5). This prototype was evaluated on Base Sepolia and local Anvil using synthesized biomass labels to verify internal self-consistency rather than field accuracy; nullifiers do not constitute an Article 6 legal accounting mechanism.
