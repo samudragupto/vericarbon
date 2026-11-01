@@ -59,14 +59,19 @@ end
 $$;
 
 -- 2. Ensure Supabase auth schema & roles exist for local/standalone test runners
-create schema if not exists auth;
-
-create table if not exists auth.users (
-  id uuid primary key,
-  email text unique,
-  raw_user_meta_data jsonb default '{}'::jsonb,
-  created_at timestamptz not null default now()
-);
+do $$
+begin
+  create schema if not exists auth;
+  create table if not exists auth.users (
+    id uuid primary key,
+    email text unique,
+    raw_user_meta_data jsonb default '{}'::jsonb,
+    created_at timestamptz not null default now()
+  );
+exception
+  when others then null;
+end
+$$;
 
 do $$
 begin
@@ -82,6 +87,8 @@ begin
       $body$;
     $fn$;
   end if;
+exception
+  when others then null;
 end
 $$;
 
@@ -102,6 +109,8 @@ begin
       $body$;
     $fn$;
   end if;
+exception
+  when others then null;
 end
 $$;
 
