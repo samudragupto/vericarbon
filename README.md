@@ -2,12 +2,34 @@
 
 [![CI](https://github.com/samudragupto/vericarbon/actions/workflows/ci.yml/badge.svg)](https://github.com/samudragupto/vericarbon/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Target: FGCS](https://img.shields.io/badge/Target-FGCS%20(Elsevier)-blue.svg)](paper/)
+[![Target: FGCS](https://img.shields.io/badge/Target-FGCS%20(Elsevier)-blue.svg)](paper/manuscript.pdf)
+[![Network: Base Sepolia](https://img.shields.io/badge/Network-Base%20Sepolia%20(84532)-0052FF.svg)](https://sepolia.basescan.org)
 
 > [!CAUTION]
-> **RESEARCH PROTOTYPE ONLY — NOT A COMMERCIAL PRODUCTION REGISTRY**
-> VeriCarbon is an academic research prototype accompanying a manuscript intended for submission to *Future Generation Computer Systems* (FGCS, Elsevier). Authors: Arrhat Nag (Department of Data Science, Dr. M.G.R. Educational and Research Institute, arrhat.dsai24-1011@drmgrdu.ac.in, ORCID: 0009-0004-4328-0943), Barninee Nag (Department of Data Science, School of Sciences, JAIN (Deemed-to-be University), barninee.26014303@jainuniversity.ac.in).
-> This software is strictly designed for empirical benchmarking on local testnets (Anvil `chainId: 31337`) and public testnets (Base Sepolia `chainId: 84532`). It is **NOT** a commercial carbon registry and must **NEVER** be deployed to Ethereum mainnet or used to hold real capital.
+> **RESEARCH PROTOTYPE ONLY — NOT A COMMERCIAL PRODUCTION REGISTRY**  
+> VeriCarbon is an academic research prototype accompanying a manuscript submitted to *Future Generation Computer Systems* (FGCS, Elsevier).  
+> **Authors:**
+> - **Arrhat Nag** (Department of Data Science, Dr. M.G.R. Educational and Research Institute, `arrhat.dsai24-1011@drmgrdu.ac.in`, ORCID: [0009-0004-4328-0943](https://orcid.org/0009-0004-4328-0943))
+> - **Barninee Nag** (Department of Data Science, School of Sciences, JAIN (Deemed-to-be University), `barninee.26014303@jainuniversity.ac.in`)  
+> 
+> This software is strictly designed for empirical benchmarking on local testnets (Anvil `chainId: 31337`) and public L2 testnets (Base Sepolia `chainId: 84532`). It is **NOT** a commercial carbon registry and must **NEVER** be deployed to Ethereum mainnet or used to hold real capital.
+
+> [!NOTE]
+> **Cloud Deployment & Cold-Start Latency Notice:**  
+> When accessing the live prototype hosted on the **$0 free-tier cloud stack** (Vercel Serverless + Supabase Free Tier), the initial page load may require **15–25 seconds** while serverless edge containers and the idle database spin up from a cold start. Subsequent navigation is cached and fast. Additionally, the web client incorporates automatic client-side demo fallbacks so the Tapajós geospatial explorer and nullifier feeds render immediately even during cold-start transitions.
+
+---
+
+## Live Smart Contracts (Base Sepolia Testnet)
+
+The core protocol smart contracts are live on **Base Sepolia (Chain ID `84532`)**:
+
+| Contract Component | Deployed Address | Basescan Explorer Verification |
+| :--- | :--- | :--- |
+| **`CarbonRegistry`** (ERC-1155 Spatial Nullifiers) | `0x2ab745F51002Ce236A9A2dA81cDaA553B87f28CD` | [View on Basescan](https://sepolia.basescan.org/address/0x2ab745F51002Ce236A9A2dA81cDaA553B87f28CD) |
+| **`Halo2Verifier`** (Zero-Knowledge Verifier) | `0xb8416cb4d82BA72b70C3EC55d7AC66b5DB415CF8` | [View on Basescan](https://sepolia.basescan.org/address/0xb8416cb4d82BA72b70C3EC55d7AC66b5DB415CF8) |
+| **`BaselineCentralRegistry`** (Benchmark Comparison) | `0xfeBEf266291E7994cC7724023C1442be83D010b1` | [View on Basescan](https://sepolia.basescan.org/address/0xfeBEf266291E7994cC7724023C1442be83D010b1) |
+| **Deployer Wallet** | `0xb491fe5846DE735B6Cb03a677A3C6296FAB0aDA5` | [View Transactions](https://sepolia.basescan.org/address/0xb491fe5846DE735B6Cb03a677A3C6296FAB0aDA5) |
 
 ---
 
@@ -17,31 +39,33 @@ Voluntary carbon credit markets suffer from systemic over-crediting, cross-regis
 
 ---
 
-## 100% $0 Cost Reproducibility Stack
+## User Interface & Application Walkthrough
 
-VeriCarbon is designed for full scientific auditability and zero-cost replication:
-- **Local EVM:** Foundry Anvil (`31337`) for fast local contract simulation.
-- **Testnet EVM:** Base Sepolia (`84532`) via free public RPCs ($0 testnet gas).
-- **Off-Chain Database:** Local Postgres-compatible double (Node.js) or Supabase Free Tier.
-- **Remote Sensing:** Microsoft Planetary Computer STAC / reproducible local offline fixtures.
-- **Proof Storage:** IPFS via Pinata Free Tier.
+The VeriCarbon user interface is built on Next.js 15, Wagmi v2, Viem, and MapLibre GL. It enables carbon project developers, verifiers, and buyers to inspect geospatial projects, verify cryptographic proofs, and mint tokens.
+
+### 1. Interactive Landing & Protocol Overview
+Overview of the VeriCarbon cryptographic verification pipeline, protocol architecture, and live network metrics.
+![Landing Page](docs/screenshots/01_landing.png)
+
+### 2. Geospatial Projects Explorer
+Spatial visualization of project Areas of Interest (AOIs) mapped over the Tapajós National Forest, Pará, Brazil, featuring real-time geohash boundary decoders and IPFS evidence bundle links.
+![Projects Explorer](docs/screenshots/02_projects_explorer.png)
+
+### 3. Project Details & Zero-Knowledge Verification
+Deep inspection of project commitments, Sentinel-2 spectral indices, ESA WorldCover land-classification inputs, and browser-executed verification of the Halo2 BN254 proof bundle.
+![Project Details](docs/screenshots/03_project_details.png)
+
+### 4. Gated Registry Console
+Interactive map coordinate picker, Geohash-8 calculator, client-side salt generation, and MetaMask-gated credit issuance pipeline with proof submission.
+![Registry Console](docs/screenshots/04_registry_console.png)
+
+### 5. Global Cryptographic Nullifiers Explorer
+Public on-chain ledger auditing all spent issuance and retirement nullifiers, ensuring duplicate minting or double claiming reverts on-chain.
+![Nullifiers Explorer](docs/screenshots/05_nullifiers_explorer.png)
 
 ---
 
-## Benchmark Hardware Specifications
-
-All benchmark numbers reported in Section 6 of the manuscript were captured on the following canonical reference workstation:
-
-- **Vendor & Model:** Lenovo LOQ 15APH8
-- **Processor (CPU):** AMD Ryzen 7 7840HS (8 cores, 16 threads, 3.8 GHz base / 5.1 GHz boost)
-- **System Memory (RAM):** 16.0 GB DDR5
-- **Dedicated Graphics (GPU):** NVIDIA GeForce RTX 4060 Laptop GPU (8.0 GB VRAM)
-  *(Listed for disclosure honesty; proving is executed entirely on CPU via `ezkl` Halo2/KZG, GPU is not used as an accelerator)*
-- **Operating System:** Windows 11 Home / PowerShell 7
-
----
-
-## Architecture Overview
+## System Architecture
 
 ```mermaid
 flowchart TD
@@ -88,11 +112,59 @@ flowchart TD
     DB --> WEB
 ```
 
-For complete technical specifications, sequence flows, and trust assumptions, see [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+For complete technical specifications, mathematical proofs, and threat models, see [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
 ---
 
-## 10-Minute Quickstart
+## Empirical Research Artifacts & Benchmarks
+
+All benchmark figures and tables reported in Section 6 of the manuscript are generated by the automated evaluation harness:
+
+<div align="center">
+  <img src="docs/screenshots/proving_time.png" alt="ZK Prover Performance" width="48%" />
+  <img src="docs/screenshots/gas_comparison.png" alt="On-Chain Gas Comparison" width="48%" />
+</div>
+
+| Manuscript Evaluation Section | Description | Artifact Table / Figure Link |
+| :--- | :--- | :--- |
+| **Model Accuracy (§6.1)** | Spatial-block cross-validation (MAE, RMSE, $R^2$) on Sentinel-2 & WorldCover | [paper/tables/model_metrics.md](paper/tables/model_metrics.md) |
+| **ZK Prover Performance (§6.2)** | Halo2 prover scaling, RAM consumption, and verification times | [paper/tables/zk_benchmarks.md](paper/tables/zk_benchmarks.md) & [Figure 1](docs/screenshots/proving_time.png) |
+| **On-Chain Gas Economics (§6.3)** | Execution gas vs. Centralized Baseline & USD cost on Base L2 vs. Ethereum L1 | [paper/tables/gas_costs.md](paper/tables/gas_costs.md) & [Figure 2](docs/screenshots/gas_comparison.png) |
+| **Fraud & Security Matrix (§6.4)** | Verification against post-A0 attack vectors (A1–A7) and pre-A0 baseline vulnerabilities | [paper/tables/fraud_results.md](paper/tables/fraud_results.md) |
+| **Indexing Latency (§6.5)** | End-to-end event indexing lag ($n=20$, mean and $p95$) into Supabase | [paper/tables/latency.md](paper/tables/latency.md) |
+
+To regenerate all evaluation tables and publication figures from raw data:
+```bash
+uv run eval/run_all.py
+```
+
+---
+
+## Canonical Hardware Specifications
+
+All benchmark numbers reported in Section 6 of the manuscript were captured on the canonical reference workstation:
+
+- **Vendor & Model:** Lenovo LOQ 15APH8
+- **Processor (CPU):** AMD Ryzen 7 7840HS (8 physical cores, 16 logical threads, 3.8 GHz base / 5.1 GHz boost)
+- **System Memory (RAM):** 16.0 GB DDR5
+- **Dedicated Graphics (GPU):** NVIDIA GeForce RTX 4060 Laptop GPU (8.0 GB VRAM)  
+  *(Listed for disclosure honesty; proving is executed entirely on CPU via `ezkl` Halo2/KZG, GPU is not used as an accelerator)*
+- **Operating System:** Windows 11 Home / PowerShell 7
+
+---
+
+## 100% $0 Cost Reproducibility Stack
+
+VeriCarbon is designed for zero-cost replication by independent reviewers:
+- **Local EVM:** Foundry Anvil (`31337`) for zero-cost, instantaneous local contract simulation.
+- **Testnet EVM:** Base Sepolia (`84532`) via free public RPCs ($0 testnet gas).
+- **Off-Chain Database:** Local Postgres double (`node supabase/local_server.mjs`) or Supabase Free Tier.
+- **Remote Sensing:** Microsoft Planetary Computer STAC / offline synthetic fixture datasets.
+- **Proof Storage:** IPFS via Pinata Free Tier.
+
+---
+
+## Quickstart Guide
 
 ### Prerequisites
 - Node.js 22+ & `pnpm` 9+
@@ -102,7 +174,7 @@ For complete technical specifications, sequence flows, and trust assumptions, se
 
 ### Option A: Local Evaluation (Recommended — 100% Offline & $0 Cost)
 
-Run the end-to-end "Day in the Life" artifact evaluation journey in a single command. This boots local Anvil, starts an embedded local database gateway, deploys the protocol contracts, registers a project, mints 544 ZK-verified credits, halts two fraud vectors (cross-registry double issuance and duplicate retirement), syncs the off-chain indexer, and outputs a narrated summary:
+Run the end-to-end automated artifact evaluation journey in a single command. This boots local Anvil, starts an embedded local database gateway, deploys protocol contracts, registers a project, mints 544 ZK-verified credits, halts two fraud vectors (cross-registry double issuance and duplicate retirement), syncs the off-chain indexer, and outputs a narrated summary:
 
 ```bash
 # On Linux / macOS:
@@ -132,40 +204,7 @@ Open [http://localhost:3000](http://localhost:3000) to view the Explorer and Con
 
 ### Option B: Cloud Testnet (Base Sepolia + Supabase Cloud)
 
-See [docs/DEPLOY.md](docs/DEPLOY.md) for full instructions on configuring Base Sepolia testnet contracts, Supabase free tier database migrations, Pinata IPFS keys, and Vercel hosting.
-
----
-
-## User Interface Screenshots
-
-All screenshots are captured directly from the Next.js 15 application running against Base Sepolia / Anvil:
-
-| 1. Landing Page | 2. Geospatial Project Explorer |
-| :---: | :---: |
-| ![Landing Page](eval/results/screenshots/01_landing.png) | ![Projects Explorer](eval/results/screenshots/02_projects_explorer.png) |
-| **3. Project Details & ZK Proof Verification** | **4. Registry Console** |
-| ![Project Details](eval/results/screenshots/03_project_details.png) | ![Registry Console](eval/results/screenshots/04_registry_console.png) |
-| **5. Nullifiers Explorer** | |
-| ![Nullifiers Explorer](eval/results/screenshots/05_nullifiers_explorer.png) | |
-
----
-
-## Empirical Research Artifacts & Paper Tables
-
-All experimental results reported in the manuscript are deterministically generated by the `eval/` benchmark suite:
-
-| Paper Evaluation Section | Description | Artifact Table / Figure Link |
-| :--- | :--- | :--- |
-| **Model Accuracy** | Spatial-block cross-validation (MAE, RMSE, $R^2$) on Sentinel-2 & ESA WorldCover | [paper/tables/model_metrics.md](paper/tables/model_metrics.md) |
-| **ZK Prover Performance** | Halo2 prover scaling, RAM consumption, and verification times | [paper/tables/zk_benchmarks.md](paper/tables/zk_benchmarks.md) & [Figure 1](paper/figures/proving_time.png) |
-| **On-Chain Gas Economics** | Execution gas vs. Centralized Baseline & USD cost on Base L2 vs. Ethereum L1 | [paper/tables/gas_costs.md](paper/tables/gas_costs.md) & [Figure 2](paper/figures/gas_comparison.png) |
-| **Fraud & Security Matrix** | Empirical results against post-A0 attack vectors (A1–A7) and pre-A0 baseline vulnerabilities | [paper/tables/fraud_results.md](paper/tables/fraud_results.md) |
-| **Indexing Latency** | End-to-end event indexing lag ($n=20$, mean and $p95$) into Supabase | [paper/tables/latency.md](paper/tables/latency.md) |
-
-To regenerate all evaluation tables and publication figures from scratch:
-```bash
-uv run eval/run_all.py
-```
+See [docs/DEPLOY.md](docs/DEPLOY.md) for full instructions on configuring Base Sepolia testnet contracts, Supabase free-tier database migrations, Pinata IPFS keys, and Vercel hosting.
 
 ---
 
