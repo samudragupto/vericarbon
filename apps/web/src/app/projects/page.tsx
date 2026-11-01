@@ -83,8 +83,8 @@ const DEMO_PROJECTS: ProjectRecord[] = [
 ];
 
 export default function ProjectsExplorerPage() {
-  const [projects, setProjects] = useState<ProjectRecord[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [projects, setProjects] = useState<ProjectRecord[]>(DEMO_PROJECTS);
+  const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
   const { error: toastError } = useToast();
@@ -92,38 +92,35 @@ export default function ProjectsExplorerPage() {
   useEffect(() => {
     async function loadProjects() {
       try {
-        const { data, error } = await supabase
-          .from("projects")
-          .select("*")
-          .order("block_number", { ascending: false });
+        const [projectsRes, issuancesRes] = await Promise.all([
+          supabase
+            .from("projects")
+            .select("*")
+            .order("block_number", { ascending: false }),
+          supabase
+            .from("issuances")
+            .select("project_id"),
+        ]);
 
-        if (error || !data || data.length === 0) {
-          // Graceful fallback to demo projects if Supabase is offline or empty
-          setProjects(DEMO_PROJECTS);
+        const data = projectsRes.data;
+        if (!data || data.length === 0) {
+          // Keep instant demo fixtures if Supabase is offline or empty
           return;
         }
 
-        // Also query issuance counts per project
-        const { data: issuances } = await supabase
-          .from("issuances")
-          .select("project_id");
-
         const issuanceMap = new Map<string, number>();
-        (issuances ?? []).forEach((iss) => {
+        (issuancesRes.data ?? []).forEach((iss) => {
           issuanceMap.set(iss.project_id, (issuanceMap.get(iss.project_id) ?? 0) + 1);
         });
 
-        const enriched = (data ?? []).map((p) => ({
+        const enriched = data.map((p) => ({
           ...p,
           issuance_count: issuanceMap.get(p.project_id) ?? 0,
         }));
 
         setProjects(enriched);
       } catch {
-        // Fallback to demo projects on network fetch error
-        setProjects(DEMO_PROJECTS);
-      } finally {
-        setLoading(false);
+        // Keep demo projects on network fetch error
       }
     }
 

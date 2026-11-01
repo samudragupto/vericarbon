@@ -51,8 +51,8 @@ const DEMO_NULLIFIERS: NullifierRecord[] = [
 ];
 
 export default function NullifiersExplorerPage() {
-  const [nullifiers, setNullifiers] = useState<NullifierRecord[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [nullifiers, setNullifiers] = useState<NullifierRecord[]>(DEMO_NULLIFIERS);
+  const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const [kindFilter, setKindFilter] = useState<"all" | "issuance" | "claim">("all");
   const { error: toastError } = useToast();
@@ -66,15 +66,13 @@ export default function NullifiersExplorerPage() {
           .order("block_number", { ascending: false });
 
         if (error || !data || data.length === 0) {
-          setNullifiers(DEMO_NULLIFIERS);
+          // Keep instant demo nullifiers
           return;
         }
 
-        setNullifiers((data ?? []) as NullifierRecord[]);
+        setNullifiers(data as NullifierRecord[]);
       } catch {
-        setNullifiers(DEMO_NULLIFIERS);
-      } finally {
-        setLoading(false);
+        // Keep instant demo nullifiers
       }
     }
 
